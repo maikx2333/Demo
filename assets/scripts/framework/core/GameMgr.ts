@@ -7,14 +7,16 @@ import { Message, modelEventMgr, msgEventMgr, netStateMgr, Singleton, socketMgr 
  * @Author: liuguoqing
  * @Date: 2022-03-02 17:58:23
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-02 18:27:03
+ * @LastEditTime: 2022-03-03 13:39:19
  * @Description: file content
  */
 type tickFunc = (hdl: number) => void;
 
 export class GameMgr extends Singleton implements ISchedulable {
+    // ISchedulable
     id?: string;
     uuid?: string;
+    
     private _modelMapName: Map<string, any>;
 
     private _slowTickList: Array<tickFunc>;
@@ -245,3 +247,8 @@ export class GameMgr extends Singleton implements ISchedulable {
         this._slowTickList.push(func);
     }
 }
+
+// ()();
+export let gameMgr = (()=>{
+    return GameMgr.getInstance<GameMgr>();
+})();

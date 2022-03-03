@@ -4,7 +4,7 @@ import { Asset, AssetManager, log, resources } from "cc";
  * @Author: liuguoqing
  * @Date: 2022-03-03 09:14:09
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-03 10:27:52
+ * @LastEditTime: 2022-03-03 11:58:33
  * @Description: file content
  */
 
@@ -26,7 +26,7 @@ export class FileHelper {
     }
 
 
-    static load<T extends Asset>(path: string, doneFunc:FileCallback<UnionAsset>, type?:T) {
+    static load(path: string, doneFunc:FileCallback<UnionAsset>, type?:typeof Asset) {
         if ( type == undefined ) {
             resources.load(path, (err, dataAsset) => {
                 if (err) {

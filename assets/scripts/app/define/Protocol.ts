@@ -2,7 +2,7 @@
  * @Author: liuguoqing
  * @Date: 2022-03-02 15:20:53
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-02 16:56:45
+ * @LastEditTime: 2022-03-03 13:41:57
  * @Description: file content
  */
 export namespace Protocol {
@@ -10,7 +10,8 @@ export namespace Protocol {
      * 网关协议
      */
     export enum Login {
-
+        identify,
+        login
     }
 
     /**
@@ -24,6 +25,8 @@ export namespace Protocol {
      * 内部协议
      */
     export enum Inner {
-
+        ReloginSuccess,
+        FightPause,
+        FightResume
     }
 }

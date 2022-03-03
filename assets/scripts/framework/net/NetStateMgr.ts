@@ -2,13 +2,14 @@
  * @Author: liuguoqing
  * @Date: 2022-03-02 15:55:24
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-02 17:02:02
+ * @LastEditTime: 2022-03-03 13:46:41
  * @Description: file content
  */
 
 
-import { Protocol } from "../../app/define/protocol";
-import { Singleton } from "../yy";
+import { GameConfig } from "../../app/define/Config";
+import { Protocol } from "././app/define/Protocol";
+import { gameMgr, msgEventMgr, Singleton, socketMgr } from "./yy";
 
 class NetStateMgr extends Singleton {
     private _reconnect;
@@ -17,24 +18,24 @@ class NetStateMgr extends Singleton {
     // 构造函数;
     constructor() {
         super();
-        MsgEventMgr.getInstance().addEventListener(
+        msgEventMgr.addEventListener(
             Protocol.Login.identify,
             this.loginCheck.bind(this)
         );
-        MsgEventMgr.getInstance().addEventListener(
+        msgEventMgr.addEventListener(
             Protocol.Login.login,
             this.loginHandler.bind(this)
         );
 
-        GameMgr.getInstance().addSlowTick(this.slowTickHandler.bind(this));
+        gameMgr.addSlowTick(this.slowTickHandler.bind(this));
     }
 
     loginCheck(data: any) {
         let resultCode = data.code;
         if (resultCode == 0) {
-            let model = GameMgr.getInstance().getModel("ModelLogin");
+            let model = gameMgr.getModel("ModelLogin");
             if (model && model.getEnterGame()) {
-                SocketMgr.getInstance().send(Protocol.Login.login);
+                socketMgr.send(Protocol.Login.login);
             }
         }
     }
@@ -42,9 +43,9 @@ class NetStateMgr extends Singleton {
     loginHandler(data: any) {
         let resultCode = data.code;
         if (resultCode == 0) {
-            let model = GameMgr.getInstance().getModel("ModelLogin");
+            let model = gameMgr.getModel("ModelLogin");
             if (model && model.getEnterGame()) {
-                SocketMgr.getInstance().sendInnerMsg(Protocol.Inner.ReloginSuccess);
+                socketMgr.sendInnerMsg(Protocol.Inner.ReloginSuccess);
             }
         }
     }
@@ -59,11 +60,11 @@ class NetStateMgr extends Singleton {
                 msg = "与战车失去联系，请指挥官检查网络再尝试。";
             }
             this.netWorkError(msg);
-            SocketMgr.getInstance().sendInnerMsg(Protocol.Inner.FightPause);
+            socketMgr.sendInnerMsg(Protocol.Inner.FightPause);
         } else if (event.type == "open") {
             if (this._reconnect) {
                 this.relogin();
-                SocketMgr.getInstance().sendInnerMsg(Protocol.Inner.FightResume);
+                socketMgr.sendInnerMsg(Protocol.Inner.FightResume);
             }
         }
         this._status = event.type;
@@ -71,27 +72,27 @@ class NetStateMgr extends Singleton {
 
     // 返回登录界面
     redirectLoginView() {
-        GameMgr.getInstance().reRun();
+        gameMgr.reRun();
     }
 
     // 重新链接
     socketReconnect() {
         this._reconnect = true;
-        SocketMgr.getInstance().reConnect();
+        socketMgr.reConnect();
     }
 
     relogin() {
-        let model = GameMgr.getInstance().getModel("ModelLogin");
+        let model = gameMgr.getModel("ModelLogin");
         if (model && !model.getEnterGame()) {
             return;
         }
         let loginData = model.getLoginData();
 
-        let deviceInfo = GameMgr.getInstance().getDeviceInfo();
-        SocketMgr.getInstance().send(Protocol.Login.identify, {
+        let deviceInfo = gameMgr.getDeviceInfo();
+        socketMgr.send(Protocol.Login.identify, {
             user_id: loginData.user_id,
             user_key: loginData.user_key,
-            channel_key: GameConfig.QDKey,
+            channel_key: GameConfig,
             device_id: deviceInfo.IMEI,
         });
     }
@@ -122,7 +123,7 @@ class NetStateMgr extends Singleton {
         if (this._status != "open") {
             return;
         }
-        let model = GameMgr.getInstance().getModel("ModelLogin");
+        let model = GameMgr.getModel("ModelLogin");
         if (model && !model.getEnterGame()) {
             return;
         }
@@ -137,7 +138,7 @@ class NetStateMgr extends Singleton {
             return;
         }
         this._request_server_info_time = now;
-        SocketMgr.getInstance().send(Protocol.Server.game_info);
+        SocketMgr.send(Protocol.Server.game_info);
     }
 
     slowTickHandler(dt: number) {
