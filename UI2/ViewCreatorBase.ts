@@ -1,0 +1,3 @@
+interface ViewCreatorBase {
+    onInit();
+}
