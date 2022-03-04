@@ -2,7 +2,7 @@
  * @Author: liuguoqing
  * @Date: 2022-03-02 12:53:23
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-03 13:40:30
+ * @LastEditTime: 2022-03-04 08:50:24
  * @Description: file content
  */
 
@@ -28,3 +28,6 @@ export { Message } from "./listener/Message"
 export { FileHelper } from "./data/FileHelper"
 export { DataBase } from "./data/DataBase"
 export { DataParserBase } from "./data/DataParserBase"
+
+// view
+export { viewRegisterMgr } from "../app/views/ViewRegisterMgr"

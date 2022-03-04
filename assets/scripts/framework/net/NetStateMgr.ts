@@ -2,14 +2,15 @@
  * @Author: liuguoqing
  * @Date: 2022-03-02 15:55:24
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-03 13:46:41
+ * @LastEditTime: 2022-03-03 15:35:05
  * @Description: file content
  */
 
 
-import { GameConfig } from "../../app/define/Config";
-import { Protocol } from "././app/define/Protocol";
-import { gameMgr, msgEventMgr, Singleton, socketMgr } from "./yy";
+import { Protocol } from "../../app/define/Protocol";
+import { GameConfig } from "../../GameConfig";
+import { gameMgr, msgEventMgr, Singleton, socketMgr } from "../yy";
+
 
 class NetStateMgr extends Singleton {
     private _reconnect;
@@ -123,7 +124,7 @@ class NetStateMgr extends Singleton {
         if (this._status != "open") {
             return;
         }
-        let model = GameMgr.getModel("ModelLogin");
+        let model = gameMgr.getModel("ModelLogin");
         if (model && !model.getEnterGame()) {
             return;
         }
@@ -138,7 +139,7 @@ class NetStateMgr extends Singleton {
             return;
         }
         this._request_server_info_time = now;
-        SocketMgr.send(Protocol.Server.game_info);
+        socketMgr.send(Protocol.Server.game_info);
     }
 
     slowTickHandler(dt: number) {

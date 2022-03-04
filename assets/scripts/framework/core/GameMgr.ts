@@ -1,5 +1,5 @@
 import { Camera, director, Game, game, ISchedulable, Scheduler, sys } from "cc";
-import { DeviceInfo } from "../../app/define/Config";
+import { DeviceInfoType } from "../../app/define/ConfigType";
 import { EnterApp } from "../../app/EnterApp";
 import { Message, modelEventMgr, msgEventMgr, netStateMgr, Singleton, socketMgr } from "../yy";
 
@@ -7,7 +7,7 @@ import { Message, modelEventMgr, msgEventMgr, netStateMgr, Singleton, socketMgr 
  * @Author: liuguoqing
  * @Date: 2022-03-02 17:58:23
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-03 13:39:19
+ * @LastEditTime: 2022-03-03 15:34:23
  * @Description: file content
  */
 type tickFunc = (hdl: number) => void;
@@ -187,7 +187,7 @@ export class GameMgr extends Singleton implements ISchedulable {
         }
     }
 
-    getDeviceInfo( refresh: false): DeviceInfo {
+    getDeviceInfo( refresh: false): DeviceInfoType {
         if (this._deviceInfo && refresh == false) {
             return this._deviceInfo;
         }

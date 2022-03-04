@@ -2,7 +2,7 @@
  * @Author: liuguoqing
  * @Date: 2022-03-02 10:41:03
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-03 10:37:18
+ * @LastEditTime: 2022-03-03 15:03:06
  * @Description: file content
  */
 
@@ -26,17 +26,9 @@ export class HttpMessage {
 }
 
  class HttpMgr extends Singleton{
-    // private static instance:HttpMgr = null;
     private constructor(){
         super();
     }
-    // static getInstance = () => {
-    //     if (!HttpMgr.instance) {
-    //         HttpMgr.instance = new HttpMgr();
-    //     }
-    //     return HttpMgr.instance
-    // }
-
    
     get(callback:HttpCallback,url:string,needLoading?: boolean){
         log("[Http] Get", url);
