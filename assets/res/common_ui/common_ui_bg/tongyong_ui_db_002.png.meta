@@ -1,0 +1,75 @@
+{
+  "ver": "1.0.22",
+  "importer": "image",
+  "imported": true,
+  "uuid": "5309e071-c8e1-4c50-bb2d-1841e58c2869",
+  "files": [
+    ".png",
+    ".json"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "5309e071-c8e1-4c50-bb2d-1841e58c2869@6c48a",
+      "displayName": "tongyong_ui_db_002",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "clamp-to-edge",
+        "wrapModeT": "clamp-to-edge",
+        "imageUuidOrDatabaseUri": "5309e071-c8e1-4c50-bb2d-1841e58c2869",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+      "uuid": "5309e071-c8e1-4c50-bb2d-1841e58c2869@f9941",
+      "displayName": "tongyong_ui_db_002",
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimType": "none",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 0,
+        "trimY": 0,
+        "width": 150,
+        "height": 190,
+        "rawWidth": 150,
+        "rawHeight": 190,
+        "borderTop": 75,
+        "borderBottom": 25,
+        "borderLeft": 20,
+        "borderRight": 20,
+        "packable": true,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "5309e071-c8e1-4c50-bb2d-1841e58c2869@6c48a",
+        "atlasUuid": ""
+      },
+      "ver": "1.0.9",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "type": "sprite-frame",
+    "hasAlpha": true,
+    "flipVertical": false,
+    "redirect": "5309e071-c8e1-4c50-bb2d-1841e58c2869@f9941"
+  }
+}

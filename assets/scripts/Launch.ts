@@ -2,50 +2,55 @@
  * @Author: liuguoqing
  * @Date: 2022-03-03 13:52:55
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-03 13:55:50
+ * @LastEditTime: 2022-03-03 17:52:07
  * @Description: file content
  */
 
-import { _decorator, Component, Node, JsonAsset } from 'cc';
+import { _decorator, Component, JsonAsset, log, sys, director } from 'cc';
+import { FileHelper } from './framework/yy';
+import { GameConfig } from './GameConfig';
 const { ccclass, property } = _decorator;
-
-/**
- * Predefined variables
- * Name = Launch
- * DateTime = Thu Mar 03 2022 13:52:55 GMT+0800 (中国标准时间)
- * Author = Steven_Greeard
- * FileBasename = Launch.ts
- * FileBasenameNoExtension = Launch
- * URL = db://assets/resources/scripts/Launch.ts
- * ManualUrl = https://docs.cocos.com/creator/3.4/manual/zh/
- *
- */
  
 @ccclass('Launch')
 export class Launch extends Component {
-    // [1]
-    // dummy = '';
 
-    // [2]
     @property({type:JsonAsset})
     serverConfig:JsonAsset=null;
 
-    start () {
-        // [3]
+    onLoad(){
+        if (this.serverConfig) {
+            let config = this.serverConfig.json;
+            log("ServerConfig.json",JSON.stringify(config));
+            Object.keys(config).forEach((key)=>{
+                let value = config[key];
+                GameConfig[key] = value;
+            })
+        }
+        this._keepScreenOn();
+        this._startHotUpdate();
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
-}
+    //设置屏幕常亮
+    private _keepScreenOn(){
+        if (sys.isNative) {
+            if (sys.os == sys.OS.IOS || sys.os == sys.OS.ANDROID) {
+                jsb.device.setKeepScreenOn(true);
+            }
+        }
+    }
 
-/**
- * [1] Class member could be defined like this.
- * [2] Use `property` decorator if your want the member to be serializable.
- * [3] Your initialization goes here.
- * [4] Your update function goes here.
- *
- * Learn more about scripting: https://docs.cocos.com/creator/3.4/manual/zh/scripting/
- * Learn more about CCClass: https://docs.cocos.com/creator/3.4/manual/zh/scripting/decorator.html
- * Learn more about life-cycle callbacks: https://docs.cocos.com/creator/3.4/manual/zh/scripting/life-cycle-callbacks.html
- */
+    // 走热更新流程
+    private _startHotUpdate() {
+        director.loadScene("HotUpdate", () => {
+            // 预加载
+            let paths = [
+                "prefab/tongyong_ui/tongyong_tipsUI_00",
+                "prefab/tongyong_ui/tongyong_tipsUI_01",
+            ];
+            for (let index = 0; index < paths.length; index++) {
+                const element = paths[index];
+                FileHelper.preload(element, () => {});
+            }
+        });
+    }
+}

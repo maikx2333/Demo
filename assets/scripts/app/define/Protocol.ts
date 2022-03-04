@@ -2,7 +2,7 @@
  * @Author: liuguoqing
  * @Date: 2022-03-02 15:20:53
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-03 13:41:57
+ * @LastEditTime: 2022-03-04 08:55:39
  * @Description: file content
  */
 export namespace Protocol {
@@ -28,5 +28,9 @@ export namespace Protocol {
         ReloginSuccess,
         FightPause,
         FightResume
+    }
+
+    export enum View {
+        LoginView
     }
 }

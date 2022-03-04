@@ -1,0 +1,74 @@
+{
+  "ver": "1.0.22",
+  "importer": "image",
+  "imported": true,
+  "uuid": "7a8875ad-d0a4-4e65-9e6c-f5db9cb0bb83",
+  "files": [
+    ".png",
+    ".json"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "7a8875ad-d0a4-4e65-9e6c-f5db9cb0bb83@6c48a",
+      "displayName": "zuochitexiao20",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "clamp-to-edge",
+        "wrapModeT": "clamp-to-edge",
+        "imageUuidOrDatabaseUri": "7a8875ad-d0a4-4e65-9e6c-f5db9cb0bb83",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+      "uuid": "7a8875ad-d0a4-4e65-9e6c-f5db9cb0bb83@f9941",
+      "displayName": "zuochitexiao20",
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 33.5,
+        "offsetY": 0,
+        "trimX": 68,
+        "trimY": 1,
+        "width": 929,
+        "height": 602,
+        "rawWidth": 998,
+        "rawHeight": 604,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "7a8875ad-d0a4-4e65-9e6c-f5db9cb0bb83@6c48a",
+        "atlasUuid": ""
+      },
+      "ver": "1.0.9",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "type": "sprite-frame",
+    "hasAlpha": true,
+    "redirect": "7a8875ad-d0a4-4e65-9e6c-f5db9cb0bb83@f9941"
+  }
+}
