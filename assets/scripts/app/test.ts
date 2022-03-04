@@ -47,7 +47,7 @@ export class test extends Component {
 
     update (deltaTime: number) {
         // [4]
-        // console.log(deltaTime);
+        // console.log(deltaTime);DataRegisterMgr
     }
 }
 

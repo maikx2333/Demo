@@ -28,6 +28,7 @@ export { Message } from "./listener/Message"
 export { FileHelper } from "./data/FileHelper"
 export { DataBase } from "./data/DataBase"
 export { DataParserBase } from "./data/DataParserBase"
+export { dataMgr } from "./data/DataMgr"
 
 // view
-export { viewRegisterMgr } from "../app/views/ViewRegisterMgr"
+export { viewRegisterMgr } from "../app/define/ViewRegisterMgr"

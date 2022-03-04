@@ -18,7 +18,7 @@ export namespace Protocol {
      * 服务器协议
      */
     export enum Server {
-
+        game_info,
     }
 
     /**

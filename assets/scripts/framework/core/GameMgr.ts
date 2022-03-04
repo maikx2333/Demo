@@ -28,86 +28,60 @@ export class GameMgr extends Singleton implements ISchedulable {
     private _innerMessageQueue: Array<Message>; // 内部消息队列
 
     private _app: EnterApp;
-    private _deviceInfo: {
-        DeviceModel: string;
-        IMEI: string;
-        NetWork: string;
-        SystemVer: string;
-    };
+    private _deviceInfo:DeviceInfoType;
 
-    private _curTimeoutID: any; //进入后台时间计时器ID
+    //进入后台时间计时器ID
+    private _curTimeoutID: any; 
 
     // 构造函数
     constructor() {
         super();
 
+        // camera
         this._cameraMap = new Map();
+
+        // model
         this._modelMapName = new Map();
 
+        // event tick
         this._slowTickList = [];
         this._fastTickList = [];
+
+        // message queue
         this._innerMessageQueue = [];
         this._serverMessageQueue = [];
 
+        // scheduler
         let s = director.getScheduler();
         Scheduler.enableForTarget(this);
-        s.schedule(
-            (dt) => {
-                this.fastTick(dt);
-            },
-            this,
-            0
-        );
 
-        s.schedule(
-            (dt) => {
-                this.slowTick(dt);
+        // slow tick
+        s.schedule((dt) => {
+                this._slowTick(dt);
             },
-            this,
-            1
-        );
+        this,1);
 
+        // quick tick
+        s.schedule((dt) => {
+            this._fastTick(dt);
+        },
+        this,0);
+
+        // net state change callback
         let socketParams = {
             StateChangeCallback: this.listenOnSocketState.bind(this),
         };
         socketMgr.registerCallbackHandler(socketParams);
 
-        game.on(Game.EVENT_SHOW, this.enterForeground.bind(this), this);
-        game.on(Game.EVENT_HIDE, this.enterBackground.bind(this), this);
+        // game on foreground
+        game.on(Game.EVENT_SHOW, this._enterForeground.bind(this), this);
+
+        // game on background
+        game.on(Game.EVENT_HIDE, this._enterBackground.bind(this), this);
     }
 
-    setApp(app: EnterApp) {
+    public setApp(app: EnterApp) {
         this._app = app;
-    }
-
-    // 慢tick
-    private slowTick(dt) {
-        this._slowTickList.forEach((hdl) => {
-            hdl(dt);
-        });
-    }
-
-    // 快tick
-    private fastTick(dt) {
-        // handler inner msg
-        let innerlenght = this._innerMessageQueue.length;
-        while (innerlenght > 0) {
-            let msgEvent = this._innerMessageQueue.shift();
-            this.dispatchMsgEvent(msgEvent);
-            innerlenght = this._innerMessageQueue.length;
-        }
-
-        // handler server msg
-        let serverlenght = this._serverMessageQueue.length;
-        while (serverlenght > 0) {
-            let msgEvent = this._serverMessageQueue.shift();
-            this.dispatchMsgEvent(msgEvent);
-            serverlenght = this._serverMessageQueue.length;
-        }
-
-        this._fastTickList.forEach((hdl) => {
-            hdl(dt);
-        });
     }
 
     public addNetMessage(msg: Message) {
@@ -118,13 +92,8 @@ export class GameMgr extends Singleton implements ISchedulable {
         this._innerMessageQueue.push(msg);
     }
 
-    private dispatchMsgEvent(msg: Message) {
-        // model msg
-        modelEventMgr.dispatchEvent(msg);
-        // view msg
-        msgEventMgr.dispatchEvent(msg);
-        // redGuide msg
-        // SFRedGuideMgr.dispatchEvent(msg);
+    public addSlowTick(func: tickFunc) {
+        this._slowTickList.push(func);
     }
 
     /**
@@ -187,8 +156,8 @@ export class GameMgr extends Singleton implements ISchedulable {
         }
     }
 
-    getDeviceInfo( refresh: false): DeviceInfoType {
-        if (this._deviceInfo && refresh == false) {
+    public getDeviceInfo( refresh?:boolean): DeviceInfoType {
+        if (this._deviceInfo && !refresh) {
             return this._deviceInfo;
         }
         let info = {
@@ -224,7 +193,7 @@ export class GameMgr extends Singleton implements ISchedulable {
         return info;
     }
 
-    enterForeground() {
+    private _enterForeground() {
         console.log("游戏进入前台");
         NotifyHelper.getInstance().gameEnterForeground();
         if (this._curTimeoutID) {
@@ -232,7 +201,7 @@ export class GameMgr extends Singleton implements ISchedulable {
         }
     }
 
-    enterBackground() {
+    private _enterBackground() {
         console.log("游戏进入后台");
         NotifyHelper.getInstance().gameEnterBackground();
         //5分钟后埋点登出
@@ -243,8 +212,44 @@ export class GameMgr extends Singleton implements ISchedulable {
         }, 3000);
     }
 
-    addSlowTick(func: tickFunc) {
-        this._slowTickList.push(func);
+    // 慢tick
+    private _slowTick(dt) {
+        this._slowTickList.forEach((hdl) => {
+            hdl(dt);
+        });
+    }
+
+    // 快tick
+    private _fastTick(dt) {
+        // handler inner msg
+        let innerlenght = this._innerMessageQueue.length;
+        while (innerlenght > 0) {
+            let msgEvent = this._innerMessageQueue.shift();
+            this._dispatchMsgEvent(msgEvent);
+            innerlenght = this._innerMessageQueue.length;
+        }
+
+        // handler server msg
+        let serverlenght = this._serverMessageQueue.length;
+        while (serverlenght > 0) {
+            let msgEvent = this._serverMessageQueue.shift();
+            this._dispatchMsgEvent(msgEvent);
+            serverlenght = this._serverMessageQueue.length;
+        }
+
+        this._fastTickList.forEach((hdl) => {
+            hdl(dt);
+        });
+    }
+
+
+    private _dispatchMsgEvent(msg: Message) {
+        // model msg
+        modelEventMgr.dispatchEvent(msg);
+        // view msg
+        msgEventMgr.dispatchEvent(msg);
+        // redGuide msg
+        SFRedGuideMgr.dispatchEvent(msg);
     }
 }
 

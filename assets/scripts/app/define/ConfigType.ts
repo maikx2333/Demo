@@ -6,6 +6,9 @@
  * @Description: file content
  */
 
+// 延时推断输入泛型 ，输入的泛型会被置于默认泛型之后
+export type NoInfer<A extends any> = [A][A extends any ? 0 : never];
+
 export type DeviceInfoType = {
     DeviceModel:string;
     IMEI:string;
@@ -21,4 +24,13 @@ export type GameConfigType = {
     ServerUrl: string;
     ServerListUrl: string;
     BigUpdateType: string;
+}
+
+export type DoubleBtnDialogArgsType = {
+    msg: string;
+    leftBtnName: string;
+    rightBtnName: string,
+    leftCallback: Function;
+    rightCallback: Function,
+    hideLeftButton: boolean,
 }

@@ -1,5 +1,5 @@
 import { log } from "cc";
-import { Message, Singleton } from "../yy";
+import { gameMgr, Message, Singleton } from "../yy";
 
 /*
  * @Author: liuguoqing

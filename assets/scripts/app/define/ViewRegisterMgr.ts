@@ -7,10 +7,9 @@
  */
 
 import { Singleton } from "../../framework/yy";
+import { NoInfer } from "./ConfigType";
 
-// 延时推断输入泛型 ，输入的泛型会被置于默认泛型之后
-type NoInfer<A extends any> = [A][A extends any ? 0 : never];
-export type ViewModuleName = keyof ViewRegisterMgr["ViewType"];
+type ViewModuleName = keyof ViewRegisterMgr["ViewType"];
 
 export class ViewRegisterMgr extends Singleton{
     ViewType = {

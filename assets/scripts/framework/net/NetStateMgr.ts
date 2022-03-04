@@ -7,6 +7,8 @@
  */
 
 
+import { GlobalFunction } from "../../app/common/GlobalFunction";
+import { DoubleBtnDialogArgsType } from "../../app/define/ConfigType";
 import { Protocol } from "../../app/define/Protocol";
 import { GameConfig } from "../../GameConfig";
 import { gameMgr, msgEventMgr, Singleton, socketMgr } from "../yy";
@@ -102,7 +104,7 @@ class NetStateMgr extends Singleton {
         if (msg == "" || msg == undefined) {
             msg = "与战车失去联系，请指挥官检查网络再尝试。";
         }
-        let args = {
+        let args:DoubleBtnDialogArgsType = {
             msg: msg,
             leftBtnName: "",
             rightBtnName: "确定",
