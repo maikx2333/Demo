@@ -1,14 +1,12 @@
 
 import { find, Node, UIOpacity, UITransform, Widget, widgetManager } from "cc";
-import { SFTableLayer } from "../UI/SFTableLayer";
-import functions from "../utils/functions";
-import { Singleton } from "../yy";
+import { functions, Singleton, TableLayer } from "../yy";
 
 class SceneMgr extends Singleton {
     // _uiRoot: Node;
     // _baseNodeMap: Map<string, Node>;
     _layerMap: Map<string, Node>;
-    _tableLayerStack: Array<SFTableLayer>;
+    _tableLayerStack: Array<TableLayer>;
     _skipHiddenBackground: any;
 
     _viewIndex: number = 0;
@@ -136,9 +134,9 @@ class SceneMgr extends Singleton {
      * @param {type}
      * @return {type}
      */
-    pushNewTableLayer(): SFTableLayer {
+    pushNewTableLayer(): TableLayer {
         this._viewIndex += 1;
-        let tableLayer = new SFTableLayer();
+        let tableLayer = new TableLayer();
         tableLayer.name = "TableLayer" + this._viewIndex;
         this._layerMap.get("TableGroup").addChild(tableLayer);
         this._tableLayerStack.push(tableLayer);
@@ -612,7 +610,7 @@ class SceneMgr extends Singleton {
 
         let list = this._layerMap.get("TableGroup").children;
         for (let index = list.length - 1; index >= 0; index--) {
-            let cellTable = <SFTableLayer>list[index];
+            let cellTable = <TableLayer>list[index];
             let cellLayerName = cellTable.getLayerName();
             if (topLayerName == "") {
                 topLayerName = cellLayerName;

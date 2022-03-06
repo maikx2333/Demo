@@ -1,15 +1,15 @@
 /*
  * @Author: Gino
  * @Date: 2020-09-21 20:14:47
- * @LastEditTime: 2021-01-27 15:27:43
- * @LastEditors: Gino
+ * @LastEditTime: 2022-03-05 15:09:49
+ * @LastEditors: liuguoqing
  */
 import { Node } from "cc";
-import { SFTableContentLayer } from "./SFTableContentLayer";
+import { TableContentLayer } from "../yy";
 
-export class SFTableLayer extends Node {
+export class TableLayer extends Node {
     _bgLayer: Node;
-    _contentLayer: SFTableContentLayer;
+    _contentLayer: TableContentLayer;
     _uiLayer: Node;
     _subContent: Node;
     _subContentList: Array<Node>;
@@ -20,7 +20,7 @@ export class SFTableLayer extends Node {
         this._bgLayer = new Node();
         this.addChild(this._bgLayer);
 
-        this._contentLayer = new SFTableContentLayer();
+        this._contentLayer = new TableContentLayer();
         this.addChild(this._contentLayer);
 
         this._uiLayer = new Node();

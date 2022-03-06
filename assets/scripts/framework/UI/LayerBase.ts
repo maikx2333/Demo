@@ -1,12 +1,19 @@
+/*
+ * @Author: liuguoqing
+ * @Date: 2022-03-04 23:09:26
+ * @LastEditors: liuguoqing
+ * @LastEditTime: 2022-03-05 15:08:57
+ * @Description: file content
+ */
 import { _decorator, Node } from "cc";
-import { NodeBase } from "./NodeBase";
+import { ComponentBase } from "./ComponentBase";
 const { ccclass, property } = _decorator;
 
 
 type callbackFunc = (data: any) => void | string | boolean;
 
 @ccclass('LayerBase')
-export class LayerBase extends NodeBase {
+export class LayerBase extends ComponentBase {
     // private _eventMsgListeners: Map<string, number>;
 
     constructor() {
@@ -28,7 +35,7 @@ export class LayerBase extends NodeBase {
 
     onDisable() {}
 
-    /**
+    /**d
      * 记得如果需要要重写此方法 注意必须调用super.onDestroy(),
      * 组件删除前会自动删除所有消息监听
      */

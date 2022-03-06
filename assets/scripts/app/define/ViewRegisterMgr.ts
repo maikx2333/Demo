@@ -2,14 +2,12 @@
  * @Author: liuguoqing
  * @Date: 2022-03-03 20:51:02
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-04 08:56:10
+ * @LastEditTime: 2022-03-04 23:37:27
  * @Description: file content
  */
 
 import { Singleton } from "../../framework/yy";
-import { NoInfer } from "./ConfigType";
-
-type ViewModuleName = keyof ViewRegisterMgr["ViewType"];
+import { NoInfer, ViewModuleName } from "./ConfigType";
 
 export class ViewRegisterMgr extends Singleton{
     ViewType = {

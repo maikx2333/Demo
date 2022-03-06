@@ -2,11 +2,11 @@
  * @Author: liuguoqing
  * @Date: 2022-03-02 10:59:24
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-04 09:06:17
+ * @LastEditTime: 2022-03-06 14:50:40
  * @Description: file content
  */
 import { _decorator, Component, Node, log, Sprite, tween, Vec3 } from 'cc';
-import { httpMgr, viewRegisterMgr } from '../framework/yy';
+import { dataMgr, httpMgr, viewRegisterMgr } from '../framework/yy';
 
 const { ccclass, property } = _decorator;
 

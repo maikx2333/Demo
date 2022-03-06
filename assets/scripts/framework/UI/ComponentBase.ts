@@ -1,8 +1,15 @@
+/*
+ * @Author: liuguoqing
+ * @Date: 2022-03-04 23:09:26
+ * @LastEditors: liuguoqing
+ * @LastEditTime: 2022-03-05 15:09:10
+ * @Description: file content
+ */
 import { Component } from "cc";
 
 type callbackFunc = (data: any) => void | string | boolean;
 
-export class NodeBase extends Component {
+export class ComponentBase extends Component {
     protected _eventMsgListeners: Map<string, number>;
 
     constructor() {

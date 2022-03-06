@@ -1,13 +1,12 @@
 import { Node } from "cc";
-import functions from "../utils/functions";
-
+import { functions } from "../yy";
 /*
  * @Author: Gino
  * @Date: 2020-09-21 20:08:11
- * @LastEditTime: 2021-04-14 16:18:31
- * @LastEditors: Chenning
+ * @LastEditTime: 2022-03-05 15:12:00
+ * @LastEditors: liuguoqing
  */
-export class SFTableContentLayer extends Node {
+export class TableContentLayer extends Node {
     _contentLayerMap: Map<string, Node>;
     _displayLayer: any;
 

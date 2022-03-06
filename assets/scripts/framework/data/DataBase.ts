@@ -1,87 +1,72 @@
 import { error, JsonAsset, log, resources } from "cc";
-import { DataParserBase, FileHelper } from "../yy";
+import { DataParserBase, ResourcesLoader } from "../yy";
 
 /*
  * @Author: liuguoqing
  * @Date: 2022-03-03 08:54:10
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-03 13:29:56
+ * @LastEditTime: 2022-03-06 14:47:17
  * @Description: file content
  */
 
-export type DataCallback = (done: boolean) => void;
+export interface DataCallback {
+    (done: boolean):void;
+} 
 
 export class DataBase {
-    private _dataName: string = "";
+    
+    // 配置表handle name
+    private _dataHandlerName: string = "";
+    // 配置表文件名
     private _fileName: string = "";
-    private _fileType: number = 0;
+    // 多语言解析器
     private _parser: DataParserBase = null;
+    // 缓存起来(key:namekey,value:配置表内容) 例如:hero_01.json,filename:hero_,namekey:01
     private _data: Map<string, any> = new Map();
-    constructor(dataName: string, fileName: string, flieType: number, parser?: DataParserBase) {
-        this._dataName = dataName;
+
+    constructor(dataHandlerName: string, fileName: string, parser: DataParserBase | null) {
+        this._dataHandlerName = dataHandlerName;
         this._fileName = fileName;
-        this._fileType = flieType;
         this._parser = parser;
     }
 
-    // 资源预加载，仅下载
-    preLoadWithName(namekey: string, func: DataCallback): void {
-        this._parseFile(namekey, func);
+    // 加载
+    public loadData(namekey: string, func: DataCallback){
+        this._parseFileName(namekey,func)
     }
 
-    preLoadWithIndex(startIndex: number, endIndex: number, func: DataCallback): void {
-        let amount = 0;
-        for (let index = startIndex; index < endIndex + 1; index++) {
-            amount++;
-            this._parseFile(index.toString(), (done) => {
-                amount--;
-                if (amount == 0) {
-                    func(true);
-                }
-            });
-        }
-    }
-
-    getData(namekey: string = ""): any {
-        // let dataName = this._fileName + namekey;
+    public getData(namekey: string = ""): any {
         namekey = namekey.toString();
         if (this._data.has(namekey)) {
             return this._data.get(namekey);
         }
-
-        error("Can't Find Json File:", this._fileName + namekey);
+        return error("Can't Find Json File:", this._fileName + namekey);
     }
 
-    delData(namekey: string): void {
-        let dataName = this._fileName + namekey;
-        if (this._data.has(dataName)) {
-            this._data.delete(dataName);
+    public delData(namekey: string): void {
+        let dataHandlerName = this._fileName + namekey;
+        if (this._data.has(dataHandlerName)) {
+            this._data.delete(dataHandlerName);
         }
     }
 
-    getAllData(): any {
+    public getAllData(): any {
         return this._data;
     }
 
-    showAll(): void {
+    public showAll(): void {
         log(this._data);
     }
 
-    private _parseFile(namekey: string, func: DataCallback) {
-        let fileName = "";
-        if (this._parser) {
-            let data = this._parser.getMergeFileName(this._dataName, this._fileName, namekey);
-            fileName = data[1];
-        } else {
-            fileName = this._fileName + namekey;
-        }
-
-        this._loadFile(fileName, namekey, this._fileType, func);
+    private _parseFileName(namekey: string, func:DataCallback) {
+        // filename = genral_(this._fileName) + 1(namekey) 
+        let fileName = this._fileName + namekey;
+        this._loadFile(fileName, namekey, func);
     }
 
-    // 资源预加载，仅下载
-    private _loadFile(fileName: string,namekey: string,mergeType: number,func: DataCallback): void {
-        FileHelper.load(fileName,(jsonData) => {
+    // 加载json
+    private _loadFile(fileName: string,namekey: string,func: DataCallback): void {
+        ResourcesLoader.load(fileName,(jsonData) => {
             if (!jsonData) {
                 func(false);
                 return;
@@ -89,35 +74,11 @@ export class DataBase {
 
             let jsonAsset = <JsonAsset>jsonData;
             let data = jsonAsset.json;
-            if (mergeType == 1) {
-                // 技术自动合并json
-                Object.keys(data).forEach((key) => {
-                    let dataName = key;
-                    let newData = data[key];
-                    if (this._parser) {
-                        newData = this._parser.parse(newData, this._dataName, namekey);
-                    }
-                    this._data.set(dataName.toString(), newData);
-                });
-            } else if (mergeType == 2) {
-                // 策划合并json
-                if (this._parser) {
-                    data = this._parser.parse(data, this._dataName, namekey);
-                    let keys = Object.keys(data)
-                    keys.forEach((key) => {
-                        let dataName = key;
-                        let newData = data[key];
-                        this._data.set(dataName.toString(), newData);
-                    });
-                }
-            } else {
-                // 单个json数值;
-                let dataName = namekey;
-                if (this._parser) {
-                    data = this._parser.parse(data, this._dataName, namekey);
-                }
-                this._data.set(dataName.toString(), data);
+
+            if (this._parser) {
+                data = this._parser.parse(data, this._dataHandlerName, namekey);
             }
+            this._data.set(namekey.toString(), data);
 
             func(true);
 
