@@ -21,20 +21,7 @@ export namespace Protocol {
         game_info,
     }
 
-    /**
-     * 内部协议
-     */
-    export enum Inner {
-        ReloginSuccess,
-        FightPause,
-        FightResume
-    }
+    
 
-    export enum View {
-        LoginView = "LginView"
-    }
-
-    export enum Model {
-        LoginModel = "LoginModel"
-    }
+    
 }
