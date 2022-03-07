@@ -1,6 +1,7 @@
 import { Camera, director, Game, game, ISchedulable, Scheduler, sys } from "cc";
 import { DeviceInfoType } from "../../app/define/ConfigType";
 import { EnterApp } from "../../app/EnterApp";
+import { ModelBase } from "../data/ModelBase";
 import { Message, modelEventMgr, msgEventMgr, netStateMgr, Singleton, socketMgr } from "../yy";
 
 /*
