@@ -1,6 +1,6 @@
 
 import { find, Node, UIOpacity, UITransform, Widget, widgetManager } from "cc";
-import { functions, Singleton, TableLayer } from "../yy";
+import { functions, Message, Singleton, TableLayer, viewEventMgr } from "../yy";
 
 class SceneMgr extends Singleton {
     // _uiRoot: Node;
@@ -730,9 +730,9 @@ class SceneMgr extends Singleton {
         return curLayerList;
     }
 
-    public openUI(UiFlag: number, data: any) {
-        // let msg = new SFMessage(UiFlag, data);
-        // LoaderEventMgr.getInstance().dispatchEvent(msg);
+    public sendCreateView(UiFlag: number, data: any) {
+        let msg = new Message(UiFlag, data);
+        viewEventMgr.dispatchEvent(msg);
     }
 }
 
