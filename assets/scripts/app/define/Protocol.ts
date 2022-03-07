@@ -31,6 +31,10 @@ export namespace Protocol {
     }
 
     export enum View {
-        LoginView
+        LoginView = "LginView"
+    }
+
+    export enum Model {
+        LoginModel = "LoginModel"
     }
 }
