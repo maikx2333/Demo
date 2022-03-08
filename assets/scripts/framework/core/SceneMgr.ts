@@ -155,15 +155,7 @@ class SceneMgr extends Singleton{
         this._tableLayerStack.push(tableLayer);
 
 
-        // let widget = tableLayer.addComponent(Widget)
-        // // let rootNode = find("Canvas");
-        // widget!.alignMode = Widget.AlignMode.ON_WINDOW_RESIZE;
-        // widget!.alignFlags = widgetManager.AlignFlags.HORIZONTAL | widgetManager.AlignFlags.VERTICAL;
-        // // widget!.target = rootNode;
-        // widget!.left = 0;
-        // widget!.right = 0;
-        // widget!.bottom = 0;
-        // widget!.top = 0;
+       
 
         
         return tableLayer;

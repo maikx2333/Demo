@@ -4,7 +4,7 @@
  * @LastEditTime: 2022-03-05 15:09:49
  * @LastEditors: liuguoqing
  */
-import { Node } from "cc";
+import { Node, Widget, widgetManager } from "cc";
 import { TableContentLayer } from "./TableContentLayer";
 // import { TableContentLayer } from "../yy";
 
@@ -17,6 +17,15 @@ export class TableLayer extends Node {
 
     constructor() {
         super();
+
+        //全屏
+        let widget = this.addComponent(Widget)
+        widget!.alignMode = Widget.AlignMode.ON_WINDOW_RESIZE;
+        widget!.alignFlags = widgetManager.AlignFlags.HORIZONTAL | widgetManager.AlignFlags.VERTICAL;
+        widget!.left = 0;
+        widget!.right = 0;
+        widget!.bottom = 0;
+        widget!.top = 0;
 
         this._bgLayer = new Node();
         this.addChild(this._bgLayer);
