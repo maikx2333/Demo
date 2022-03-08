@@ -1,11 +1,11 @@
-import { Component, Label, _decorator } from "cc";
+import { CCInteger, Component, Label, _decorator } from "cc";
 import { translateMgr } from "../translate/TranslateMgr";
 
 const { ccclass, property } = _decorator;
 
 @ccclass
 export default class TranslateLabel extends Component {
-    @property(Number)
+    @property(CCInteger)
     translateId: number = 0;
 
     onLoad() {

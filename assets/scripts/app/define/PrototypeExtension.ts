@@ -12,4 +12,5 @@ Object.defineProperty(Label.prototype, "setString", {
         let id = lbComp.translateId;
         this.string = translateMgr.translate(id);
     },
+    configurable: true,
 });

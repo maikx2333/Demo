@@ -1,4 +1,4 @@
-import { instantiate, Prefab } from "cc";
+import { instantiate, log, Prefab } from "cc";
 import { sceneMgr } from "../../../framework/core/SceneMgr";
 import { ResourcesLoader } from "../../../framework/data/ResourcesLoader";
 import { Message } from "../../../framework/listener/Message";
@@ -19,6 +19,7 @@ export class MainCityCreator extends ViewCreatorBase {
         let path = viewInfo.Path;
         ResourcesLoader.load(path,(data:Prefab)=>{
             let node = instantiate(data);
+            log("=====>viewInfo",viewInfo)
             sceneMgr.replaceMainLayer(node,viewInfo.View);
         })
     }
