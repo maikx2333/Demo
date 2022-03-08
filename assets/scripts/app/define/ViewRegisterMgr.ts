@@ -11,6 +11,7 @@ import { Singleton } from "../../framework/components/Singleton";
 import { viewCreatorMgr } from "../../framework/ui/ViewCreatorManager";
 import { DialogCreator } from "../views/dialog/Creator";
 import { LoginCreator } from "../views/login/Creator";
+import { PreRewardCreator } from "../views/pre_reward/Creator";
 import { NoInfer, ViewModuleName, ViewInfoType } from "./ConfigType";
 import { HiddenBackgroundMgr } from "./define";
 
@@ -28,6 +29,11 @@ export class ViewRegisterMgr extends Singleton{
             prefab:{
                 "DoubleBtnDialog":['core/prefab/LoginView',true]
             }
+        },
+        preReward:{
+            prefab:{
+                "preRewardMain":["preview_reward/preview_reward_prefab", true]
+            }
         }
     };
 
@@ -35,6 +41,7 @@ export class ViewRegisterMgr extends Singleton{
     Cretors = [
         LoginCreator,
         DialogCreator,
+        PreRewardCreator
     ]
     
     private constructor() {

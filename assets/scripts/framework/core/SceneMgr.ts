@@ -743,7 +743,7 @@ class SceneMgr extends Singleton{
         return curLayerList;
     }
 
-    public sendCreateView(UiFlag: number, data: any) {
+    public sendCreateView(UiFlag: number, data: any={}) {
         let msg = new Message(UiFlag, data);
         viewEventMgr.dispatchEvent(msg);
     }
