@@ -2,6 +2,7 @@ import { director, game, input, log, sys } from "cc";
 import { singletonMgr } from "../framework/components/SingletonMgr";
 import { gameMgr } from "../framework/core/GameMgr";
 import { sceneMgr } from "../framework/core/SceneMgr";
+import { translateMgr } from "../framework/translate/TranslateMgr";
 import { GameConfig } from "../GameConfig";
 import { dataRegisterMgr } from "./define/DataRegisterMgr";
 import { ViewProtocol } from "./define/ViewProtocol";
@@ -69,9 +70,7 @@ export class EnterApp {
     }
 
     loadTranslate() {
-        // TranslateMgr.getInstance().loadCodeCfg("TranslateCode");
-        // TranslateMgr.getInstance().loadPBCfg("TranslatePB");
-        // TranslateMgr.getInstance().loadExCfg("TranslateEx");
+        translateMgr.loadCodeCfg("Translate");
     }
 
     done() {
