@@ -1,8 +1,11 @@
-import { Camera, director, Game, game, ISchedulable, Scheduler, sys } from "cc";
-import { DeviceInfoType } from "../../app/define/ConfigType";
+import { Camera, director, Game, game, ISchedulable, log, Scheduler, sys } from "cc";
+import { CommonConstructor, DeviceInfoType } from "../../app/define/ConfigType";
 import { EnterApp } from "../../app/EnterApp";
+import { Singleton } from "../components/Singleton";
 import { ModelBase } from "../data/ModelBase";
-import { Message, modelEventMgr, msgEventMgr, netStateMgr, Singleton, socketMgr } from "../yy";
+import { modelEventMgr, msgEventMgr } from "../listener/EventMgr";
+import { Message } from "../listener/Message";
+import { sceneMgr } from "./SceneMgr";
 
 /*
  * @Author: liuguoqing
@@ -17,7 +20,6 @@ export class GameMgr extends Singleton implements ISchedulable {
     // ISchedulable
     id?: string;
     uuid?: string;
-    
     private _modelMapName: Map<string, any>;
 
     private _slowTickList: Array<tickFunc>;
@@ -35,9 +37,8 @@ export class GameMgr extends Singleton implements ISchedulable {
     private _curTimeoutID: any; 
 
     // 构造函数
-    constructor() {
+    private constructor() {
         super();
-
         // camera
         this._cameraMap = new Map();
 
@@ -68,12 +69,6 @@ export class GameMgr extends Singleton implements ISchedulable {
         },
         this,0);
 
-        // net state change callback
-        let socketParams = {
-            StateChangeCallback: this.listenOnSocketState.bind(this),
-        };
-        socketMgr.registerCallbackHandler(socketParams);
-
         // game on foreground
         game.on(Game.EVENT_SHOW, this._enterForeground.bind(this), this);
 
@@ -100,32 +95,22 @@ export class GameMgr extends Singleton implements ISchedulable {
     /**
      * 把消息id绑定指定的model
      */
-    public registerModel(
-        model: ModelBase,
-        modelName: string
-        // protocolIdList: number[]
-    ) {
-        this._modelMapName.set(modelName, model);
+    public registerModel<T extends ModelBase>( modelConstructor: CommonConstructor<T>)
+    {
+        this._modelMapName.set(modelConstructor.name, new modelConstructor());
     }
 
     /**
      * 获取model
      */
-    public getModel(modelName: string): ModelBase {
-        return this._modelMapName.get(modelName);
-    }
-
-    /**
-     * 获取RawData
-     */
-    public getDataRaw(rawName: string, key: string) {
-        return DataRawMgr.getInstance().getData(rawName, key);
+    public getModel<T extends ModelBase>(modelConstructor: CommonConstructor<T>): T {
+        return this._modelMapName.get(modelConstructor.name);
     }
 
     /**
      * 获取摄像机
      */
-    public setCamera(key: string, camera: cc.Camera) {
+    public setCamera(key: string, camera: Camera) {
         this._cameraMap.set(key, camera);
     }
 
@@ -136,18 +121,11 @@ export class GameMgr extends Singleton implements ISchedulable {
         return this._cameraMap.get(key);
     }
 
-    /**
-     * 监听Socket 状态变化
-     */
-    public listenOnSocketState(event) {
-        netStateMgr.onSocketChange(event);
-    }
-
     public reRun() {
         log("GameMgr reRunRun0");
-        SceneMgr.getInstance().removeAllTableLayer();
-        SceneMgr.getInstance().setSystemOpenLayer(null);
-        SceneMgr.getInstance().setNewGuideLayer(null);
+        sceneMgr.removeAllTableLayer();
+        sceneMgr.setSystemOpenLayer(null);
+        sceneMgr.setNewGuideLayer(null);
         if (this._app) {
             log("GameMgr reRunRun1");
             this._app.reRun();
@@ -170,7 +148,7 @@ export class GameMgr extends Singleton implements ISchedulable {
         let infoStr: string;
         if (sys.isNative) {
             if (sys.os == sys.OS.IOS) {
-                infoStr = jsb.reflection.callStaticMethod("MyOcHelper", "get_device_info");
+                // infoStr = jsb.reflection.callStaticMethod("MyOcHelper", "get_device_info");
             } else if (sys.os == sys.OS.ANDROID) {
                 // todo
                 infoStr = jsb.reflection.callStaticMethod(
@@ -196,7 +174,7 @@ export class GameMgr extends Singleton implements ISchedulable {
 
     private _enterForeground() {
         console.log("游戏进入前台");
-        NotifyHelper.getInstance().gameEnterForeground();
+        // NotifyHelper.getInstance().gameEnterForeground();
         if (this._curTimeoutID) {
             clearTimeout(this._curTimeoutID);
         }
@@ -204,7 +182,7 @@ export class GameMgr extends Singleton implements ISchedulable {
 
     private _enterBackground() {
         console.log("游戏进入后台");
-        NotifyHelper.getInstance().gameEnterBackground();
+        // NotifyHelper.getInstance().gameEnterBackground();
         //5分钟后埋点登出
         this._curTimeoutID = setTimeout(() => {
             if (window["SDKHelper"]) {
@@ -250,7 +228,7 @@ export class GameMgr extends Singleton implements ISchedulable {
         // view msg
         msgEventMgr.dispatchEvent(msg);
         // redGuide msg
-        SFRedGuideMgr.dispatchEvent(msg);
+        // SFRedGuideMgr.dispatchEvent(msg);
     }
 }
 

@@ -1,7 +1,6 @@
 import { log } from "cc";
-import { Singleton } from "../yy";
+import { Singleton } from "../components/Singleton";
 import { Message } from "./Message";
-
 /*
  * @Author: liuguoqing
  * @Date: 2022-03-02 17:38:38
@@ -10,15 +9,18 @@ import { Message } from "./Message";
  * @Description: file content
  */
 
-type callbackFunc = (data: any) => void | string | boolean;
+
+export interface EventCallback {
+    (event: Message):void | string | boolean;
+}
 
 export class EventMgr extends Singleton {
     // 字段
-    _listeners: Map<number, Map<string, callbackFunc>>;
+    _listeners: Map<number, Map<string, EventCallback>>;
     _listenerHandleIndex: number;
 
     _isDispatchEventing = false;
-    _waitAddListeners: Array<[number, callbackFunc, string]>;
+    _waitAddListeners: Array<[number, EventCallback, string]>;
     _waitDelListeners: Map<string, number>;
 
     // 构造函数
@@ -32,7 +34,7 @@ export class EventMgr extends Singleton {
     }
 
     // 方法
-    addEventListener(eventName: number, listener: callbackFunc): string {
+    addEventListener(eventName: number, listener: EventCallback): string {
         if (this._listeners.get(eventName) == null) {
             this._listeners.set(eventName, new Map());
         }
@@ -58,7 +60,7 @@ export class EventMgr extends Singleton {
         let cellMap = this._listeners.get(eventName);
         if (cellMap == null) return;
         let iterator = cellMap.entries();
-        let r: IteratorResult<[string, callbackFunc]>;
+        let r: IteratorResult<[string, EventCallback]>;
         while (((r = iterator.next()), !r.done)) {
             // cc.log(r);
             let v = r.value;
@@ -83,7 +85,7 @@ export class EventMgr extends Singleton {
         let cellMap = this._listeners.get(eventName);
         if (cellMap == null) return;
         let iterator = cellMap.entries();
-        let r: IteratorResult<[string, callbackFunc]>;
+        let r: IteratorResult<[string, EventCallback]>;
         while (((r = iterator.next()), !r.done)) {
             // cc.log(r);
             let v = r.value;
@@ -92,7 +94,7 @@ export class EventMgr extends Singleton {
 
             // is wait del, don't callback
             if (this._waitDelListeners.get(handle) == null) {
-                let ret = listener(event.msgData);
+                let ret = listener(event);
                 if (ret == false) {
                     log("Break: handle ", handle, "  eventName", eventName);
                     break;

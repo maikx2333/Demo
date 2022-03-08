@@ -8,7 +8,7 @@
 // 解析翻译
 export class DataParserBase {
     // 只会在读取Json数值表的时候才会解析一次翻译表，解析完就永久缓存起来
-    parse(jsonObject: any, dataName: string, namekey: string) {
+    parse(jsonObject: any, dataHandlerName: string, namekey: string) {
         return jsonObject;
     }
 }

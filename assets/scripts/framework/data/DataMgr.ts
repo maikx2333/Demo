@@ -7,68 +7,88 @@
  */
 import { error, log } from "cc";
 import { DataModuleName } from "../../app/define/ConfigType";
-
-import { DataBase, DataCallback, DataParserBase, Singleton } from "../yy";
+import { Singleton } from "../components/Singleton";
+import { DataBase, DataCallback } from "./DataBase";
+import { DataParserBase } from "./DataParserBase";
+// import { DataBase, DataCallback, DataParserBase, Singleton } from "../yy";
 
 class DataMgr extends Singleton {
-    private _dataRawMap: Map<string, DataBase>;
+    private _dataMap: Map<string, DataBase>;
 
     constructor() {
         super();
-        this._dataRawMap = new Map();
+        this._dataMap = new Map();
     }
 
     registerDataFile(dataHandlerName: string, path: string, parser: DataParserBase| null): void {
-        let dataRaw = new DataBase(dataHandlerName, path, parser);
-        this._dataRawMap.set(dataHandlerName, dataRaw);
+        let data = new DataBase(dataHandlerName, path, parser);
+        this._dataMap.set(dataHandlerName, data);
     }
 
-    loadData(dataHandlerName: string,done:DataCallback){
-        if (!this._dataRawMap.has(dataHandlerName)) {
-            return error("Data is not be register[ %s ]", dataHandlerName);
-        }
-
-        let data = this._dataRawMap.get(dataHandlerName);
-        data.loadData("",done);
-    }
-
-    getData(dataHandlerName: string, key?: string): any {
-        if (this._dataRawMap.has(dataHandlerName)) {
-            let dataRaw = this._dataRawMap.get(dataHandlerName);
-            return dataRaw.getData(key);
-        } else {
-            error("Data get can't Find ! [ %s ] [ %s ] ", dataHandlerName, key);
+    loadData<S extends string,PAIR extends Array<number>>(dataHandlerName:S,pair:PAIR,done?:DataCallback){
+        let start = pair[0];
+        let ended = pair[1];
+        if (start && ended) {
+            this._loadDataWithIndex(dataHandlerName,pair,done);
+        }else{
+            this._loadDataWithDataHandlerName(dataHandlerName,done);
         }
     }
 
-    delData(dataHandlerName: string, key?: string): void {
-        if (this._dataRawMap.has(dataHandlerName)) {
-            let dataRaw = this._dataRawMap.get(dataHandlerName);
-            return dataRaw.delData(key);
+    getData(dataHandlerName:string, namekey?: string | number): any {
+        let key = namekey.toString() || "";
+        let data = this._getDataCache(dataHandlerName);
+        if (data){
+            return data.getData(key);
         } else {
-            error("Data del can't Find ! [ %s ] [ %s ] ", dataHandlerName, key);
+            error("Calling getData() fail! Data can't Find ! [ %s ] [ %s ] ", dataHandlerName, key);
         }
     }
 
-    getRawData(dataHandlerName: string): any {
-        if (this._dataRawMap.has(dataHandlerName)) {
-            let dataRaw = this._dataRawMap.get(dataHandlerName);
-            return dataRaw;
+    delData(dataHandlerName: string, namekey?: string | number): void {
+        let key = namekey.toString() || "";
+        let data = this._getDataCache(dataHandlerName);
+        if (data){
+            return data.delData(key);
         } else {
-            error("Data get can't Find ! [ %s ] ", dataHandlerName);
+            error("Calling delData() fail! Data can't Find ! [ %s ] [ %s ] ", dataHandlerName, key);
         }
     }
 
     showAll() {
-        log(this._dataRawMap);
+        log(this._dataMap);
     }
 
-    _getDataByDataHandlerName<TMoudleName extends DataModuleName>(dataHandlerName:TMoudleName){
+    private _getDataCache(dataHandlerName:string):DataBase | null {
+        if (!this._dataMap.has(dataHandlerName)) {
+            error("Data does not be registered[ %s ]", dataHandlerName);
+            return null
+        }
 
+        let data = this._dataMap.get(dataHandlerName);
+        return data;
     }
 
-    _getDataByDataHandlerNameAndKeyName<TMoudleName extends DataModuleName,T extends string>(dataHandlerName:TMoudleName,keyname:T){
+    private _loadDataWithIndex<S extends string,PAIR extends Array<number>>(dataHandlerName:S,pair:PAIR,done?:DataCallback){
+        let data = this._getDataCache(dataHandlerName);
+        if (data){
+            let start = pair[0];
+            let ended = pair[1];
+            for (let index = start; index <= ended; index++) {
+                if (index == ended) {
+                    data.loadDataWithNameKey(index.toString(),done);
+                }else{
+                    data.loadDataWithNameKey(index.toString());
+                }
+            }
+        }
+    }
 
+    private _loadDataWithDataHandlerName(dataHandlerName:string,done?:DataCallback){
+        let data = this._getDataCache(dataHandlerName);
+        if (data){
+            data.loadDataWithNameKey("",done);
+        }
     }
 }
 

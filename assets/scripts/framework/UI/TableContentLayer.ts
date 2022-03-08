@@ -1,5 +1,6 @@
 import { Node } from "cc";
-import { functions } from "../yy";
+import { functions } from "../utils/functions";
+// import { functions } from "../yy";
 /*
  * @Author: Gino
  * @Date: 2020-09-21 20:08:11

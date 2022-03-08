@@ -6,7 +6,9 @@
  * @Description: file content
  */
 
-import { DataRegisterMgr, ViewRegisterMgr } from "../../framework/yy";
+import { ModelRegisterMgr } from "../model/ModelRegisterMgr";
+import { DataRegisterMgr } from "./DataRegisterMgr";
+import { ViewRegisterMgr } from "./ViewRegisterMgr";
 
 // 延时推断输入泛型 ，输入的泛型会被置于默认泛型之后
 export type NoInfer<A extends any> = [A][A extends any ? 0 : never];
@@ -16,6 +18,32 @@ export type ViewModuleName = keyof ViewRegisterMgr["ViewType"];
 
 // data module name type
 export type DataModuleName = keyof DataRegisterMgr["DataType"];
+
+// model module name type
+export type ModelModuleName = keyof ModelRegisterMgr["ModelType"];
+
+// common construtor type
+export type CommonConstructor<T = unknown> = new (...args: any[]) => T;
+
+export type ViewInfoType = {
+    /**
+     * 系统名称
+     */
+    System:string;
+    /**
+     * 界面名称
+     */
+    View:string;
+    /**
+     * 预制体路径
+     */
+    Path:string;
+
+    /**
+     * 是否隐藏背景
+     */
+    Hidden:boolean;
+}
 
 export type DeviceInfoType = {
     DeviceModel:string;

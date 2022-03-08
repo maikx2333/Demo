@@ -1,17 +1,8 @@
 {
-  "script": {
-    "importMap": "project://"
-  },
   "general": {
     "designResolution": {
       "width": 720,
       "height": 1280
     }
-  },
-  "layer": [
-    {
-      "name": "HIDE",
-      "value": 1
-    }
-  ]
+  }
 }

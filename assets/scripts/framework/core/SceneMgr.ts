@@ -1,23 +1,35 @@
 
 import { find, Node, UIOpacity, UITransform, Widget, widgetManager } from "cc";
-import { functions, Message, Singleton, TableLayer, viewEventMgr } from "../yy";
+import { HiddenBackgroundMgr } from "../../app/define/HiddenBackgroundMgr";
+import { Singleton } from "../components/Singleton";
+import { viewEventMgr } from "../listener/EventMgr";
+import { Message } from "../listener/Message";
+import { TableLayer } from "../ui/TableLayer";
+import { functions } from "../utils/functions";
+// import { functions, HiddenBackgroundMgr, Message, TableLayer, viewEventMgr } from "../yy";
 
-class SceneMgr extends Singleton {
+class SceneMgr extends Singleton{
+    // static _instance: any;
+
+    // static getInstance<T>():T {
+    //     if (this._instance == null) {
+    //         this._instance = new SceneMgr();
+    //     }
+    //     return this._instance;
+    // }
     // _uiRoot: Node;
     // _baseNodeMap: Map<string, Node>;
     _layerMap: Map<string, Node>;
     _tableLayerStack: Array<TableLayer>;
-    _skipHiddenBackground: any;
+    // _skipHiddenBackground: any;
 
     _viewIndex: number = 0;
 
     // _sfUUID: string = "";
 
     // 构造函数
-    constructor() {
+    private constructor() {
         super();
-
-
         // this._uiRoot = cc.find("Canvas");
         // this._baseNodeMap = new Map();
         // this._layerMap = new Map();
@@ -416,9 +428,9 @@ class SceneMgr extends Singleton {
         // }
     }
 
-    public setSkipHiddenBackgroundList(list) {
-        this._skipHiddenBackground = list;
-    }
+    // public setSkipHiddenBackgroundList(list) {
+    //     this._skipHiddenBackground = list;
+    // }
 
     public replaceMainLayer(layer: Node, layerName: string) {
         this.removeAllTableLayer();
@@ -643,7 +655,8 @@ class SceneMgr extends Singleton {
             for (let k = 0; k < tableElementList.length; k++) {
                 const tableElement = tableElementList[k];
                 // 检查是否有屏蔽下一层标志
-                if (this._skipHiddenBackground[tableElement.name]) {
+                // if (this._skipHiddenBackground[tableElement.name]) {
+                if (HiddenBackgroundMgr.checkIsHiddenBlackground(tableElement.name)) {
                     nextCanVisible = 1;
                 }
             }

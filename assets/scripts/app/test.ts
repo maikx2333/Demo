@@ -6,7 +6,9 @@
  * @Description: file content
  */
 import { _decorator, Component, Node, log, Sprite, tween, Vec3 } from 'cc';
-import { dataMgr, httpMgr, viewRegisterMgr } from '../framework/yy';
+import { G } from './common/GlobalFunction';
+import { Protocol } from './define/Protocol';
+import { ModelLogin } from './model/ModelLogin';
 
 const { ccclass, property } = _decorator;
 
@@ -31,11 +33,13 @@ export class test extends Component {
     // @property({type:Sprite})
     // bg:Sprite=null;
     // serializableDummy = 0;
+    model:ModelLogin;
     onload(){
         // console.log("onload",this.bg);
     }
 
     start () {
+        this.node.addComponent
         // [3]
         tween(this.node)
         .to(3, { position: new Vec3(10, 10, 10)}, { easing: 'bounceInOut' })
@@ -48,6 +52,7 @@ export class test extends Component {
     update (deltaTime: number) {
         // [4]
         // console.log(deltaTime);DataRegisterMgr
+        this.model = G.getModel(ModelLogin);
     }
 }
 

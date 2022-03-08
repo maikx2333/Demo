@@ -6,18 +6,19 @@ import { ViewCreatorBase } from "../../../framework/ui/ViewCreatorBase";
 import { ViewProtocol } from "../../define/ViewProtocol";
 import { viewRegisterMgr } from "../../define/ViewRegisterMgr";
 
-export class LoginCreator extends ViewCreatorBase {
+export class DialogCreator extends ViewCreatorBase {
 
     onInit() {
-        this.regMsg(ViewProtocol.LoginView, this.onCreateLoginView.bind(this))
+        this.regMsg(ViewProtocol.DoubleBtnDialog, this.onCreateDoubleBtnDialogView.bind(this))
     }
 
-    onCreateLoginView(event:Message) {
+    onCreateDoubleBtnDialogView(event:Message) {
         //创建登录界面
-        let viewInfo = viewRegisterMgr.getViewInfo("login","LoginView");
+        let viewInfo = viewRegisterMgr.getViewInfo("dialog","DoubleBtnDialog");
         let path = viewInfo.Path;
         ResourcesLoader.load(path,(data:Prefab)=>{
             let node = instantiate(data);
+            // let com = node.getComponent("DoubleBtnDialog").updateDialog(event.getRawData[0]);
             sceneMgr.pushNewTableLayer();
             sceneMgr.replaceTableContent(node,viewInfo.View);
         })

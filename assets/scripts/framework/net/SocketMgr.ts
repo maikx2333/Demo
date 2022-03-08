@@ -1,5 +1,8 @@
 import { log } from "cc";
-import { gameMgr, Message, Singleton } from "../yy";
+import { Singleton } from "../components/Singleton";
+import { gameMgr } from "../core/GameMgr";
+import { Message } from "../listener/Message";
+import { netStateMgr } from "./NetStateMgr";
 
 /*
  * @Author: liuguoqing
@@ -18,6 +21,16 @@ class SocketMgr extends Singleton {
     private _StateChangeCallback: SocketCallback;
     private _ip: string;
     private _port: string;
+
+    private constructor() {
+        super();
+        // net state change callback
+        let socketParams = {
+            StateChangeCallback: this._listenOnSocketState.bind(this),
+        };
+        this.registerCallbackHandler(socketParams);
+        
+    }
 
     connect( ip: string,port: string,openFunc:SocketCallback,errorFunc:SocketCallback) {
         this._ip = ip;
@@ -79,6 +92,13 @@ class SocketMgr extends Singleton {
 
     registerCallbackHandler(params) {
         this._StateChangeCallback = params.StateChangeCallback;
+    }
+
+    /**
+     * 监听Socket 状态变化
+     */
+     private _listenOnSocketState(event) {
+        netStateMgr.onSocketChange(event);
     }
 
     private _onopen(event) {

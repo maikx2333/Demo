@@ -6,7 +6,8 @@
  * @Description: file content
  */
 
-import { _decorator, Component, Node, Label, RichText, Button } from 'cc';
+import { _decorator, Component, Label, RichText, Button } from 'cc';
+import { sceneMgr } from '../../../framework/core/SceneMgr';
 const { ccclass, property } = _decorator;
 
 export type DoubleDialogArgsType = {
@@ -41,7 +42,7 @@ export class DoubleBtnDialog extends Component {
     private _addType: number = 0;
 
     start () {
-        this.updateDialog();
+        // this.updateDialog();
         this.node._uiProps.localOpacity = 0
     }
 
@@ -74,20 +75,20 @@ export class DoubleBtnDialog extends Component {
     updateLeftButton() {
         if (this._args.leftBtnName) {
             let name = this._args.leftBtnName;
-            let lblBtn = this.btnLeft.getComponentInChildren(cc.Label);
+            let lblBtn = this.btnLeft.getComponentInChildren(Label);
             lblBtn = name;
         }
 
         if (this._args.hideLeftButton) {
             this.btnLeft.node.active = false;
-            this.btnRight.node.x = 0;
+            // this.btnRight.node.x = 0;
         }
     }
 
     updateRightButton() {
         if (this._args.rightBtnName) {
             let name = this._args.rightBtnName;
-            let lblBtn = this.btnRight.getComponentInChildren(cc.Label);
+            let lblBtn = this.btnRight.getComponentInChildren(Label);
             lblBtn.string = name;
         }
     }
@@ -114,9 +115,9 @@ export class DoubleBtnDialog extends Component {
         if (this._addType == 1) {
             this.node.destroy();
         } else if (this._addType == 2) {
-            SceneMgr.getInstance().popTableLayer();
+            sceneMgr.popTableLayer();
         } else {
-            SceneMgr.getInstance().removeDialog();
+            sceneMgr.removeDialog();
         }
     }
 

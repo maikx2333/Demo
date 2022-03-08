@@ -1,6 +1,12 @@
-import { gameMgr } from "../framework/yy";
-import { Protocol } from "./define/Protocol";
-import { ModelReg } from "./model/ModelReg";
+import { director, game, input, log, sys } from "cc";
+import { singletonMgr } from "../framework/components/SingletonMgr";
+import { gameMgr } from "../framework/core/GameMgr";
+// import { dataRegisterMgr, gameMgr, modelRegisterMgr, sceneMgr, singletonMgr, viewRegisterMgr } from "../framework/yy";
+import { GameConfig } from "../GameConfig";
+import { dataRegisterMgr } from "./define/DataRegisterMgr";
+import { viewRegisterMgr } from "./define/ViewRegisterMgr";
+import { modelRegisterMgr } from "./model/ModelRegisterMgr";
+// import { HiddenBackground } from "./define/HiddenBackgroundMgr";
 
 /*
  * @Author: liuguoqing
@@ -10,11 +16,92 @@ import { ModelReg } from "./model/ModelReg";
  * @Description: file content
  */
 export class EnterApp {
-    constructor(parameters) {
-        
+    constructor() {
+        this.run();
+    }
+
+    run() {
+        this.init();
+        this.loadDefine();
+        this.loadAllDataFile();
+        this.initSDKHelper();
+    }
+
+    reRun() {
+        singletonMgr.destoryAll();
+        let scene = director.getScene();
+        // let main = scene.getComponentInChildren("Main");
+        // gameMgr.setCamera("default", main.defaultCamera);
+        // gameMgr.setCamera("fight", main.fightCamera);
+        // this.run();
+        director.loadScene("HotUpdate");
+    }
+
+    init() {
+        gameMgr.setApp(this);
+    }
+
+    loadDefine() {
+        viewRegisterMgr.registerAllCreator();
+        // sceneMgr.setSkipHiddenBackgroundList(HiddenBackground);
+    }
+
+    loadAllDataFile() {
+        log("loading config..");
+        // logDot(DotIDS.configLoadingStart);
+        dataRegisterMgr.loadAllData(() => {
+            log("loading config is done");
+            // logDot(DotIDS.configLoadingFinish);
+            this.loadAllModel();
+            this.loadAllRedGuide();
+            this.loadTranslate();
+        });
+    }
+
+    loadAllRedGuide() {
+        // RedGuideReg.loadAllRedGuide();
     }
 
     loadAllModel() {
-        ModelReg.loadAllModel();
+        modelRegisterMgr.loadAllModel();
+        this.done();
+    }
+
+    loadTranslate() {
+        // TranslateMgr.getInstance().loadCodeCfg("TranslateCode");
+        // TranslateMgr.getInstance().loadPBCfg("TranslatePB");
+        // TranslateMgr.getInstance().loadExCfg("TranslateEx");
+    }
+
+    done() {
+        // if (cc.sys.isMobile) {
+        //     cc.macro.ENABLE_MULTI_TOUCH = false;
+        // }
+        
+        game.frameRate = 50;
+        input.setAccelerometerEnabled(true);
+        log("进入游戏");
+
+        // SceneMgr.getInstance().openUI(ViewFlags.FightMain);
+
+        // sceneMgr.openUI(ViewFlags.RecordDataLayer);
+        // sceneMgr.openUI(ViewFlags.BeHitLayer);
+        // sceneMgr.openUI(ViewFlags.LoginMain);
+    }
+
+    initSDKHelper() {
+        let SDKHelper;
+        if (sys.isNative && GameConfig.SDKLogin) {
+            if (sys.os == sys.OS.IOS) {
+        //         let content = require("../SDK/SDKIosHelper");
+        //         SDKHelper = content.SDKHelper;
+        //         window["SDKHelper"] = SDKHelper.getInstance();
+            } else if (sys.os == sys.OS.ANDROID) {
+        //         let content = require("../SDK/SDKAndroidHelper");
+        //         SDKHelper = content.SDKHelper;
+        //         window["SDKHelper"] = SDKHelper.getInstance();
+        //         window["SDKHelper"].SDKInit();
+            }
+        }
     }
 }

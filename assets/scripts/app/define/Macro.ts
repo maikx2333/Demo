@@ -6,5 +6,5 @@
  * @Description: file content
  */
 export namespace yy {
-    
+
 }

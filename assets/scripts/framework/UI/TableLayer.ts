@@ -5,7 +5,8 @@
  * @LastEditors: liuguoqing
  */
 import { Node } from "cc";
-import { TableContentLayer } from "../yy";
+import { TableContentLayer } from "./TableContentLayer";
+// import { TableContentLayer } from "../yy";
 
 export class TableLayer extends Node {
     _bgLayer: Node;

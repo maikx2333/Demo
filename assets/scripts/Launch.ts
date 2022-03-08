@@ -7,7 +7,7 @@
  */
 
 import { _decorator, Component, JsonAsset, log, sys, director } from 'cc';
-import { FileHelper } from './framework/yy';
+import { ResourcesLoader } from './framework/data/ResourcesLoader';
 import { GameConfig } from './GameConfig';
 const { ccclass, property } = _decorator;
  
@@ -49,7 +49,7 @@ export class Launch extends Component {
             ];
             for (let index = 0; index < paths.length; index++) {
                 const element = paths[index];
-                FileHelper.preload(element, () => {});
+                ResourcesLoader.preload(element, () => {});
             }
         });
     }

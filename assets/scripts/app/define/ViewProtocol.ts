@@ -1,3 +1,5 @@
 export enum ViewProtocol {
-    LoginView = "LginView"
+    LoginView,
+    AccountView,
+    DoubleBtnDialog,
 }

@@ -6,7 +6,8 @@
  * @Description: file content
  */
 
-import { SingletonMgr } from "./SingletonMgr";
+import { singletonMgr } from "./SingletonMgr";
+
 
 export class Singleton {
     private static _instance: any;
@@ -14,7 +15,7 @@ export class Singleton {
     static getInstance<T>():T {
         if (!(<any>this).instance) {
             (<any>this).instance = new this();
-            SingletonMgr.getInstance().sign(<any>this);
+            singletonMgr.sign(<any>this);
         }
         return (<any>this).instance as T;
     }
@@ -23,7 +24,7 @@ export class Singleton {
         if ((<any>this).instance) {
             (<any>this).instance.clear();
             (<any>this).instance = null;
-            SingletonMgr.getInstance().unSign(<any>this);
+            singletonMgr.unSign(<any>this);
         }
     }
 

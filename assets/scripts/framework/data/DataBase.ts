@@ -1,5 +1,7 @@
 import { error, JsonAsset, log, resources } from "cc";
-import { DataParserBase, ResourcesLoader } from "../yy";
+import { DataParserBase } from "./DataParserBase";
+import { ResourcesLoader } from "./ResourcesLoader";
+// import { DataParserBase, ResourcesLoader } from "../yy";
 
 /*
  * @Author: liuguoqing
@@ -31,7 +33,7 @@ export class DataBase {
     }
 
     // 加载
-    public loadData(namekey: string, func: DataCallback){
+    public loadDataWithNameKey(namekey: string, func?: DataCallback){
         this._parseFileName(namekey,func)
     }
 
@@ -58,14 +60,14 @@ export class DataBase {
         log(this._data);
     }
 
-    private _parseFileName(namekey: string, func:DataCallback) {
+    private _parseFileName(namekey: string, func?:DataCallback) {
         // filename = genral_(this._fileName) + 1(namekey) 
         let fileName = this._fileName + namekey;
         this._loadFile(fileName, namekey, func);
     }
 
     // 加载json
-    private _loadFile(fileName: string,namekey: string,func: DataCallback): void {
+    private _loadFile(fileName: string,namekey: string,func?: DataCallback): void {
         ResourcesLoader.load(fileName,(jsonData) => {
             if (!jsonData) {
                 func(false);
@@ -80,8 +82,10 @@ export class DataBase {
             }
             this._data.set(namekey.toString(), data);
 
-            func(true);
-
+            if (func){
+                func(true);
+            }
+            
             resources.release(fileName);
         });
     }

@@ -1,5 +1,3 @@
-import { Singleton } from "./Singleton";
-
 /*
  * @Author: liuguoqing
  * @Date: 2022-03-02 16:35:22
@@ -7,20 +5,20 @@ import { Singleton } from "./Singleton";
  * @LastEditTime: 2022-03-02 16:42:51
  * @Description: file content
  */
-export class SingletonMgr {
+class SingletonMgr {
     static _instance: any;
 
     private _index: number = 0;
     private _singletonList: Array<any>;
 
-    static getInstance() {
+    static getInstance<T>() {
         if (this._instance == null) {
             this._instance = new SingletonMgr();
         }
         return this._instance;
     }
 
-    constructor() {
+    private constructor() {
         this._singletonList = [];
     }
 
@@ -49,3 +47,8 @@ export class SingletonMgr {
         }
     }
 }
+
+// ()();
+export let singletonMgr = (()=>{
+    return SingletonMgr.getInstance<SingletonMgr>();
+})();

@@ -7,20 +7,24 @@
  */
 
 
-import { GlobalFunction } from "../../app/common/GlobalFunction";
+import { G } from "../../app/common/GlobalFunction";
 import { DoubleBtnDialogArgsType } from "../../app/define/ConfigType";
-import { Protocol } from "../../app/define/Protocol";
+import { InnerProtocol, Protocol } from "../../app/define/define";
+import { ModelLogin } from "../../app/model/model";
 import { GameConfig } from "../../GameConfig";
-import { gameMgr, msgEventMgr, Singleton, socketMgr } from "../yy";
+import { Singleton } from "../components/Singleton";
+import { gameMgr } from "../core/GameMgr";
+import { msgEventMgr } from "../listener/EventMgr";
+import { socketMgr } from "./SocketMgr";
 
-
-class NetStateMgr extends Singleton {
+class NetStateMgr extends Singleton{
     private _reconnect;
     private _request_server_info_time: number = null;
     private _status: any;
+    
     // 构造函数;
-    constructor() {
-        super();
+    private constructor() {
+        super()
         msgEventMgr.addEventListener(
             Protocol.Login.identify,
             this.loginCheck.bind(this)
@@ -36,7 +40,7 @@ class NetStateMgr extends Singleton {
     loginCheck(data: any) {
         let resultCode = data.code;
         if (resultCode == 0) {
-            let model = gameMgr.getModel("ModelLogin");
+            let model = G.getModel(ModelLogin);
             if (model && model.getEnterGame()) {
                 socketMgr.send(Protocol.Login.login);
             }
@@ -46,9 +50,9 @@ class NetStateMgr extends Singleton {
     loginHandler(data: any) {
         let resultCode = data.code;
         if (resultCode == 0) {
-            let model = gameMgr.getModel("ModelLogin");
+            let model = G.getModel(ModelLogin);
             if (model && model.getEnterGame()) {
-                socketMgr.sendInnerMsg(Protocol.Inner.ReloginSuccess);
+                socketMgr.sendInnerMsg(InnerProtocol.ReloginSuccess);
             }
         }
     }
@@ -63,11 +67,11 @@ class NetStateMgr extends Singleton {
                 msg = "与战车失去联系，请指挥官检查网络再尝试。";
             }
             this.netWorkError(msg);
-            socketMgr.sendInnerMsg(Protocol.Inner.FightPause);
+            socketMgr.sendInnerMsg(InnerProtocol.FightPause);
         } else if (event.type == "open") {
             if (this._reconnect) {
                 this.relogin();
-                socketMgr.sendInnerMsg(Protocol.Inner.FightResume);
+                socketMgr.sendInnerMsg(InnerProtocol.FightResume);
             }
         }
         this._status = event.type;
@@ -85,7 +89,7 @@ class NetStateMgr extends Singleton {
     }
 
     relogin() {
-        let model = gameMgr.getModel("ModelLogin");
+        let model = G.getModel(ModelLogin);
         if (model && !model.getEnterGame()) {
             return;
         }
@@ -118,7 +122,7 @@ class NetStateMgr extends Singleton {
             hideLeftButton: true,
         };
 
-        GlobalFunction.ShowDoubleBtnDialog(args);
+        G.showDoubleBtnDialog(args);
     }
 
     // 请求更新更新服务器时间
@@ -126,7 +130,7 @@ class NetStateMgr extends Singleton {
         if (this._status != "open") {
             return;
         }
-        let model = gameMgr.getModel("ModelLogin");
+        let model = G.getModel(ModelLogin);
         if (model && !model.getEnterGame()) {
             return;
         }

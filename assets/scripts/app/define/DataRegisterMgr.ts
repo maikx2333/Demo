@@ -5,27 +5,44 @@
  * @LastEditTime: 2022-03-06 15:24:31
  * @Description: file content
  */
-import { dataMgr, Singleton } from "../../framework/yy";
+import { error, log } from "cc";
+import { Singleton } from "../../framework/components/Singleton";
+import { dataMgr } from "../../framework/data/DataMgr";
+import { Test_Parser } from "../parser/Test_Parser";
 
 export class DataRegisterMgr extends Singleton{
     DataType = {
-        Test:["Test","Raw/map/buff_card"]
+        /**
+         * @param [0] data handler name:"Test";
+         * @param [1] data path:"Raw/map/buff_card";
+         * @param [2] array<number>:"[0,100]" //[file start index,file ended index] 例如:genral_0 ~ genral_100(加载101个武将配置); 默认值[]
+         * @param [3] parser new xxx_parser() //多语言解析器;
+         */
+        Test:["Test","Raw/map/buff_card",[0,100],new Test_Parser()],
+        Items:["Test","Raw/map/buff_card",[]]
     }
 
     loadAllData(doneFunc: () => void) {
+        let startTS = new Date().getMilliseconds();
         let length = Object.keys(this.DataType).length;
         for (const key in this.DataType) {
             if (Object.prototype.hasOwnProperty.call(this.DataType, key)) {
                 const value = this.DataType[key];
-                let dataHandlerName = value[0]
-                let path = value[1]
-                let paser = value[2]
-                dataMgr.registerDataFile(dataHandlerName,path,paser)
-                dataMgr.loadData(dataHandlerName,(isDone:boolean)=>{
+                let dataHandlerName = value[0];
+                let path = value[1];
+                let pair = value[2];
+                let parser = value[3];
+                dataMgr.registerDataFile(dataHandlerName,path,parser);
+                dataMgr.loadData(dataHandlerName,pair,(isDone:boolean)=>{
+                    if (!isDone) {
+                        error("DataRegisterMgr loadData error:[ %s ]",dataHandlerName);
+                    }
                     length--;
                     if (length == 0){
                         if (doneFunc) {
-                            doneFunc()
+                            let endTS = new Date().getMilliseconds();
+                            log("Load all date file cost [ %s ]ms",endTS - startTS);
+                            doneFunc();
                         }
                     }
                 })     

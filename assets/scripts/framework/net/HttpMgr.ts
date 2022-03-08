@@ -7,7 +7,8 @@
  */
 
 import { log, sys } from "cc";
-import { Singleton } from "../yy";
+import { Singleton } from "../components/Singleton";
+// import { Singleton } from "../yy";
 import { netStateMgr } from "./NetStateMgr";
 
 export type HttpCallback = {

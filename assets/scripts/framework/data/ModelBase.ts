@@ -1,11 +1,12 @@
-import { modelEventMgr } from "../yy";
+// import { EventCallback, modelEventMgr } from "../yy";
 
-type callbackFunc = (data: any) => void;
+import { EventCallback, modelEventMgr } from "../listener/EventMgr";
 
 export class ModelBase {
+
     private _handles: Map<string, number> = new Map();
 
-    regMsg(eventName: number, listener: callbackFunc): void {
+    regMsg(eventName: number, listener: EventCallback): void {
         let handle = modelEventMgr.addEventListener(
             eventName,
             listener
