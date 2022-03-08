@@ -5,9 +5,12 @@
  * @LastEditTime: 2022-03-06 14:50:40
  * @Description: file content
  */
-import { _decorator, Component, Node, log, Sprite, tween, Vec3 } from 'cc';
+import { _decorator, Component, Node, log, Sprite, tween, Vec3, Prefab, instantiate } from 'cc';
+import { sceneMgr } from '../framework/core/SceneMgr';
+import { ResourcesLoader } from '../framework/data/ResourcesLoader';
 import { G } from './common/GlobalFunction';
 import { Protocol } from './define/Protocol';
+import { ViewProtocol } from './define/ViewProtocol';
 import { ModelLogin } from './model/ModelLogin';
 
 const { ccclass, property } = _decorator;
@@ -36,23 +39,41 @@ export class test extends Component {
     model:ModelLogin;
     onload(){
         // console.log("onload",this.bg);
+
+       
     }
 
     start () {
-        this.node.addComponent
-        // [3]
-        tween(this.node)
-        .to(3, { position: new Vec3(10, 10, 10)}, { easing: 'bounceInOut' })
-        .to(3, { position: new Vec3(0, 0, 0)}, { easing: 'elasticOut' })
-        .union()
-        .repeat(2) // 执行 2 次
-        .start();
+        // this.node.addComponent
+        // // [3]
+        // tween(this.node)
+        // .to(3, { position: new Vec3(10, 10, 10)}, { easing: 'bounceInOut' })
+        // .to(3, { position: new Vec3(0, 0, 0)}, { easing: 'elasticOut' })
+        // .union()
+        // .repeat(2) // 执行 2 次
+        // .start();
+
+        sceneMgr.init()
+
+        ResourcesLoader.load("prefabs/common_ui/defautl_bg",<Prefab>(dataAsset)=>{
+            let main:Node = instantiate(dataAsset)
+            sceneMgr.replaceMainLayer(main, "sdasd")
+
+            // ResourcesLoader.load("preview_reward/preview_reward_prefab",<Prefab>(dataAsset)=>{
+            //     let ui:Node = instantiate(dataAsset)
+            //     // sceneMgr.pushNewTableLayer()
+            //     // sceneMgr.replaceTableContent(ui, ViewProtocol.PreviewReward)
+            //     sceneMgr.replaceMainLayer(ui, "sdasd")
+            // }, Prefab)
+
+            sceneMgr.sendCreateView(ViewProtocol.PreviewReward)
+        }, Prefab)
     }
 
     update (deltaTime: number) {
         // [4]
         // console.log(deltaTime);DataRegisterMgr
-        this.model = G.getModel(ModelLogin);
+        // this.model = G.getModel(ModelLogin);
     }
 }
 
