@@ -439,7 +439,10 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "serverConfig": null,
+    "serverConfig": {
+      "__uuid__": "80b8f0af-42dc-415f-99f0-65c9bd8d3a07",
+      "__expectedType__": "cc.JsonAsset"
+    },
     "_id": "258AvjffJA6bi+wlmM85Vy"
   },
   {

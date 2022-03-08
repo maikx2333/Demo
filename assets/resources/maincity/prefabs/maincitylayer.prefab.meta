@@ -2,12 +2,12 @@
   "ver": "1.1.35",
   "importer": "prefab",
   "imported": true,
-  "uuid": "2c2ae3b7-38d4-407a-af15-09c607a72562",
+  "uuid": "2cd7c133-26a5-47e6-a4b6-7b9b6a218564",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "ScriptNode"
+    "syncNodeName": "maincitylayer"
   }
 }

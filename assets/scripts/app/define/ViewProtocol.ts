@@ -4,5 +4,6 @@ export enum ViewProtocol {
     DoubleBtnDialog,
 
     //reward
-    PreviewReward
+    PreviewReward,
+    MainCityLayer,
 }

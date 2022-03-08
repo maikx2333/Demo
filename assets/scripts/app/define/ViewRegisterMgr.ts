@@ -12,6 +12,7 @@ import { viewCreatorMgr } from "../../framework/ui/ViewCreatorManager";
 import { DialogCreator } from "../views/dialog/Creator";
 import { LoginCreator } from "../views/login/Creator";
 import { PreRewardCreator } from "../views/pre_reward/Creator";
+import { MainCityCreator } from "../views/maincity/Creator";
 import { NoInfer, ViewModuleName, ViewInfoType } from "./ConfigType";
 import { HiddenBackgroundMgr } from "./define";
 
@@ -34,14 +35,20 @@ export class ViewRegisterMgr extends Singleton{
             prefab:{
                 "preRewardMain":["preview_reward/preview_reward_prefab", true]
             }
-        }
-    };
+        },
+        maincity:{
+            prefab:{
+                "MainCityLayer":["prefabs/maincity/maincitylayer",false]
+            }
+        
+    }}
 
     // 注册各个系统的预制体
     Cretors = [
         LoginCreator,
         DialogCreator,
-        PreRewardCreator
+        PreRewardCreator,
+        MainCityCreator,
     ]
     
     private constructor() {
