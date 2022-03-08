@@ -1,7 +1,7 @@
 
 import { _decorator, Component, Node, find } from 'cc';
 import { sceneMgr } from '../../../framework/core/SceneMgr';
-import { ListView } from '../../../framework/UI/ListView';
+import { ListView } from '../../../framework/ui/ListView';
 const { ccclass, property } = _decorator;
 
 /**
