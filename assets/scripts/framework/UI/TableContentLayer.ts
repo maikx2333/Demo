@@ -1,4 +1,4 @@
-import { Node } from "cc";
+import { find, log, Node, Widget, widgetManager } from "cc";
 import { functions } from "../utils/functions";
 // import { functions } from "../yy";
 /*
@@ -15,6 +15,15 @@ export class TableContentLayer extends Node {
     constructor() {
         super();
         this._contentLayerMap = new Map();
+
+        //全屏
+        let widget = this.addComponent(Widget)
+        widget!.alignMode = Widget.AlignMode.ON_WINDOW_RESIZE;
+        widget!.alignFlags = widgetManager.AlignFlags.HORIZONTAL | widgetManager.AlignFlags.VERTICAL;
+        widget!.left = 0;
+        widget!.right = 0;
+        widget!.bottom = 0;
+        widget!.top = 0;
     }
 
     add(layer: Node, key?: string) {

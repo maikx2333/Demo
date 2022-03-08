@@ -83,9 +83,7 @@ export class EnterApp {
         log("进入游戏");
 
         sceneMgr.sendCreateView(ViewProtocol.MainCityLayer);
-        // sceneMgr.openUI(ViewFlags.RecordDataLayer);
-        // sceneMgr.openUI(ViewFlags.BeHitLayer);
-        // sceneMgr.openUI(ViewFlags.LoginMain);
+        sceneMgr.sendCreateView(ViewProtocol.PreviewReward);
     }
 
     initSDKHelper() {
