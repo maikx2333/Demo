@@ -27,12 +27,12 @@ export class ViewRegisterMgr extends Singleton{
         },
         dialog:{
             prefab:{
-                "DoubleBtnDialog":['core/prefab/LoginView',true]
+                "DoubleBtnDialog":['common_ui/prefabs/double_btn_dialog',true]
             }
         },
         maincity:{
             prefab:{
-                "MainCityLayer":["prefabs/maincity/maincitylayer",false]
+                "MainCityLayer":["maincity/prefabs/maincitylayer",false]
             }
         }
     };

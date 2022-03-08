@@ -38,6 +38,7 @@ export class EnterApp {
     }
 
     init() {
+        sceneMgr.init();
         gameMgr.setApp(this);
     }
 

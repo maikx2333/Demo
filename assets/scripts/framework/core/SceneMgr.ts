@@ -1,5 +1,5 @@
 
-import { find, Node, UIOpacity, UITransform, Widget, widgetManager } from "cc";
+import { find, log, Node, UIOpacity, UITransform, Widget, widgetManager } from "cc";
 import { HiddenBackgroundMgr } from "../../app/define/HiddenBackgroundMgr";
 import { Singleton } from "../components/Singleton";
 import { viewEventMgr } from "../listener/EventMgr";
@@ -38,6 +38,7 @@ class SceneMgr extends Singleton{
     }
 
     init() {
+        log("====>sceneMgr init()")
         this._layerMap = new Map();
         this._tableLayerStack = [];
         this.initAllScence();
