@@ -1,12 +1,12 @@
 import { director, game, input, log, sys } from "cc";
 import { singletonMgr } from "../framework/components/SingletonMgr";
 import { gameMgr } from "../framework/core/GameMgr";
-// import { dataRegisterMgr, gameMgr, modelRegisterMgr, sceneMgr, singletonMgr, viewRegisterMgr } from "../framework/yy";
+import { sceneMgr } from "../framework/core/SceneMgr";
 import { GameConfig } from "../GameConfig";
 import { dataRegisterMgr } from "./define/DataRegisterMgr";
+import { ViewProtocol } from "./define/ViewProtocol";
 import { viewRegisterMgr } from "./define/ViewRegisterMgr";
 import { modelRegisterMgr } from "./model/ModelRegisterMgr";
-// import { HiddenBackground } from "./define/HiddenBackgroundMgr";
 
 /*
  * @Author: liuguoqing
@@ -78,12 +78,11 @@ export class EnterApp {
         //     cc.macro.ENABLE_MULTI_TOUCH = false;
         // }
         
-        game.frameRate = 50;
+        game.frameRate = 60;
         input.setAccelerometerEnabled(true);
         log("进入游戏");
 
-        // SceneMgr.getInstance().openUI(ViewFlags.FightMain);
-
+        sceneMgr.sendCreateView(ViewProtocol.MainCityLayer);
         // sceneMgr.openUI(ViewFlags.RecordDataLayer);
         // sceneMgr.openUI(ViewFlags.BeHitLayer);
         // sceneMgr.openUI(ViewFlags.LoginMain);

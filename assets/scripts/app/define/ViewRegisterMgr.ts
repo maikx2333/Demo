@@ -11,6 +11,7 @@ import { Singleton } from "../../framework/components/Singleton";
 import { viewCreatorMgr } from "../../framework/ui/ViewCreatorManager";
 import { DialogCreator } from "../views/dialog/Creator";
 import { LoginCreator } from "../views/login/Creator";
+import { MainCityCreator } from "../views/maincity/Creator";
 import { NoInfer, ViewModuleName, ViewInfoType } from "./ConfigType";
 import { HiddenBackgroundMgr } from "./define";
 
@@ -28,6 +29,11 @@ export class ViewRegisterMgr extends Singleton{
             prefab:{
                 "DoubleBtnDialog":['core/prefab/LoginView',true]
             }
+        },
+        maincity:{
+            prefab:{
+                "MainCityLayer":["prefabs/maincity/maincitylayer",false]
+            }
         }
     };
 
@@ -35,6 +41,7 @@ export class ViewRegisterMgr extends Singleton{
     Cretors = [
         LoginCreator,
         DialogCreator,
+        MainCityCreator,
     ]
     
     private constructor() {

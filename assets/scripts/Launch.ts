@@ -26,8 +26,13 @@ export class Launch extends Component {
                 GameConfig[key] = value;
             })
         }
+    }
+
+    start(){
         this._keepScreenOn();
-        this._startHotUpdate();
+        this.scheduleOnce((dt:number)=>{
+            this._startHotUpdate();
+        },1)
     }
 
     //设置屏幕常亮
@@ -41,16 +46,16 @@ export class Launch extends Component {
 
     // 走热更新流程
     private _startHotUpdate() {
-        director.loadScene("HotUpdate", () => {
+        director.loadScene("hotUpdate", () => {
             // 预加载
-            let paths = [
-                "prefab/tongyong_ui/tongyong_tipsUI_00",
-                "prefab/tongyong_ui/tongyong_tipsUI_01",
-            ];
-            for (let index = 0; index < paths.length; index++) {
-                const element = paths[index];
-                ResourcesLoader.preload(element, () => {});
-            }
+            // let paths = [
+            //     "prefab/tongyong_ui/tongyong_tipsUI_00",
+            //     "prefab/tongyong_ui/tongyong_tipsUI_01",
+            // ];
+            // for (let index = 0; index < paths.length; index++) {
+            //     const element = paths[index];
+            //     ResourcesLoader.preload(element, () => {});
+            // }
         });
     }
 }
