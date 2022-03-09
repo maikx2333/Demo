@@ -45,7 +45,6 @@ export class EnterApp {
 
     loadDefine() {
         viewRegisterMgr.registerAllCreator();
-        // sceneMgr.setSkipHiddenBackgroundList(HiddenBackground);
     }
 
     loadAllDataFile() {
@@ -83,7 +82,6 @@ export class EnterApp {
         log("进入游戏");
 
         sceneMgr.sendCreateView(ViewProtocol.MainCityLayer);
-        sceneMgr.sendCreateView(ViewProtocol.PreviewReward);
     }
 
     initSDKHelper() {

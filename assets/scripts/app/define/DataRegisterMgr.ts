@@ -18,7 +18,7 @@ export class DataRegisterMgr extends Singleton{
          * @param [2] array<number>:"[0,100]" //[file start index,file ended index] 例如:genral_0 ~ genral_100(加载101个武将配置); 默认值[]
          * @param [3] parser new xxx_parser() //多语言解析器;
          */
-        Test:["Test","test/data/test",[],new Test_Parser()],
+        Test:["Test","test/datas/test",[],new Test_Parser()],
         Translate:["Translate","translate/data/translate",[]]
     }
 

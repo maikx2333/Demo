@@ -8,24 +8,27 @@
 
 import { log } from "cc";
 import { Singleton } from "../../framework/components/Singleton";
-import { viewCreatorMgr } from "../../framework/ui/ViewCreatorManager";
 import { DialogCreator } from "../views/dialog/Creator";
 import { LoginCreator } from "../views/login/Creator";
 import { PreRewardCreator } from "../views/pre_reward/Creator";
 import { MainCityCreator } from "../views/maincity/Creator";
 import { NoInfer, ViewModuleName, ViewInfoType } from "./ConfigType";
 import { HiddenBackgroundMgr } from "./define";
+import { viewCreatorMgr } from "../../framework/ui/ViewCreatorManager";
+import { FightCreator } from "../views/fight/Creator";
 
 export class ViewRegisterMgr extends Singleton{
 
     // 注册预页面预制体路径
     ViewType = {
+        // 登陆
         login: {
             prefab: {
                 "LoginView": ['core/prefab/LoginView',true],
                 "AccountView":['core/prefab/AccountView',true]
             },
         },
+        // dialog/tips
         dialog:{
             prefab:{
                 "DoubleBtnDialog":['common_ui/prefabs/double_btn_dialog',true]
@@ -33,16 +36,25 @@ export class ViewRegisterMgr extends Singleton{
         },
         preReward:{
             prefab:{
-                "preRewardMain":["preview_reward/preview_reward_prefab", true]
+                "preRewardMain":["preview_reward/prefabs/preview_reward_prefab", true]
             }
         },
+        // 主城
         maincity:{
             prefab:{
                 "MainCityLayer":["maincity/prefabs/maincitylayer",false],
                 "MainCityUI":["maincity/prefabs/maincityui",false]
             }
-        
-    }}
+        },
+        // 战斗
+        fight:{
+            prefab:{
+                "FightMainLayer":["fight/prefabs/changjing/mainfightlayer",false],
+                "FightMainUI":["fight/prefabs/changjing/mainfightui",false]
+            }
+        }
+    
+    }
 
     // 注册各个系统的预制体
     Cretors = [
@@ -50,17 +62,18 @@ export class ViewRegisterMgr extends Singleton{
         DialogCreator,
         PreRewardCreator,
         MainCityCreator,
+        FightCreator
     ]
     
     private constructor() {
         super();
         Object.keys(this.ViewType).forEach((system:string)=>{
-            log("ViewRegisterMgr:ctor() system [ %s ]",system);
+            // log("ViewRegisterMgr:ctor() system [ %s ]",system);
             let module = this.ViewType[system];
             Object.keys(module.prefab).forEach((view:string)=>{
                 let arr = module.prefab[<string><unknown>view];
                 let isHidden = <boolean>arr[1];
-                log("ViewRegisterMgr:ctor() view [ %s ] [ %s ]",view,isHidden.toString());
+                // log("ViewRegisterMgr:ctor() view [ %s ] [ %s ]",view,isHidden.toString());
                 if (isHidden) {
                     HiddenBackgroundMgr.regHiddenBackgroundView(view);
                 }

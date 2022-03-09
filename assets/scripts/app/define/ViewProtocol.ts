@@ -6,4 +6,7 @@ export enum ViewProtocol {
     //reward
     PreviewReward,
     MainCityLayer,
+
+    // fight
+    FightMainLayer,
 }
