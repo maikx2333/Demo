@@ -1,7 +1,6 @@
 import { instantiate, log, Prefab } from "cc";
 import { sceneMgr } from "../../../framework/core/SceneMgr";
 import { ResourcesLoader } from "../../../framework/data/ResourcesLoader";
-import { Message } from "../../../framework/listener/Message";
 import { ViewCreatorBase } from "../../../framework/ui/ViewCreatorBase";
 import { ViewProtocol } from "../../define/define";
 import { viewRegisterMgr } from "../../define/ViewRegisterMgr";

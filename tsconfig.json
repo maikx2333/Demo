@@ -8,8 +8,8 @@
     "types": [
       "./temp/declarations/cc.custom-macro",
       "./temp/declarations/cc.env",
-      "./declare/modify_cc.d.ts",
-      "./declare/modify_jsb.d.ts",
-    ],
+      "./declare/modify_cc",
+      "./declare/modify_jsb"
+    ]
   }
 }

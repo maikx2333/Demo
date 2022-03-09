@@ -1,7 +1,6 @@
 import { error, JsonAsset, log, resources } from "cc";
 import { DataParserBase } from "./DataParserBase";
 import { ResourcesLoader } from "./ResourcesLoader";
-// import { DataParserBase, ResourcesLoader } from "../yy";
 
 /*
  * @Author: liuguoqing

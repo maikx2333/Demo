@@ -38,7 +38,6 @@ class SceneMgr extends Singleton{
     }
 
     init() {
-        log("====>sceneMgr init()")
         this._layerMap = new Map();
         this._tableLayerStack = [];
         this.initAllScence();

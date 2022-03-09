@@ -3148,6 +3148,11 @@ declare module "cc" {
         protected _flushAssembler(): void;
         protected _applyFontTexture(): void;
         protected changeMaterialForDefine(): void;
+
+        /**
+         * 多语言
+         */
+        setString(text:string):void;
     }
     export interface IRenderData {
         x: number;
@@ -25587,6 +25592,17 @@ declare module "cc" {
         pushDelayEvent(fn: (...args: any[]) => void, thisArg: any, args: any[]): void;
         addSockets(root: Node, sockets: Socket[]): void;
         removeSockets(root: Node, sockets: Socket[]): void;
+
+        /**
+         * 
+         * @param timeScale 速度缩放值
+         * @description 设置全局动画播放速度值
+         */
+        setTimeScale(timeScale:number):void;
+        /**
+         * @description 返回全局动画播放速度值
+         */
+        getTimeScale():number;
     }
     export function getPathFromRoot(target: Node | null, root: Node): string;
     export function getWorldTransformUntilRoot(target: Node, root: Node, outMatrix: math.Mat4): math.Mat4;

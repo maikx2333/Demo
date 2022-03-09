@@ -1,6 +1,5 @@
 import { find, log, Node, Widget, widgetManager } from "cc";
 import { functions } from "../utils/functions";
-// import { functions } from "../yy";
 /*
  * @Author: Gino
  * @Date: 2020-09-21 20:08:11
