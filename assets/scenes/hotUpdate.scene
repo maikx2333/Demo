@@ -709,7 +709,7 @@
     "_overflow": 0,
     "_enableWrapText": true,
     "_font": {
-      "__uuid__": "75218149-1e49-45de-92e9-848f56216ac8",
+      "__uuid__": "8600169e-2642-44de-ba6d-da7953ac0a92",
       "__expectedType__": "cc.TTFFont"
     },
     "_isSystemFontUsed": false,
@@ -840,7 +840,7 @@
     "_overflow": 0,
     "_enableWrapText": true,
     "_font": {
-      "__uuid__": "75218149-1e49-45de-92e9-848f56216ac8",
+      "__uuid__": "8600169e-2642-44de-ba6d-da7953ac0a92",
       "__expectedType__": "cc.TTFFont"
     },
     "_isSystemFontUsed": false,

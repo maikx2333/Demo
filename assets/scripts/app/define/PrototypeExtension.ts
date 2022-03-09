@@ -13,7 +13,7 @@ Object.defineProperty(Label.prototype, "setString", {
             return;
         }
         let id = lbComp.translateId;
-        this.string = translateMgr.translate(id);
+        this.string = translateMgr.translateData(text);
     },
     configurable: true,
 });

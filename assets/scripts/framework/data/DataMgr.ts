@@ -6,11 +6,9 @@
  * @Description: file content
  */
 import { error, log } from "cc";
-import { DataModuleName } from "../../app/define/ConfigType";
 import { Singleton } from "../components/Singleton";
 import { DataBase, DataCallback } from "./DataBase";
 import { DataParserBase } from "./DataParserBase";
-// import { DataBase, DataCallback, DataParserBase, Singleton } from "../yy";
 
 class DataMgr extends Singleton {
     private _dataMap: Map<string, DataBase>;

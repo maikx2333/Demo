@@ -34,6 +34,10 @@ class TranslateMgr extends Singleton {
         return this._getTranslateStr("t"+id);
     }
 
+    translateData(key:string):string{
+        return this._getTranslateStr(key);
+    }
+
     private _getTranslateStr(key: string) {
         return this._translateCfg[key] || key;
     }

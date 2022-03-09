@@ -6,7 +6,6 @@
  */
 import { Node, Widget, widgetManager } from "cc";
 import { TableContentLayer } from "./TableContentLayer";
-// import { TableContentLayer } from "../yy";
 
 export class TableLayer extends Node {
     _bgLayer: Node;

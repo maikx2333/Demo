@@ -7,12 +7,13 @@ const { ccclass, property } = _decorator;
 export default class TranslateLabel extends Component {
     @property(CCInteger)
     translateId: number = 0;
-    @property({type:CCBoolean,tooltip:"是否代码翻译,即由代码setString翻译"})
-    isTranslateByCode:boolean = false;
 
+    @property(CCBoolean)
+    isTranslateByCode:boolean = false;
+    
     onLoad() {
         let lbl = this.node.getComponent(Label);
-        if (lbl && this.translateId && !this.isTranslateByCode) {
+        if (lbl && this.translateId) {
             lbl.string = translateMgr.translate(this.translateId);
         }
     }
