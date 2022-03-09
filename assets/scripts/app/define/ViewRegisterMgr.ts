@@ -38,7 +38,8 @@ export class ViewRegisterMgr extends Singleton{
         },
         maincity:{
             prefab:{
-                "MainCityLayer":["maincity/prefabs/maincitylayer",false]
+                "MainCityLayer":["maincity/prefabs/maincitylayer",false],
+                "MainCityUI":["maincity/prefabs/maincityui",false]
             }
         
     }}

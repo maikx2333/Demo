@@ -10,17 +10,31 @@ import { viewRegisterMgr } from "../../define/ViewRegisterMgr";
 export class MainCityCreator extends ViewCreatorBase {
 
     onInit() {
-        this.regMsg(ViewProtocol.MainCityLayer, this.onCreateMainCityLayer.bind(this))
+        this.regMsg(ViewProtocol.MainCityLayer, this._onCreateMainCityLayer.bind(this))
     }
 
-    onCreateMainCityLayer(event:Message) {
+    private _onCreateMainCityLayer() {
+        let viewInfo = viewRegisterMgr.getViewInfo("maincity","MainCityUI");
+        let path = viewInfo.Path;
+        ResourcesLoader.load(path,(data:Prefab)=>{
+            let uiNode = instantiate(data);
+            this._loadBg((bg:Prefab)=>{
+                let bgNode = instantiate(bg);
+                sceneMgr.replaceMainLayer(bgNode,viewInfo.View);
+                bgNode.addChild(uiNode);
+            })
+        })
+    }
+
+    private _loadBg(callback:(bg:Prefab)=>void) {
         //创建主城界面
         let viewInfo = viewRegisterMgr.getViewInfo("maincity","MainCityLayer");
         let path = viewInfo.Path;
         ResourcesLoader.load(path,(data:Prefab)=>{
-            let node = instantiate(data);
-            log("=====>viewInfo",viewInfo)
-            sceneMgr.replaceMainLayer(node,viewInfo.View);
+            if (callback){
+                callback(data);
+            }
         })
     }
+
 }

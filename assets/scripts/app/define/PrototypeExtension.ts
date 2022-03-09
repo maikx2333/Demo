@@ -9,6 +9,9 @@ Object.defineProperty(Label.prototype, "setString", {
             return;
         }
         let lbComp:TranslateLabel = this.node.getComponent(TranslateLabel);
+        if (!lbComp.isTranslateByCode){
+            return;
+        }
         let id = lbComp.translateId;
         this.string = translateMgr.translate(id);
     },
