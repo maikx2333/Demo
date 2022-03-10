@@ -44,6 +44,18 @@ export class ResourcesLoader {
             });            
         }
     }
+    
+    static loadList(pathList:string[], onProcess:(finishNum:number, max:number, data)=>{}){
+        let finishNum:number = 0
+        let totalNum:number = pathList.length
+
+        pathList.forEach(element => {
+            this.load(element, (data)=>{
+                finishNum++
+                onProcess(finishNum, totalNum, data)
+            })
+        });
+    }
 
     static loadPromise(path: string, type?:typeof Asset){
         return new Promise((resolve, rejected)=>{
