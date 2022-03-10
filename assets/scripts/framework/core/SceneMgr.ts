@@ -736,6 +736,7 @@ class SceneMgr extends Singleton{
     }
 
     public sendCreateView(UiFlag: number, data?: any) {
+        log("send create view:" + UiFlag)
         let msg = new Message(UiFlag, data);
         viewEventMgr.dispatchEvent(msg);
     }

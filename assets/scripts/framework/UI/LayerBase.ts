@@ -5,7 +5,7 @@
  * @LastEditTime: 2022-03-05 15:08:57
  * @Description: file content
  */
-import { _decorator, Node } from "cc";
+import { _decorator, Node, BlockInputEventsComponent } from "cc";
 import { ComponentBase } from "./ComponentBase";
 const { ccclass, property } = _decorator;
 
@@ -28,7 +28,9 @@ export class LayerBase extends ComponentBase {
      */
     onLoad() {
         // 防止点击穿透
-        this.setSwallTouches(true);
+        // this.setSwallTouches(true);
+
+        this.addComponent(BlockInputEventsComponent)
     }
 
     onEnable() {}
