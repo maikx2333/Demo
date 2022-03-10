@@ -16,16 +16,22 @@ import { NoInfer, ViewModuleName, ViewInfoType } from "./ConfigType";
 import { HiddenBackgroundMgr } from "./define";
 import { viewCreatorMgr } from "../../framework/ui/ViewCreatorManager";
 import { FightCreator } from "../views/fight/Creator";
+import { FormationCreator } from "../views/formation/Creator";
 
 export class ViewRegisterMgr extends Singleton{
 
     // 注册预页面预制体路径
     ViewType = {
+        commonUI:{
+            prefab:{
+                "RewardItemIcon":["common_ui/prefabs/RewardItemIcon",false]
+            }
+        },
         // 登陆
         login: {
             prefab: {
-                "LoginView": ['core/prefab/LoginView',true],
-                "AccountView":['core/prefab/AccountView',true]
+                "LoginView": ['core/prefab/LoginView',false],
+                "AccountView":['core/prefab/AccountView',false]
             },
         },
         // dialog/tips
@@ -52,6 +58,12 @@ export class ViewRegisterMgr extends Singleton{
                 "FightMainLayer":["fight/prefabs/changjing/mainfightlayer",false],
                 "FightMainUI":["fight/prefabs/changjing/mainfightui",false]
             }
+        },
+        //布阵
+        formation:{
+            prefab:{
+                "formationMainView":["formation/prefab/FightFormation", false],
+            }
         }
     
     }
@@ -62,7 +74,8 @@ export class ViewRegisterMgr extends Singleton{
         DialogCreator,
         PreRewardCreator,
         MainCityCreator,
-        FightCreator
+        FightCreator,
+        FormationCreator,
     ]
     
     private constructor() {
