@@ -26,7 +26,7 @@ export class TimeSetPanel extends Component {
     }
 
     onClickCancle(){
-        this.destroy()
+        this.node.destroy()
     }
 
     onClickOk(){
@@ -35,7 +35,7 @@ export class TimeSetPanel extends Component {
         sec = Number(editBoxComp.string)
         sec || error("请出入数字")
         this.callBack(sec)
-        this.destroy()
+        this.node.destroy()
     }
 
     // update (deltaTime: number) {
