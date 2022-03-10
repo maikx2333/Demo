@@ -52,6 +52,12 @@ export class ViewRegisterMgr extends Singleton{
                 "FightMainLayer":["fight/prefabs/changjing/mainfightlayer",false],
                 "FightMainUI":["fight/prefabs/changjing/mainfightui",false]
             }
+        },
+        // 武将
+        hero:{
+            prefab:{
+                "HeroSpinePrefab":["hero/prefabs/hero/",false]
+            }
         }
     
     }

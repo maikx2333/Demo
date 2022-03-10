@@ -1,5 +1,6 @@
 
 import { _decorator, Component, Node, tween, director, AnimationManager, view, log } from 'cc';
+import { FightMainWorld } from './FightMainWorld';
 const { ccclass, property } = _decorator;
 
 /**
@@ -16,37 +17,14 @@ const { ccclass, property } = _decorator;
  
 @ccclass('FightMainLayer')
 export class FightMainLayer extends Component {
-    // [1]
-    // dummy = '';
-
-    // [2]
-    // @property
-    // serializableDummy = 0;
+    
+    private _fightMainWorld:FightMainWorld = null;
 
     start () {
-        // [3]
-        tween()
-        let animaiotnMgr = <AnimationManager>director.getSystem(AnimationManager.ID)
-        // animaiotnMgr.
-        log(view.getVisibleSize());
-        log(view.getDesignResolutionSize());
-        log(view.getResolutionPolicy());
-        log(view.getViewportRect());
-        log(view.getVisibleSizeInPixel());
+        this._fightMainWorld = new FightMainWorld()
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
+    update (deltaTime: number) {
+        this._fightMainWorld.tick(deltaTime);
+    }
 }
-
-/**
- * [1] Class member could be defined like this.
- * [2] Use `property` decorator if your want the member to be serializable.
- * [3] Your initialization goes here.
- * [4] Your update function goes here.
- *
- * Learn more about scripting: https://docs.cocos.com/creator/3.4/manual/zh/scripting/
- * Learn more about CCClass: https://docs.cocos.com/creator/3.4/manual/zh/scripting/decorator.html
- * Learn more about life-cycle callbacks: https://docs.cocos.com/creator/3.4/manual/zh/scripting/life-cycle-callbacks.html
- */
