@@ -9,7 +9,9 @@ export enum ViewProtocol {
 
     // fight
     FightMainLayer,
-
+    FightFormation,
+    
     //formation
-    FormationView,
+    FormationView
+    
 }

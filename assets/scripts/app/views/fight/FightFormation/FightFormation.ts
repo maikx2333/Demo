@@ -1,8 +1,6 @@
 
 import { _decorator, Component, Node, Prefab, instantiate, find, EventTouch, Tween, tween, UITransform, Vec3, v3, director, AnimationManager } from 'cc';
-import { ResourcesLoader } from '../../../framework/data/ResourcesLoader';
-import { LayerBase } from '../../../framework/ui/LayerBase';
-import { viewRegisterMgr } from '../../define/ViewRegisterMgr';
+import { LayerBase } from '../../../../framework/ui/LayerBase';
 import { GeneralIconShowComp } from './GeneralIconShowComp';
 const { ccclass, property } = _decorator;
 

@@ -18,6 +18,6 @@ export class MainCityUI extends Component {
     //     // [4]
     // }
     onClickBattleBtn(event:EventTouch,customEventData: string){
-        sceneMgr.sendCreateView(ViewProtocol.FightMainLayer);
+        sceneMgr.sendCreateView(ViewProtocol.FightFormation);
     }
 }

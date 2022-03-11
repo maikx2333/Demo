@@ -13,7 +13,7 @@ import { LoginCreator } from "../views/login/Creator";
 import { PreRewardCreator } from "../views/pre_reward/Creator";
 import { MainCityCreator } from "../views/maincity/Creator";
 import { NoInfer, ViewModuleName, ViewInfoType } from "./ConfigType";
-import { HiddenBackgroundMgr } from "./define";
+import { ShowBackgroundMgr } from "./define";
 import { viewCreatorMgr } from "../../framework/ui/ViewCreatorManager";
 import { FightCreator } from "../views/fight/Creator";
 import { FormationCreator } from "../views/formation/Creator";
@@ -56,7 +56,8 @@ export class ViewRegisterMgr extends Singleton{
         fight:{
             prefab:{
                 "FightMainLayer":["fight/prefabs/changjing/mainfightlayer",false],
-                "FightMainUI":["fight/prefabs/changjing/mainfightui",false]
+                "FightMainUI":["fight/prefabs/changjing/mainfightui",false],
+                "FightFormation":["fight/prefabs/changjing/FightFormation", false],
             }
         },
         // 武将
@@ -68,7 +69,7 @@ export class ViewRegisterMgr extends Singleton{
         //布阵
         formation:{
             prefab:{
-                "formationMainView":["formation/prefab/FightFormation", false],
+                "FormationView":["formation/prefabs/formation",false]
             }
         }
     
@@ -94,7 +95,7 @@ export class ViewRegisterMgr extends Singleton{
                 let isHidden = <boolean>arr[1];
                 // log("ViewRegisterMgr:ctor() view [ %s ] [ %s ]",view,isHidden.toString());
                 if (isHidden) {
-                    HiddenBackgroundMgr.regHiddenBackgroundView(view);
+                    ShowBackgroundMgr.regShowBackgroundView(view);
                 }
             })
         })

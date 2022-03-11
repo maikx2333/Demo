@@ -1,12 +1,12 @@
 
 import { find, log, Node, UIOpacity, UITransform, Widget, widgetManager } from "cc";
-import { HiddenBackgroundMgr } from "../../app/define/HiddenBackgroundMgr";
+import { ShowBackgroundMgr } from "../../app/define/ShowBackgroundMgr";
 import { Singleton } from "../components/Singleton";
 import { viewEventMgr } from "../listener/EventMgr";
 import { Message } from "../listener/Message";
 import { TableLayer } from "../ui/TableLayer";
 import { functions } from "../utils/functions";
-// import { functions, HiddenBackgroundMgr, Message, TableLayer, viewEventMgr } from "../yy";
+// import { functions, ShowBackgroundMgr, Message, TableLayer, viewEventMgr } from "../yy";
 
 class SceneMgr extends Singleton{
     // static _instance: any;
@@ -648,7 +648,7 @@ class SceneMgr extends Singleton{
                 const tableElement = tableElementList[k];
                 // 检查是否有屏蔽下一层标志
                 // if (this._skipHiddenBackground[tableElement.name]) {
-                if (HiddenBackgroundMgr.checkIsHiddenBlackground(tableElement.name)) {
+                if (ShowBackgroundMgr.checkIsShowBlackground(tableElement.name)) {
                     nextCanVisible = 1;
                 }
             }

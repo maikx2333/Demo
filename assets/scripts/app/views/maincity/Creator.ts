@@ -21,8 +21,6 @@ export class MainCityCreator extends ViewCreatorBase {
                 let bgNode = instantiate(bg);
                 sceneMgr.replaceMainLayer(bgNode,viewInfo.View);
                 bgNode.addChild(uiNode);
-
-                sceneMgr.sendCreateView(ViewProtocol.FormationView);
             })
         })
     }

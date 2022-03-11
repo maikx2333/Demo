@@ -13,7 +13,7 @@ export class FormationCreator extends ViewCreatorBase {
     }
 
     onCreateFormationView(event:Message) {
-        let viewInfo = viewRegisterMgr.getViewInfo("formation","formationMainView");
+        let viewInfo = viewRegisterMgr.getViewInfo("formation","FormationView");
         let path = viewInfo.Path;
         ResourcesLoader.load(path,(data:Prefab)=>{
             let node = instantiate(data);
