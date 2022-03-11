@@ -40,5 +40,9 @@ export namespace G {
     export function getModel<T extends ModelBase>(modelConstructor: yy.types.CommonConstructor<T>):T {
         return gameMgr.getModel(modelConstructor);
     }
+
+    export function showMsgTips(tips:string) {
+        sceneMgr.sendCreateView(ViewProtocol.Tips, tips)
+    }
 }
 
