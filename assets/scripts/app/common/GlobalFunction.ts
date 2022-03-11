@@ -1,9 +1,10 @@
 // import { dataMgr, gameMgr, ModelBase } from "../../framework/yy";
-import { director } from "cc";
+import { director, instantiate, Prefab } from "cc";
 import { gameMgr } from "../../framework/core/GameMgr";
 import { sceneMgr } from "../../framework/core/SceneMgr";
 import { dataMgr } from "../../framework/data/DataMgr";
 import { ModelBase } from "../../framework/data/ModelBase";
+import { ResourcesLoader } from "../../framework/data/ResourcesLoader";
 import { CommonConstructor, DataModuleName, DoubleBtnDialogArgsType} from "../define/ConfigType";
 import { ViewProtocol } from "../define/ViewProtocol";
 
@@ -38,6 +39,10 @@ export namespace G {
      */
     export function getModel<T extends ModelBase>(modelConstructor: CommonConstructor<T>):T {
         return gameMgr.getModel(modelConstructor);
+    }
+
+    export function showMsgTips(tips:string) {
+        sceneMgr.sendCreateView(ViewProtocol.Tips, tips)
     }
 }
 

@@ -2,6 +2,7 @@ export enum ViewProtocol {
     LoginView,
     AccountView,
     DoubleBtnDialog,
+    Tips,
 
     //reward
     PreviewReward,
