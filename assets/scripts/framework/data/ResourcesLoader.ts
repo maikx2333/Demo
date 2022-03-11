@@ -1,4 +1,4 @@
-import { Asset, AssetManager, error, resources } from "cc";
+import { Asset, assetManager, AssetManager, error, resources } from "cc";
 
 /*
  * @Author: liuguoqing
@@ -55,6 +55,12 @@ export class ResourcesLoader {
                 onProcess(finishNum, totalNum, data)
             })
         });
+    }
+
+    //释放单个资源
+    static release(path: string, bundleName: string = "resources") {
+        var bundle = assetManager.getBundle(bundleName);
+        bundle?.release(path);
     }
 
     static loadPromise(path: string, type?:typeof Asset){
