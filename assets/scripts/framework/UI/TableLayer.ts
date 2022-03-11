@@ -4,7 +4,7 @@
  * @LastEditTime: 2022-03-05 15:09:49
  * @LastEditors: liuguoqing
  */
-import { Node, Widget, widgetManager } from "cc";
+import { log, Node, Widget, widgetManager } from "cc";
 import { TableContentLayer } from "./TableContentLayer";
 
 export class TableLayer extends Node {
