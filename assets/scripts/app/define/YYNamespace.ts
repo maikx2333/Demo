@@ -37,8 +37,18 @@ export namespace yy {
          * @param {type} trackEntry:sp.spine.TrackEntr
          * @return {type} void
          */        
-        export interface TrackEntryCallFunc {
+        export interface SpineTrackEntryCallFunc {
             (trackEntry:sp.spine.TrackEntry):void
+        }
+
+        /**
+             * @description: 用来设置动画播放过程中帧事件的监听
+             * @param {type} trackEntry:sp.spine.TrackEntr
+             * @param {type} event:sp.spine.Event
+             * @return {type} void
+             */        
+        export interface SpineFrameEventCallFunc {
+            (trackEntry:sp.spine.TrackEntry, event: sp.spine.Event):void
         }
     }
 
