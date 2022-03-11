@@ -1,5 +1,6 @@
 
 import { _decorator, Component, Node, find, log } from 'cc';
+import { AudioManager } from '../../../framework/core/audio/AudioManager';
 const { ccclass, property } = _decorator;
 
 /**
@@ -25,6 +26,8 @@ export class MainCityLayer extends Component {
 
     start () {
         // [3]
+
+        AudioManager.instance.playMusic("maincity/avs/bgm_liyuan")
     }
 
     // update (deltaTime: number) {
