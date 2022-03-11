@@ -8,7 +8,9 @@ export class SpineComponentBase extends Component {
     @property(sp.Skeleton)
     _spineNode:sp.Skeleton = null;
 
-    private _attachedNodes:[Node] = [];
+    private _attachedNodes:[Node] =;
+
+    _isPaused: boolean = false;
 
     start () {
         // [3]

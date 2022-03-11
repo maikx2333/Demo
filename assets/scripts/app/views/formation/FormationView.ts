@@ -1,9 +1,10 @@
 
 import { _decorator, Component, Node, assert, Vec3 } from 'cc';
+import { ComponentBase } from '../../../framework/ui/ComponentBase';
 const { ccclass, property } = _decorator;
  
 @ccclass('FormationView')
-export class FormationView extends Component {
+export class FormationView extends ComponentBase {
 
     @property([Node])
     leftPosList:Node[]=[];

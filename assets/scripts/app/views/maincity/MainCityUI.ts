@@ -1,11 +1,12 @@
 
 import { _decorator, Component, Node, Label, log, EventTouch } from 'cc';
 import { sceneMgr } from '../../../framework/core/SceneMgr';
+import { ComponentBase } from '../../../framework/ui/ComponentBase';
 import { ViewProtocol } from '../../define/ViewProtocol';
 const { ccclass, property } = _decorator;
  
 @ccclass('MainCityUI')
-export class MainCityUI extends Component {
+export class MainCityUI extends ComponentBase {
 
     @property(Label)
     roleName:Label=null;
@@ -19,5 +20,9 @@ export class MainCityUI extends Component {
     // }
     onClickBattleBtn(event:EventTouch,customEventData: string){
         sceneMgr.sendCreateView(ViewProtocol.FightFormation);
+    }
+
+    onClickQuestionBtn(event:EventTouch,customEventData: string){
+        sceneMgr.sendCreateView(ViewProtocol.PreviewReward);
     }
 }

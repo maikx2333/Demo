@@ -1,5 +1,6 @@
 
 import { _decorator, Component, Node, tween, director, AnimationManager, view, log } from 'cc';
+import { LayerBase } from '../../../framework/ui/LayerBase';
 import { FightMainWorld } from './FightMainWorld';
 const { ccclass, property } = _decorator;
 
@@ -16,7 +17,7 @@ const { ccclass, property } = _decorator;
  */
  
 @ccclass('FightMainLayer')
-export class FightMainLayer extends Component {
+export class FightMainLayer extends LayerBase {
     
     private _fightMainWorld:FightMainWorld = null;
 

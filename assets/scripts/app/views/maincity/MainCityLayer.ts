@@ -1,5 +1,7 @@
 
 import { _decorator, Component, Node, find, log } from 'cc';
+import { ComponentBase } from '../../../framework/ui/ComponentBase';
+import { LayerBase } from '../../../framework/ui/LayerBase';
 const { ccclass, property } = _decorator;
 
 /**
@@ -15,7 +17,7 @@ const { ccclass, property } = _decorator;
  */
  
 @ccclass('MainCityLayer')
-export class MainCityLayer extends Component {
+export class MainCityLayer extends LayerBase {
     // [1]
     // dummy = '';
 

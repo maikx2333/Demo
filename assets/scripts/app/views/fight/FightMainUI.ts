@@ -1,6 +1,7 @@
 
 import { _decorator, Component, Node, EventTouch, log, AnimationComponent, Button } from 'cc';
 import { sceneMgr } from '../../../framework/core/SceneMgr';
+import { ComponentBase } from '../../../framework/ui/ComponentBase';
 const { ccclass, property } = _decorator;
 
 /**
@@ -16,7 +17,7 @@ const { ccclass, property } = _decorator;
  */
  
 @ccclass('FightMainUI')
-export class FightMainUI extends Component {
+export class FightMainUI extends ComponentBase {
     @property(Button)
     startBtn:Button=null;
 

@@ -8,6 +8,7 @@
 
 import { _decorator, Component, Label, RichText, Button } from 'cc';
 import { sceneMgr } from '../../../framework/core/SceneMgr';
+import { LayerBase } from '../../../framework/ui/LayerBase';
 const { ccclass, property } = _decorator;
 
 export type DoubleDialogArgsType = {
@@ -22,7 +23,7 @@ export type DoubleDialogArgsType = {
 }
 
 @ccclass('DoubleBtnDialog')
-export class DoubleBtnDialog extends Component {
+export class DoubleBtnDialog extends LayerBase {
 
     static DoubleDialogArgs:DoubleDialogArgsType = {}
 
