@@ -1,5 +1,6 @@
 import { Camera, director, Game, game, ISchedulable, log, Scheduler, sys } from "cc";
-import { CommonConstructor, DeviceInfoType } from "../../app/define/ConfigType";
+import { DeviceInfoType } from "../../app/define/ConfigType";
+import { yy } from "../../app/define/YYNamespace";
 import { EnterApp } from "../../app/EnterApp";
 import { Singleton } from "../components/Singleton";
 import { ModelBase } from "../data/ModelBase";
@@ -95,7 +96,7 @@ export class GameMgr extends Singleton implements ISchedulable {
     /**
      * 把消息id绑定指定的model
      */
-    public registerModel<T extends ModelBase>( modelConstructor: CommonConstructor<T>)
+    public registerModel<T extends ModelBase>( modelConstructor: yy.types.CommonConstructor<T>)
     {
         this._modelMapName.set(modelConstructor.name, new modelConstructor());
     }
@@ -103,7 +104,7 @@ export class GameMgr extends Singleton implements ISchedulable {
     /**
      * 获取model
      */
-    public getModel<T extends ModelBase>(modelConstructor: CommonConstructor<T>): T {
+    public getModel<T extends ModelBase>(modelConstructor: yy.types.CommonConstructor<T>): T {
         return this._modelMapName.get(modelConstructor.name);
     }
 

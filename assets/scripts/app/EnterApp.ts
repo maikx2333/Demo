@@ -1,6 +1,6 @@
 import { director, game, input, log, sys } from "cc";
 import { singletonMgr } from "../framework/components/SingletonMgr";
-import { audio, AudioManager } from "../framework/core/audio/AudioManager";
+import { audioMgr } from "../framework/core/audio/AudioManager";
 import { gameMgr } from "../framework/core/GameMgr";
 import { sceneMgr } from "../framework/core/SceneMgr";
 import { translateMgr } from "../framework/translate/TranslateMgr";
@@ -42,9 +42,9 @@ export class EnterApp {
     init() {
         sceneMgr.init();
         gameMgr.setApp(this);
-
+        audioMgr.init();
         //玩家ID，保存音效设置
-        AudioManager.instance.setUuid("3998857")
+        // audioMgr.setUuid("3998857")
     }
 
     loadDefine() {

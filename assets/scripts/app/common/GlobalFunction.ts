@@ -4,8 +4,9 @@ import { gameMgr } from "../../framework/core/GameMgr";
 import { sceneMgr } from "../../framework/core/SceneMgr";
 import { dataMgr } from "../../framework/data/DataMgr";
 import { ModelBase } from "../../framework/data/ModelBase";
-import { CommonConstructor, DataModuleName, DoubleBtnDialogArgsType} from "../define/ConfigType";
+import { DoubleBtnDialogArgsType} from "../define/ConfigType";
 import { ViewProtocol } from "../define/ViewProtocol";
+import { yy } from "../define/YYNamespace";
 
 
 /**
@@ -27,7 +28,7 @@ export namespace G {
      * @param dataHandlerName 注册的hand name
      * @param namekey?:string|number 索引值
      */
-    export function getConfig<TMoudleName extends DataModuleName>(dataHandlerName:TMoudleName,namekey?:string|number) {
+    export function getConfig<TMoudleName extends yy.types.DataModuleName>(dataHandlerName:TMoudleName,namekey?:string|number) {
         return dataMgr.getData(dataHandlerName,namekey);
     }
 
@@ -36,7 +37,7 @@ export namespace G {
      * @param mdoelName model的名称
      * @returns 获取model
      */
-    export function getModel<T extends ModelBase>(modelConstructor: CommonConstructor<T>):T {
+    export function getModel<T extends ModelBase>(modelConstructor: yy.types.CommonConstructor<T>):T {
         return gameMgr.getModel(modelConstructor);
     }
 }

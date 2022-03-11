@@ -12,11 +12,12 @@ import { DialogCreator } from "../views/dialog/Creator";
 import { LoginCreator } from "../views/login/Creator";
 import { PreRewardCreator } from "../views/pre_reward/Creator";
 import { MainCityCreator } from "../views/maincity/Creator";
-import { NoInfer, ViewModuleName, ViewInfoType } from "./ConfigType";
 import { ShowBackgroundMgr } from "./define";
 import { viewCreatorMgr } from "../../framework/ui/ViewCreatorManager";
 import { FightCreator } from "../views/fight/Creator";
 import { FormationCreator } from "../views/formation/Creator";
+import { yy } from "./YYNamespace";
+import { ViewInfoType } from "./ConfigType";
 
 export class ViewRegisterMgr extends Singleton{
 
@@ -103,9 +104,9 @@ export class ViewRegisterMgr extends Singleton{
 
 
     // 各个系统中获取页面预制的都路径
-    getViewInfo<TMoudleName extends ViewModuleName,
+    getViewInfo<TMoudleName extends yy.types.ViewModuleName,
                             TPrefabName  = keyof  ViewRegisterMgr['ViewType'][TMoudleName]['prefab']>
-                                (name: TMoudleName, prefabName: NoInfer<TPrefabName>):ViewInfoType{
+                                (name: TMoudleName, prefabName: yy.types.NoInfer<TPrefabName>):ViewInfoType{
         let module = this.ViewType[name];
         let arr = module.prefab[<string><unknown>prefabName];
         return {

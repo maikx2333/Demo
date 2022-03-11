@@ -1,11 +1,7 @@
 
 import { _decorator, Component, Node, find, log } from 'cc';
-<<<<<<< HEAD
-import { ComponentBase } from '../../../framework/ui/ComponentBase';
+import { audioMgr } from '../../../framework/core/audio/AudioManager';
 import { LayerBase } from '../../../framework/ui/LayerBase';
-=======
-import { AudioManager } from '../../../framework/core/audio/AudioManager';
->>>>>>> ee890212c8c2f040def8515c281b665ea5df58b2
 const { ccclass, property } = _decorator;
 
 /**
@@ -32,7 +28,7 @@ export class MainCityLayer extends LayerBase {
     start () {
         // [3]
 
-        AudioManager.instance.playMusic("maincity/avs/bgm_liyuan")
+        audioMgr.playMusic("maincity/avs/bgm_liyuan")
     }
 
     // update (deltaTime: number) {

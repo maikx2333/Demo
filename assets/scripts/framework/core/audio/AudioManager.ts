@@ -1,29 +1,12 @@
-import { Component, game, Node } from "cc";
-import { storage } from "../storage/SqlUtil";
+import { Component, Game, game, Node } from "cc";
+import { storage } from "../storage/Storage";
 import { AudioEffect } from "./AudioEffect";
 import { AudioMusic } from "./AudioMusic";
 
 const LOCAL_STORE_KEY = "game_audio";
 
-export class AudioManager extends Component {
-    private static _instance: AudioManager;
-    public static get instance(): AudioManager {
-        if (this._instance == null) {
-            var node = new Node("UIAudioManager");
-            game.addPersistRootNode(node);
-            this._instance = node.addComponent(AudioManager);
-            this._instance.init();
-
-            var music = new Node("UIMusic");
-            music.parent = node;
-            this._instance.music = music.addComponent(AudioMusic);
-
-            var effect = new Node("UIEffect");
-            effect.parent = node;
-            this._instance.effect = effect.addComponent(AudioEffect);
-        }
-        return this._instance;
-    }
+class AudioManager extends Node {
+    private static _instance: AudioManager = null;
 
     private local_data: any = {};
 
@@ -37,7 +20,29 @@ export class AudioManager extends Component {
     private _uuid: string = "10000";                // 玩家唯一标识，一般为玩家数据库唯一编号
     private _localStorageTag: string = "";          // 本地存储标签名
 
-    private init() {
+    public static getInstance(): AudioManager {
+        if (!AudioManager._instance ) {
+            AudioManager._instance = new AudioManager();
+        }
+        return AudioManager._instance;
+    }
+
+    /**
+     * init
+     */
+    public init() {
+        game.addPersistRootNode(AudioManager._instance);
+
+        AudioManager._instance.addComponent(AudioMusic);
+        this.music = AudioManager._instance.getComponent(AudioMusic);
+
+        AudioManager._instance.addComponent(AudioEffect);
+        this.effect = AudioManager._instance.getComponent(AudioEffect);
+
+        AudioManager._instance.__init();
+    }
+
+    private __init() {
         let data = storage.get(this._localStorageTag);
         if (data) {
             try {
@@ -158,3 +163,7 @@ export class AudioManager extends Component {
         storage.set(this._localStorageTag, data);
     }
 }
+
+export let audioMgr:AudioManager = (()=>{
+    return AudioManager.getInstance();
+})();
