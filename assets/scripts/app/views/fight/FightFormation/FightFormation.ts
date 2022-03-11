@@ -125,6 +125,9 @@ export class FightFormation extends LayerBase {
     }
     
 
+    onClickStart() {
+        
+    }
 
 
     // update (deltaTime: number) {
