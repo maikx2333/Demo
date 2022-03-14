@@ -86,6 +86,7 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
             prefab:{
                 "MainCityLayer":{
                     path:"maincity/prefabs/maincitylayer",
+                    isCahe:true
                 },
                 "MainCityUI":{
                     path:"maincity/prefabs/maincityui",

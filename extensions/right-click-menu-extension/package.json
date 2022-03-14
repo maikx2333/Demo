@@ -1,0 +1,74 @@
+{
+    "package_version": 2,
+    "version": "1.0.0",
+    "name": "right-click-menu-extension",
+    "description": "i18n:right-click-menu-extension.description",
+    "main": "./dist/main.js",
+    "dependencies": {
+        "fs-extra": "^10.0.0",
+        "mitt": "^3.0.0",
+        "vue": "^3.1.4",
+        "vuex": "^4.0.2"
+    },
+    "devDependencies": {
+        "@types/node": "^16.0.1",
+        "@types/fs-extra": "^9.0.5",
+        "typescript": "^4.3.4"
+    },
+    "panels": {
+        "default": {
+            "title": "i18n:right-click-menu-extension.title",
+            "type": "dockable",
+            "main": "dist/panels/default/script",
+            "size": {
+                "min-width": 400,
+                "min-height": 300,
+                "width": 800,
+                "height": 600
+            }
+        }
+    },
+    "contributions": {
+        "assets": {
+            "menu": {
+                "methods": "dist/scene.js",
+                "createMenu": "onCreateMenu"
+            }
+        },
+        "menu": [
+            {
+                "path": "i18n:menu.extension",
+                "label": "i18n:right-click-menu-extension.open_panel",
+                "message": "open-panel"
+            }
+        ],
+        "messages": {
+            "load-config": {
+                "methods": [
+                    "load_config"
+                ]
+            },
+            "asset-info": {
+                "methods": [
+                    "asset_info"
+                ]
+            },
+            "open-panel": {
+                "methods": [
+                    "open_panel"
+                ]
+            },
+            "send-to-panel": {
+                "methods": [
+                    "default.hello"
+                ]
+            }
+        }
+    },
+    "author": "Cocos Creator",
+    "editor": ">=3.3.0",
+    "scripts": {
+        "build": "tsc -b",
+        "watch": "tsc -w"
+    }
+}
