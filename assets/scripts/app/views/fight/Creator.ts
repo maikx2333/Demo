@@ -22,7 +22,7 @@ export class FightCreator extends ViewCreatorBase {
             this._loadBg((bg:Prefab)=>{
                 let bgNode = instantiate(bg);
                 sceneMgr.pushNewTableLayer();
-                sceneMgr.replaceTableContent(bgNode,viewInfo.View);
+                sceneMgr.replaceTableContent(bgNode,viewInfo.View,data);
                 bgNode.addChild(uiNode);
             })
         })
@@ -45,7 +45,7 @@ export class FightCreator extends ViewCreatorBase {
         ResourcesLoader.load(path,(data:Prefab)=>{
             let node = instantiate(data);
             sceneMgr.pushNewTableLayer();
-            sceneMgr.replaceTableContent(node,viewInfo.View);
+            sceneMgr.replaceTableContent(node,viewInfo.View,data);
         })
     }
 

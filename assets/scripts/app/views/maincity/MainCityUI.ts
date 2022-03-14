@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, Label, log, EventTouch } from 'cc';
+import { _decorator, Component, Node, Label, log, EventTouch, resources } from 'cc';
 import { sceneMgr } from '../../../framework/core/SceneMgr';
 import { ComponentBase } from '../../../framework/ui/ComponentBase';
 import { ViewProtocol } from '../../define/ViewProtocol';

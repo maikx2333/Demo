@@ -19,7 +19,7 @@ export class LoginCreator extends ViewCreatorBase {
         ResourcesLoader.load(path,(data:Prefab)=>{
             let node = instantiate(data);
             sceneMgr.pushNewTableLayer();
-            sceneMgr.replaceTableContent(node,viewInfo.View);
+            sceneMgr.replaceTableContent(node,viewInfo.View,data);
         })
     }
 }
