@@ -19,7 +19,7 @@ export class MainCityCreator extends ViewCreatorBase {
             let uiNode = instantiate(data);
             this._loadBg((bg:Prefab)=>{
                 let bgNode = instantiate(bg);
-                sceneMgr.replaceMainLayer(bgNode,viewInfo.View);
+                sceneMgr.replaceMainLayer(bgNode,viewInfo.View,data);
                 bgNode.addChild(uiNode);
             })
         })

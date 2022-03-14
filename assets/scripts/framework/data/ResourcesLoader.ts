@@ -63,6 +63,10 @@ export class ResourcesLoader {
         bundle?.release(path);
     }
 
+    static releaseAll(){
+        assetManager.releaseUnusedAssets()
+    }
+
     static loadPromise(path: string, type?:typeof Asset){
         return new Promise((resolve, rejected)=>{
             this.load(path, (data)=>{

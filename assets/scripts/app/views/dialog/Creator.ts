@@ -15,14 +15,14 @@ export class DialogCreator extends ViewCreatorBase {
     }
 
     onCreateDoubleBtnDialogView(event:Message) {
-        //创建登录界面
         let viewInfo = viewRegisterMgr.getViewInfo("dialog","DoubleBtnDialog");
         let path = viewInfo.Path;
         ResourcesLoader.load(path,(data:Prefab)=>{
+            data.addRef()
             let node = instantiate(data);
             // let com = node.getComponent("DoubleBtnDialog").updateDialog(event.getRawData[0]);
             sceneMgr.pushNewTableLayer();
-            sceneMgr.replaceTableContent(node,viewInfo.View);
+            sceneMgr.replaceTableContent(node,viewInfo.View,data);
         })
     }
 
@@ -43,6 +43,7 @@ export class DialogCreator extends ViewCreatorBase {
             //     else element.position.set(0, (tipsList.length - index) * 45)
             // }
 
+            data.addRef()
             let tipsNode = instantiate(data)
             tipsNode.getComponent(Tips).text = str
             sceneMgr.getTipsLayer().addChild(tipsNode)
