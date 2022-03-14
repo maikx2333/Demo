@@ -1,40 +1,26 @@
 
-import { find, log, Node, UIOpacity, UITransform, Widget, widgetManager } from "cc";
+import { Asset, find, log, Node, resources, UIOpacity, UITransform, Widget, widgetManager } from "cc";
 import { ShowBackgroundMgr } from "../../app/define/ShowBackgroundMgr";
 import { Singleton } from "../components/Singleton";
+import { ResourcesLoader } from "../data/ResourcesLoader";
 import { viewEventMgr } from "../listener/EventMgr";
 import { Message } from "../listener/Message";
 import { TableLayer } from "../ui/TableLayer";
 import { functions } from "../utils/functions";
 // import { functions, ShowBackgroundMgr, Message, TableLayer, viewEventMgr } from "../yy";
 
-class SceneMgr extends Singleton{
-    // static _instance: any;
-
-    // static getInstance<T>():T {
-    //     if (this._instance == null) {
-    //         this._instance = new SceneMgr();
-    //     }
-    //     return this._instance;
-    // }
-    // _uiRoot: Node;
-    // _baseNodeMap: Map<string, Node>;
+class SceneMgr extends Singleton {
     _layerMap: Map<string, Node>;
     _tableLayerStack: Array<TableLayer>;
-    // _skipHiddenBackground: any;
-
     _viewIndex: number = 0;
 
-    // _sfUUID: string = "";
+    //记录页卡层的资源计数，用作内存管理，其它界面自己管理
+    //尽量少用动态加载，以免引起计数不准确
+    _resCounter: Map<string, Asset> = new Map()
 
     // 构造函数
     private constructor() {
         super();
-        // this._uiRoot = cc.find("Canvas");
-        // this._baseNodeMap = new Map();
-        // this._layerMap = new Map();
-        // this._tableLayerStack = [];
-        // this.initAllScence();
     }
 
     init() {
@@ -50,7 +36,7 @@ class SceneMgr extends Singleton{
     private createNode(flag: string, parent?: Node): Node {
         let node = new Node
         node.name = flag
-        
+
         let widget = node.addComponent(Widget)
         // let rootNode = find("Canvas");
         widget!.alignMode = Widget.AlignMode.ON_WINDOW_RESIZE;
@@ -62,7 +48,7 @@ class SceneMgr extends Singleton{
         widget!.top = 0;
         // widget.target = rootNode
 
- 
+
         let viewRoot = find("Canvas/views")
         viewRoot.addChild(node)
 
@@ -72,14 +58,11 @@ class SceneMgr extends Singleton{
     private initAllScence() {
         this._layerMap.set("MainGroup", this.createNode("__MainGroup")); // 主界面层
         this._layerMap.set("TableGroup", this.createNode("__TableGroup")); // 页卡层
-        this._layerMap.set("BattleValueGroup", this.createNode("__BattleValueGroup")); // 战力显示层
-        this._layerMap.set("PVPMatcGroup", this.createNode("__PVPMatchGroup")); // pvp匹配界面
         this._layerMap.set("NewGuideGroup", this.createNode("__NewGuideGroup")); // 新手引导层
         this._layerMap.set("DialogGroup", this.createNode("__DialogGroup")); // 对话框层
         this._layerMap.set("SystemOpenGroup", this.createNode("__SystemOpenGroup")); // 功能开启层
         this._layerMap.set("PreLoadingGroup", this.createNode("__PreLoadingGroup")); // 加载层
         this._layerMap.set("TipsGroup", this.createNode("__TipsGroup")); // 弹出提示
-        this._layerMap.set("AdvertLoadingGroup", this.createNode("__AdvertLoadingGroup")); // 广告加载层
         this._layerMap.set("TouchGroup", this.createNode("__TouchGroup")); // 触摸反馈
     }
 
@@ -87,14 +70,11 @@ class SceneMgr extends Singleton{
         let layers = [
             "MainGroup",
             "TableGroup",
-            "BattleValueGroup",
-            "PVPMatcGroup",
             "NewGuideGroup",
             "DialogGroup",
             "TipsGroup",
             "SystemOpenGroup",
             "PreLoadingGroup",
-            "AdvertLoadingGroup",
             "TouchGroup",
         ];
         for (let index = 0; index < layers.length; index++) {
@@ -154,9 +134,9 @@ class SceneMgr extends Singleton{
         this._tableLayerStack.push(tableLayer);
 
 
-       
 
-        
+
+
         return tableLayer;
     }
 
@@ -237,6 +217,11 @@ class SceneMgr extends Singleton{
     removeTableLayer() {
         let tableLayer = this._tableLayerStack.pop();
         if (tableLayer) {
+
+            //移除引用
+            let contentLayer = tableLayer.getContentLayer()
+            this._removeResRef(contentLayer.name)
+
             tableLayer.removeFromParent();
             tableLayer.destroy();
 
@@ -276,13 +261,13 @@ class SceneMgr extends Singleton{
     removeAllTableLayer() {
         let length = this._tableLayerStack.length;
         for (let index = 0; index < length; index++) {
-            if (this._tableLayerStack.length >= 2) {
-                let tableLayer = this._tableLayerStack.pop();
-                tableLayer.removeFromParent();
-                tableLayer.destroy();
-            } else {
+            // if (this._tableLayerStack.length >= 2) {
+            //     let tableLayer = this._tableLayerStack.pop();
+            //     tableLayer.removeFromParent();
+            //     tableLayer.destroy();
+            // } else {
                 this.removeTableLayer();
-            }
+            // }
         }
     }
 
@@ -349,7 +334,7 @@ class SceneMgr extends Singleton{
      * @param {type}
      * @return {type}
      */
-    replaceTableContent(layer: Node, layerName: string) {
+    replaceTableContent(layer: Node, layerName: string, ass:Asset) {
         let tableLayer = this._tableLayerStack[this._tableLayerStack.length - 1];
 
         if (tableLayer == null) {
@@ -366,8 +351,9 @@ class SceneMgr extends Singleton{
             return;
         }
 
+        this._removeResRef(contentLayer.name)
+        this._addResRef(layerName, ass)
         contentLayer.name = layerName || "";
-        // tableLayer.opacity = 255;
         contentLayer.clearAll();
         contentLayer.add(layer);
         contentLayer.show();
@@ -424,7 +410,7 @@ class SceneMgr extends Singleton{
     //     this._skipHiddenBackground = list;
     // }
 
-    public replaceMainLayer(layer: Node, layerName: string) {
+    public replaceMainLayer(layer: Node, layerName: string, ass: Asset) {
         this.removeAllTableLayer();
         let mainLayer = this._layerMap.get("MainGroup");
         for (let i = 0; i < mainLayer.children.length; i++) {
@@ -436,11 +422,42 @@ class SceneMgr extends Singleton{
         layer.name = layerName || "";
         mainLayer.addChild(layer);
 
+        this.clearAllResCount()
+
+        //主界面引用+1
+        this._addResRef(layerName, ass)
         // SFSceneTriggerMgr.getInstance().check();
         // let newGuideModel = GameMgr.getInstance().getModel("ModelNewGuide");
         // if (newGuideModel) {
         //     newGuideModel.checkClearGuide();
         // }
+    }
+
+    //一个资源添加引用计数
+    protected _addResRef(name: string, ass: Asset) {
+        if (!this._resCounter.get(name)) {
+            ass.addRef()
+            this._resCounter.set(name, ass)
+        }
+    }
+
+    //删除一个资源引用计数
+    protected _removeResRef(name: string) {
+        let ass:Asset = this._resCounter.get(name)
+        if (ass) {
+            ass.decRef()
+            this._resCounter.delete(name)
+        }
+    }
+
+
+    //清除动态加载的引用
+    clearAllResCount() {
+        this._resCounter.forEach(element => {
+            element.decRef()
+        });
+
+        this._resCounter = new Map;
     }
 
     getNowMainLayer() {
@@ -487,20 +504,6 @@ class SceneMgr extends Singleton{
         this._hideTableLayer();
     }
 
-    // 战力显示层
-    setBattleValueLayer(layer) {
-        let systemOpenGroup = this._layerMap.get("BattleValueGroup");
-        systemOpenGroup.addChild(layer);
-    }
-
-    getBattleValueLayer() {
-        return this._layerMap.get("SystemOpenGroup").children[0];
-    }
-
-    setPVPMatchView(layer) {
-        let group = this._layerMap.get("PVPMatcGroup");
-        group.addChild(layer);
-    }
 
     //功能开启监听层
     setSystemOpenLayer(layer) {
@@ -553,22 +556,6 @@ class SceneMgr extends Singleton{
         return this._layerMap.get("PreLoadingGroup").children[0];
     }
 
-    //广告加载层
-    setAdvertLoadingLayer(layer) {
-        let group = this._layerMap.get("AdvertLoadingGroup");
-        for (let index = 0; index < group.children.length; index++) {
-            const element = group.children[index];
-            element.removeFromParent();
-            element.destroy();
-        }
-        if (layer) {
-            group.addChild(layer);
-        }
-    }
-
-    getAdvertLoadingLayer() {
-        return this._layerMap.get("AdvertLoadingGroup").children[0];
-    }
 
     // 添加触摸反馈层
     addTouchGroupLayer(layer) {
@@ -743,6 +730,6 @@ class SceneMgr extends Singleton{
 }
 
 
-export let sceneMgr = (()=>{
+export let sceneMgr = (() => {
     return SceneMgr.getInstance<SceneMgr>();
 })();
