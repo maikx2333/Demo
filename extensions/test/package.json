@@ -1,0 +1,46 @@
+{
+    "package_version": 2,
+    "version": "1.0.0",
+    "name": "test",
+    "description": "i18n:test.description",
+    "main": "./dist/main.js",
+    "dependencies": {
+        "fs-extra": "^10.0.0",
+        "vue": "^3.1.4"
+    },
+    "devDependencies": {
+        "@types/fs-extra": "^9.0.5",
+        "@types/node": "^16.0.1",
+        "typescript": "^4.3.4"
+    },
+    "contributions": {
+        "messages": {
+            "open-panel": {
+                "methods": [
+                    "openPanel"
+                ]
+            },
+            "send-to-panel": {
+                "methods": [
+                    "default.hello"
+                ]
+            }
+        },
+        "assets":{
+            "menu":{
+                "methods":"dist/assets-menu.js",
+                "createMenu":"onSystemFolder",
+                "assetMenu":"onAssetMenu",
+                "dbMenu": "onDBMenu",
+                "panelMenu": "onPanelMenu"
+            }
+        }
+        
+    },
+    "author": "Cocos Creator",
+    "editor": ">=3.4.2",
+    "scripts": {
+        "build": "tsc -b",
+        "watch": "tsc -w"
+    }
+}
