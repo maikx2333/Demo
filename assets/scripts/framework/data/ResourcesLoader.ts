@@ -1,4 +1,4 @@
-import { Asset, assetManager, AssetManager, error, resources } from "cc";
+import { Asset, assetManager, AssetManager, error, game, resources } from "cc";
 
 /*
  * @Author: liuguoqing
@@ -61,6 +61,15 @@ export class ResourcesLoader {
     static release(path: string, bundleName: string = "resources") {
         var bundle = assetManager.getBundle(bundleName);
         bundle?.release(path);
+    }
+
+    //是否需要释放内存
+    static checkNeedToRealease():boolean {
+        //暂时用了1GB内存需要释放
+        if (game._gfxDevice.memoryStatus.textureSize / 1024 > 1024) {
+            return true
+        }
+        return false
     }
 
     static releaseAll(){

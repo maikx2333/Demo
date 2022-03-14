@@ -226,7 +226,11 @@ class SceneMgr extends Singleton {
             tableLayer.destroy();
 
             this._hideTableLayer();
-            // SFSceneTriggerMgr.getInstance().check();
+
+            //检查内存释放
+            if (ResourcesLoader.checkNeedToRealease()) {
+                ResourcesLoader.releaseAll()
+            }
             return true;
         }
         return false;
