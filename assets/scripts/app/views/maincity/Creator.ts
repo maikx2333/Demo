@@ -14,12 +14,11 @@ export class MainCityCreator extends ViewCreatorBase {
 
     private _onCreateMainCityLayer() {
         let viewInfo = viewRegisterMgr.getViewInfo("maincity","MainCityUI");
-        let path = viewInfo.Path;
-        ResourcesLoader.load(path,(data:Prefab)=>{
+        ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             let uiNode = instantiate(data);
             this._loadBg((bg:Prefab)=>{
                 let bgNode = instantiate(bg);
-                sceneMgr.replaceMainLayer(bgNode,viewInfo.View,data);
+                sceneMgr.replaceMainLayer(bgNode,viewInfo.View);
                 bgNode.addChild(uiNode);
             })
         })
@@ -28,8 +27,7 @@ export class MainCityCreator extends ViewCreatorBase {
     private _loadBg(callback:(bg:Prefab)=>void) {
         //创建主城界面
         let viewInfo = viewRegisterMgr.getViewInfo("maincity","MainCityLayer");
-        let path = viewInfo.Path;
-        ResourcesLoader.load(path,(data:Prefab)=>{
+        ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             if (callback){
                 callback(data);
             }
