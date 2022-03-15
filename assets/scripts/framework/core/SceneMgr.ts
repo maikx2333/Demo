@@ -220,7 +220,7 @@ class SceneMgr extends Singleton {
 
             //移除引用
             let contentLayer = tableLayer.getContentLayer()
-            this._removeResRef(contentLayer.name)
+            this._decResRef(contentLayer.name)
 
             tableLayer.removeFromParent();
             tableLayer.destroy();
@@ -228,9 +228,9 @@ class SceneMgr extends Singleton {
             this._hideTableLayer();
 
             //检查内存释放
-            if (ResourcesLoader.checkNeedToRealease()) {
-                ResourcesLoader.releaseAll()
-            }
+            // if (ResourcesLoader.checkNeedToRelease()) {
+                ResourcesLoader.releaseUnusedAssets()
+            // }
             return true;
         }
         return false;
@@ -338,7 +338,7 @@ class SceneMgr extends Singleton {
      * @param {type}
      * @return {type}
      */
-    replaceTableContent(layer: Node, layerName: string, ass:Asset) {
+    replaceTableContent(layer: Node, layerName: string) {
         let tableLayer = this._tableLayerStack[this._tableLayerStack.length - 1];
 
         if (tableLayer == null) {
@@ -355,8 +355,9 @@ class SceneMgr extends Singleton {
             return;
         }
 
-        this._removeResRef(contentLayer.name)
-        this._addResRef(layerName, ass)
+        //移除引用
+        this._decResRef(contentLayer.name)
+        this._addResRef(layerName)
         contentLayer.name = layerName || "";
         contentLayer.clearAll();
         contentLayer.add(layer);
@@ -414,7 +415,7 @@ class SceneMgr extends Singleton {
     //     this._skipHiddenBackground = list;
     // }
 
-    public replaceMainLayer(layer: Node, layerName: string, ass: Asset) {
+    public replaceMainLayer(layer: Node, layerName: string) {
         this.removeAllTableLayer();
         let mainLayer = this._layerMap.get("MainGroup");
         for (let i = 0; i < mainLayer.children.length; i++) {
@@ -429,7 +430,7 @@ class SceneMgr extends Singleton {
         this.clearAllResCount()
 
         //主界面引用+1
-        this._addResRef(layerName, ass)
+        this._addResRef(layerName)
         // SFSceneTriggerMgr.getInstance().check();
         // let newGuideModel = GameMgr.getInstance().getModel("ModelNewGuide");
         // if (newGuideModel) {
@@ -438,20 +439,22 @@ class SceneMgr extends Singleton {
     }
 
     //一个资源添加引用计数
-    protected _addResRef(name: string, ass: Asset) {
-        if (!this._resCounter.get(name)) {
-            ass.addRef()
-            this._resCounter.set(name, ass)
-        }
+    private _addResRef(name: string) {
+        // if (!this._resCounter.get(name)) {
+        //     ass.addRef()
+        //     this._resCounter.set(name, ass)
+        // }
+        ResourcesLoader.addResRef(name);
     }
 
     //删除一个资源引用计数
-    protected _removeResRef(name: string) {
-        let ass:Asset = this._resCounter.get(name)
-        if (ass) {
-            ass.decRef()
-            this._resCounter.delete(name)
-        }
+    private _decResRef(name: string) {
+        // let ass:Asset = this._resCounter.get(name)
+        // if (ass) {
+        //     ass.decRef()
+        //     this._resCounter.delete(name)
+        // }
+        ResourcesLoader.decResRef(name);
     }
 
 
@@ -461,7 +464,7 @@ class SceneMgr extends Singleton {
             element.decRef()
         });
 
-        this._resCounter = new Map;
+        this._resCounter.clear();
     }
 
     getNowMainLayer() {

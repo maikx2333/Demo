@@ -1,4 +1,4 @@
-import { AudioClip, AudioSource, error, _decorator } from 'cc';
+import { AudioClip, AudioSource, error, log, _decorator } from 'cc';
 import { ResourcesLoader } from '../../data/ResourcesLoader';
 const { ccclass, menu } = _decorator;
 
@@ -24,7 +24,7 @@ export class AudioMusic extends AudioSource {
         this.currentTime = value * this.duration;
     }
 
-    public load(url: string, callback?: Function) {
+    public load(url: string,isLoop:boolean=true, callback?: Function) {
         ResourcesLoader.load(url, (data:AudioClip)=>{
             if (this.playing) {
                 this.stop();
@@ -34,7 +34,7 @@ export class AudioMusic extends AudioSource {
             this.clip = data;
             this.currentTime = 0;
             this.play();
-
+            this.loop = isLoop;
             callback && callback();
 
             this._url = url;

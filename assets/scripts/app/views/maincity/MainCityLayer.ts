@@ -1,8 +1,9 @@
 
-import { _decorator, Component, Node, find, log, EventTouch, v3 } from 'cc';
+import { _decorator, Component, Node, find, log, EventTouch, v3, Vec3, Vec2, tween, Tween, easing, v2 } from 'cc';
 import { audioMgr } from '../../../framework/core/audio/AudioManager';
+import { DInertiaMove } from '../../../framework/ui/DInertiaMove';
 import { LayerBase } from '../../../framework/ui/LayerBase';
-import { MulitMoveingBgs } from '../common/MulitMoveingBgs';
+import { MulitMoveingBgs } from '../../../framework/ui/MulitMoveingBgs';
 const { ccclass, property } = _decorator;
 
 /**
@@ -30,6 +31,11 @@ export class MainCityLayer extends LayerBase {
     private bgNode:Node
     _mulitBgComp:MulitMoveingBgs
 
+
+    _bgmain:Node;
+    _deltaPos:Vec2;
+    _bgDInertiaMove:DInertiaMove
+
     start () {
         // [3]
         audioMgr.playMusic("maincity/avs/bgm_liyuan")
@@ -39,12 +45,26 @@ export class MainCityLayer extends LayerBase {
 
     private _initBgTouch() {
         this._mulitBgComp = this.bgNode.getComponent(MulitMoveingBgs)
-        this.node.parent.on(Node.EventType.TOUCH_MOVE, this.onBgTouchMove.bind(this))
+        
+        this._bgmain = find("bg/mainBg",this.node.parent)
+        this._bgmain.on(Node.EventType.TOUCH_START, this.onBgTouchStart.bind(this))
+        this._bgmain.on(Node.EventType.TOUCH_MOVE, this.onBgTouchMove.bind(this))
+        this._bgmain.on(Node.EventType.TOUCH_END, this.onBgTouchEnd.bind(this))
+        // this._bgDInertiaMove = this._bgmain.addComponent(DInertiaMove)
+    }
+
+    private onBgTouchStart() {
+        this._mulitBgComp.stop()
     }
 
     private onBgTouchMove(event:EventTouch) {
-        let deltaX = event.getDeltaX()
-        this._mulitBgComp.move(deltaX * 1.1)
+        this._deltaPos = event.getDelta()
+        this._deltaPos.multiplyScalar(1.5)
+        this._deltaPos = v2(this._deltaPos.x, 0)
+    }
+    
+    private onBgTouchEnd() {
+        this._mulitBgComp.move(this._deltaPos, true)
     }
 
     update (deltaTime: number) {

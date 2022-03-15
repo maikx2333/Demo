@@ -6,7 +6,7 @@
  * @Description: file content
  */
 
-import { _decorator, Component, JsonAsset, log, sys, director } from 'cc';
+import { _decorator, Component, JsonAsset, log, sys, director, dynamicAtlasManager } from 'cc';
 import { ResourcesLoader } from './framework/data/ResourcesLoader';
 import { GameConfig } from './GameConfig';
 const { ccclass, property } = _decorator;
@@ -29,6 +29,8 @@ export class Launch extends Component {
     }
 
     start(){
+        //动态合图
+        // dynamicAtlasManager.enabled = false;
         this._keepScreenOn();
         this.scheduleOnce((dt:number)=>{
             this._startHotUpdate();

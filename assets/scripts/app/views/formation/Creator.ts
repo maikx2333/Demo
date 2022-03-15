@@ -14,11 +14,10 @@ export class FormationCreator extends ViewCreatorBase {
 
     onCreateFormationView(event:Message) {
         let viewInfo = viewRegisterMgr.getViewInfo("formation","FormationView");
-        let path = viewInfo.Path;
-        ResourcesLoader.load(path,(data:Prefab)=>{
+        ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             let node = instantiate(data);
             sceneMgr.pushNewTableLayer();
-            sceneMgr.replaceTableContent(node,viewInfo.View,data);
+            sceneMgr.replaceTableContent(node,viewInfo.View);
         })
     }
 }

@@ -1,0 +1,8 @@
+<ui-section @click="onClickSelf($event)" ref="root" :header="menu.label" class="config">
+    <compEdit v-if="editing" :click="onEditFinish" :showOrder="showOrder" :menu="menu" :isEdit="isEdit" />
+    <div class="margin-top-small">
+        <menuItem v-for="sub in menu.submenu" :menu="sub" :key="sub.id" :name="name" :parent="menu"
+            :createButton="createButton" />
+    </div>
+
+</ui-section>

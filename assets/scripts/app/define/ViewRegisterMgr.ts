@@ -44,6 +44,7 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
             prefab:{
                 "RewardItemIcon":{
                                     path:"common_ui/prefabs/RewardItemIcon",
+                                    isCahe:true
                                 }
             }
         },
@@ -68,7 +69,13 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
                 "DoubleBtnDialog":{
                                 path:'common_ui/prefabs/double_btn_dialog',
                                 isShowBg:true,
-                            }
+                                isCahe:true
+                            },
+                "Tips":{
+                    path:"common_ui/prefabs/tips",
+                    isShowBg:true,
+                    isCahe:true
+                }
             }
         },
 
@@ -86,6 +93,7 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
             prefab:{
                 "MainCityLayer":{
                     path:"maincity/prefabs/maincitylayer",
+                    isCahe:true
                 },
                 "MainCityUI":{
                     path:"maincity/prefabs/maincityui",
@@ -168,7 +176,8 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
             System:name,
             View: <string><unknown>prefabName,
             Path:cfg.path,
-            Hidden:cfg.isShowBg??false
+            Hidden:cfg.isShowBg??false,
+            Cache:cfg.isCache??false
         };
     }
 

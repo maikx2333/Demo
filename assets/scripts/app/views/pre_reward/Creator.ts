@@ -18,10 +18,10 @@ export class PreRewardCreator extends ViewCreatorBase {
 
         let viewInfo = viewRegisterMgr.getViewInfo("preReward","preRewardMain");
         let path = viewInfo.Path;
-        ResourcesLoader.load(path,(data:Prefab)=>{
+        ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             let node = instantiate(data);
             sceneMgr.pushNewTableLayer();
-            sceneMgr.replaceTableContent(node,viewInfo.View,data);
+            sceneMgr.replaceTableContent(node,viewInfo.View);
         })
     }
 }

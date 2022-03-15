@@ -1,0 +1,8 @@
+<ui-section ref="root" :header="title" expand>
+    <compEdit v-if="editing" :click="onEditFinish" :showOrder="showOrder" />
+    <div class="margin-top-bottom-small">
+        <menuItem v-for="menu in menus" :menu="menu" :key="menu.id" :name="name"
+            :createButton="createButton" />
+    </div>
+
+</ui-section>

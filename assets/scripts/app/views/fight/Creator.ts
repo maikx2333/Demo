@@ -16,13 +16,12 @@ export class FightCreator extends ViewCreatorBase {
 
     private _onCreateFightMainLayer(event:Message) {
         let viewInfo = viewRegisterMgr.getViewInfo("fight","FightMainUI");
-        let path = viewInfo.Path;
-        ResourcesLoader.load(path,(data:Prefab)=>{
+        ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             let uiNode = instantiate(data);
             this._loadBg((bg:Prefab)=>{
                 let bgNode = instantiate(bg);
                 sceneMgr.pushNewTableLayer();
-                sceneMgr.replaceTableContent(bgNode,viewInfo.View,data);
+                sceneMgr.replaceTableContent(bgNode,viewInfo.View);
                 bgNode.addChild(uiNode);
             })
         })
@@ -31,8 +30,7 @@ export class FightCreator extends ViewCreatorBase {
     private _loadBg(callback:(bg:Prefab)=>void) {
         //创建主城界面
         let viewInfo = viewRegisterMgr.getViewInfo("fight","FightMainLayer");
-        let path = viewInfo.Path;
-        ResourcesLoader.load(path,(data:Prefab)=>{
+        ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             if (callback){
                 callback(data);
             }
@@ -41,11 +39,10 @@ export class FightCreator extends ViewCreatorBase {
 
     private onCreateFormationView(event:Message) {
         let viewInfo = viewRegisterMgr.getViewInfo("fight","FightFormation");
-        let path = viewInfo.Path;
-        ResourcesLoader.load(path,(data:Prefab)=>{
+        ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             let node = instantiate(data);
             sceneMgr.pushNewTableLayer();
-            sceneMgr.replaceTableContent(node,viewInfo.View,data);
+            sceneMgr.replaceTableContent(node,viewInfo.View);
         })
     }
 

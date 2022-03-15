@@ -1,0 +1,32 @@
+<div>
+    <ui-prop>
+        <ui-label slot="label">Name</ui-label>
+        <ui-input slot="content" v-model="label"></ui-input>
+    </ui-prop>
+    <ui-prop>
+        <ui-label slot="label">脚本</ui-label>
+        <div slot="content" class="linebox-row">
+            <ui-file class="linebox-item" type="file" :value="file" v-on:change="file = $event.target.value"
+                extensions="js">
+            </ui-file>
+            <ui-button class="transparent" @click="onCreateScript">
+                <ui-icon color="true" value="add"></ui-icon>
+            </ui-button>
+        </div>
+    </ui-prop>
+    <ui-prop v-if="showOrder">
+        <ui-label slot="label">排序</ui-label>
+        <ui-input slot="content" class="linebox-item" v-model="order">
+        </ui-input>
+    </ui-prop>
+    <ui-prop>
+        <div slot="content" class="linebox-row linebox-end">
+            <ui-button class="transparent" @click="onClickCancel">
+                <ui-icon color="true" value="close-b"></ui-icon>
+            </ui-button>
+            <ui-button class="transparent" @click="onClickConfirm">
+                <ui-icon color="true" value="check-b"></ui-icon>
+            </ui-button>
+        </div>
+    </ui-prop>
+</div>

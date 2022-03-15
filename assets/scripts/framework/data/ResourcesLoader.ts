@@ -1,4 +1,5 @@
-import { Asset, assetManager, AssetManager, error, game, resources } from "cc";
+import { Asset, assetManager, AssetManager, error, game, log, resources } from "cc";
+import { ViewInfoType } from "../../app/define/ConfigType";
 
 /*
  * @Author: liuguoqing
@@ -16,6 +17,11 @@ type FileCallback<T extends UnionAsset> = {
 
 export class ResourcesLoader {
 
+    private static _ResCounter: Map<string, Asset> = new Map()
+
+    // 内存限制
+    private static _CacheMaxMemory = 1024;
+
     // 下载资源
     static preload(path: string, doneFunc:FileCallback<UnionAsset>) {
         resources.preload(path, (err, dataAsset) => {
@@ -26,7 +32,9 @@ export class ResourcesLoader {
         });
     }
 
-    // resources需要动态加载的资源
+    /**
+     * @description resources需要动态加载的资源(使用此方法，需要手动管理资源释放)
+     */
     static load(path: string, doneFunc:FileCallback<UnionAsset>, type?:typeof Asset) {
         if ( type == undefined ) {
             resources.load(path, (err, dataAsset) => {
@@ -35,14 +43,44 @@ export class ResourcesLoader {
                 }
                 doneFunc(dataAsset);
             });
-        } else {
-            resources.load(path, type, (err, dataAsset) => {
+            return;
+        } 
+
+        resources.load(path, type, (err, dataAsset) => {
+            if (err) {
+                error("ResourcesLoader load error:",err.message);
+            }
+            doneFunc(dataAsset);
+        });            
+    }
+
+    /**
+     * @description 创建界面一定使用此方法 resources需要动态加载的资源(使用此方法，引擎底层资源释放)
+     */
+    static loadWithViewInfo(viewInfo:ViewInfoType, doneFunc:FileCallback<UnionAsset>, type?:typeof Asset){
+        let path = viewInfo.Path;
+        if ( type == undefined ) {
+            resources.load(path, (err, dataAsset) => {
                 if (err) {
-                    error("ResourcesLoader load error:",err.message);
+                    error("ResourcesLoader load error:", err.message);
                 }
+
+                // 添加自动释放
+                ResourcesLoader._autoReleaseRes(viewInfo,dataAsset);
                 doneFunc(dataAsset);
-            });            
+            });
+            return;
         }
+
+        resources.load(path, type, (err, dataAsset) => {
+            if (err) {
+                error("ResourcesLoader load error:",err.message);
+            }
+
+            // 添加自动释放
+            ResourcesLoader._autoReleaseRes(viewInfo,dataAsset);
+            doneFunc(dataAsset);
+        });            
     }
     
     static loadList(pathList:string[], onProcess:(finishNum:number, max:number, data)=>{}){
@@ -63,24 +101,53 @@ export class ResourcesLoader {
         bundle?.release(path);
     }
 
-    //是否需要释放内存
-    static checkNeedToRealease():boolean {
-        //暂时用了1GB内存需要释放
-        if (game._gfxDevice.memoryStatus.textureSize / 1024 > 1024) {
-            return true
-        }
-        return false
-    }
-
-    static releaseAll(){
-        assetManager.releaseUnusedAssets()
-    }
-
     static loadPromise(path: string, type?:typeof Asset){
         return new Promise((resolve, rejected)=>{
             this.load(path, (data)=>{
                 resolve(data)
             }, type)
         })
+    }
+
+    //是否需要释放内存
+    static checkNeedToRelease():boolean {
+        //暂时用了1GB内存需要释放
+        let mb = 1024*1024;
+        if (game._gfxDevice.memoryStatus.textureSize / (mb) > ResourcesLoader._CacheMaxMemory) {
+            return true
+        }
+        return false
+    }
+
+    // 引用计数+1
+    static addResRef(layerName:string){
+        let asset = ResourcesLoader._ResCounter.get(layerName);
+        if (asset) {
+            asset.addRef();
+        }
+    }
+
+    // 引用计数-1
+    static decResRef(layerName:string){
+        let asset = ResourcesLoader._ResCounter.get(layerName);
+        if (asset) {
+            asset.decRef();
+        }
+    }
+
+    static releaseUnusedAssets(){
+        resources.releaseUnusedAssets()
+    }
+
+    private static _autoReleaseRes(viewInfo:ViewInfoType,asset:Asset){
+        let cache = viewInfo.Cache;
+        if (!cache) {
+            if (!ResourcesLoader._ResCounter.get(viewInfo.View)) {
+                ResourcesLoader._ResCounter.set(viewInfo.View,asset);
+            }
+        }else{
+            // 永久缓存 >1 即可
+            asset.addRef();
+        }
     }
 }
