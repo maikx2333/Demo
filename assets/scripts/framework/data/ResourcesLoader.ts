@@ -136,7 +136,7 @@ export class ResourcesLoader {
     }
 
     static releaseUnusedAssets(){
-        assetManager.releaseUnusedAssets()
+        resources.releaseUnusedAssets()
     }
 
     private static _autoReleaseRes(viewInfo:ViewInfoType,asset:Asset){

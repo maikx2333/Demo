@@ -6,7 +6,7 @@ import { ResourcesLoader } from "../data/ResourcesLoader";
 import { viewEventMgr } from "../listener/EventMgr";
 import { Message } from "../listener/Message";
 import { TableLayer } from "../ui/TableLayer";
-import { functions } from "../utils/functions";
+import { setNodeVisible } from "../utils/functions";
 // import { functions, ShowBackgroundMgr, Message, TableLayer, viewEventMgr } from "../yy";
 
 class SceneMgr extends Singleton {
@@ -228,9 +228,9 @@ class SceneMgr extends Singleton {
             this._hideTableLayer();
 
             //检查内存释放
-            if (ResourcesLoader.checkNeedToRelease()) {
+            // if (ResourcesLoader.checkNeedToRelease()) {
                 ResourcesLoader.releaseUnusedAssets()
-            }
+            // }
             return true;
         }
         return false;
@@ -617,7 +617,7 @@ class SceneMgr extends Singleton {
             // 有背景挡住，后面的都可以不显示
             if (isBreakOut) {
                 // cellTable.opacity = 0;
-                functions.setNodeVisible(cellTable, false)
+                setNodeVisible(cellTable, false)
                 cellTable.setContentLayerVisible(false);
                 LayerData.push({
                     name: cellLayerName,
@@ -627,7 +627,7 @@ class SceneMgr extends Singleton {
             }
 
             // cellTable.opacity = 255;
-            functions.setNodeVisible(cellTable, true)
+            setNodeVisible(cellTable, true)
             cellTable.setContentLayerVisible(true);
             nextCanVisible = 0;
 
@@ -667,7 +667,7 @@ class SceneMgr extends Singleton {
 
             if (nextCanVisible > 0 || list.length == 0) {
                 // mainLayer.opacity = 255;
-                functions.setNodeVisible(mainLayer, true)
+                setNodeVisible(mainLayer, true)
                 showLayerName = mainLayerName;
                 LayerData.push({
                     name: mainLayerName,
@@ -675,7 +675,7 @@ class SceneMgr extends Singleton {
                 });
             } else {
                 // mainLayer.opacity = 0;
-                functions.setNodeVisible(mainLayer, false)
+                setNodeVisible(mainLayer, false)
                 LayerData.push({
                     name: mainLayerName,
                     visiable: false,
