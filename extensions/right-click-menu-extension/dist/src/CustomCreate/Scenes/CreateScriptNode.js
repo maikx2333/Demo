@@ -33,6 +33,7 @@ async function createScriptNode(uuid) {
     };
     await Editor.Message.request('scene', 'create-node', options);
     console.log("创建ScriptNode成功!");
+    await Editor.Message.request('scene', 'save-scene');
 }
 function find(node, callback) {
     node.children.forEach(n => {
