@@ -15,11 +15,10 @@ export class LoginCreator extends ViewCreatorBase {
     onCreateLoginView(event:Message) {
         //创建登录界面
         let viewInfo = viewRegisterMgr.getViewInfo("login","LoginView");
-        let path = viewInfo.Path;
-        ResourcesLoader.load(path,(data:Prefab)=>{
+        ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             let node = instantiate(data);
             sceneMgr.pushNewTableLayer();
-            sceneMgr.replaceTableContent(node,viewInfo.View,data);
+            sceneMgr.replaceTableContent(node,viewInfo.View);
         })
     }
 }

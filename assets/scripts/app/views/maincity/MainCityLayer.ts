@@ -28,7 +28,7 @@ export class MainCityLayer extends LayerBase {
     start () {
         // [3]
 
-        audioMgr.playMusic("maincity/avs/bgm_liyuan")
+        audioMgr.playMusic("maincity/avs/bgm_liyuan");
     }
 
     // update (deltaTime: number) {

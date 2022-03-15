@@ -1,13 +1,19 @@
-import { instantiate, Prefab, UITransform, v3 } from "cc";
+import { instantiate, Prefab } from "cc";
 import { sceneMgr } from "../../../framework/core/SceneMgr";
 import { ResourcesLoader } from "../../../framework/data/ResourcesLoader";
 import { Message } from "../../../framework/listener/Message";
 import { ViewCreatorBase } from "../../../framework/ui/ViewCreatorBase";
 import { ViewProtocol } from "../../define/ViewProtocol";
 import { viewRegisterMgr } from "../../define/ViewRegisterMgr";
-import { Tips } from "../common/Tips";
+import { Tips } from "./Tips";
 
 export class DialogCreator extends ViewCreatorBase {
+
+    private _tipsQueue:Array<Message> = new Array<Message>();
+    private _tempTipsQueue:Array<Message> = new Array<Message>();
+    private _timer: NodeJS.Timer = null;
+
+    // private _isDispatching:boolean = false;
 
     onInit() {
         this.regMsg(ViewProtocol.DoubleBtnDialog, this.onCreateDoubleBtnDialogView.bind(this))
@@ -16,37 +22,49 @@ export class DialogCreator extends ViewCreatorBase {
 
     onCreateDoubleBtnDialogView(event:Message) {
         let viewInfo = viewRegisterMgr.getViewInfo("dialog","DoubleBtnDialog");
-        let path = viewInfo.Path;
-        ResourcesLoader.load(path,(data:Prefab)=>{
+        ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             data.addRef()
             let node = instantiate(data);
             // let com = node.getComponent("DoubleBtnDialog").updateDialog(event.getRawData[0]);
             sceneMgr.pushNewTableLayer();
-            sceneMgr.replaceTableContent(node,viewInfo.View,data);
+            sceneMgr.replaceTableContent(node,viewInfo.View);
         })
     }
 
     onCreateTips(event:Message){
-        let str = event.getRawData()
-        let tipsLayer = sceneMgr.getTipsLayer()
-        let lastTips = tipsLayer.children.length > 0 && tipsLayer.children[tipsLayer.children.length - 1]
-        if (lastTips && lastTips.getComponent(Tips).text == str) {
-            return
+        let isScheduled = this._timer ? true : false;
+        if (isScheduled) {
+            // 暂存队列
+            this._tempTipsQueue.push(event);
+            return;
         }
 
-        ResourcesLoader.load("common_ui/prefabs/tips", (data:Prefab)=>{
-            // let tipsList = tipsLayer.children
-            // for (let index = 0; index < tipsList.length; index++) {
-            //     const element = tipsList[index]
-            //     if (tipsList.length - index > 5)
-            //         element.position.set(0, (tipsList.length - index) * 10 * 45,0)  
-            //     else element.position.set(0, (tipsList.length - index) * 45)
-            // }
+        this._tipsQueue.push(event);
+        this._timer = setInterval(this._tipsTick.bind(this),100);
+    }
 
-            data.addRef()
-            let tipsNode = instantiate(data)
-            tipsNode.getComponent(Tips).text = str
-            sceneMgr.getTipsLayer().addChild(tipsNode)
-        }, Prefab)
+    _tipsTick(){
+        if (this._tipsQueue.length == 0) {
+            if (this._tempTipsQueue.length == 0 ){
+                clearInterval(this._timer);
+                this._timer = null;
+                return;
+            }
+            
+            this._tipsQueue = this._tempTipsQueue;
+            this._tempTipsQueue.length = 0;
+        }
+
+        let event:Message = this._tipsQueue.shift();
+        if (event){
+            let viewInfo = viewRegisterMgr.getViewInfo("dialog","Tips");
+            ResourcesLoader.loadWithViewInfo(viewInfo, (data:Prefab)=>{
+                let tipsNode = instantiate(data)
+                let str = event.getRawData()
+                tipsNode.getComponent(Tips).text = str;
+                sceneMgr.getTipsLayer().addChild(tipsNode)
+            }, Prefab)
+        }
+       
     }
 }

@@ -24,6 +24,11 @@ export type ViewInfoType = {
      * 是否隐藏背景
      */
     Hidden:boolean;
+
+    /**
+     * 是否永久缓存
+     */
+    Cache:boolean;
 }
 
 export type DeviceInfoType = {

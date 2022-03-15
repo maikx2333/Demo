@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, Label, log, EventTouch, resources } from 'cc';
+import { _decorator, Component, Node, Label, log, EventTouch, resources, View } from 'cc';
 import { sceneMgr } from '../../../framework/core/SceneMgr';
 import { ComponentBase } from '../../../framework/ui/ComponentBase';
 import { ViewProtocol } from '../../define/ViewProtocol';
@@ -24,5 +24,13 @@ export class MainCityUI extends ComponentBase {
 
     onClickQuestionBtn(event:EventTouch,customEventData: string){
         sceneMgr.sendCreateView(ViewProtocol.PreviewReward);
+    }
+
+    onClickAddRes1Btn(event:EventTouch,customEventData: string){
+        sceneMgr.sendCreateView(ViewProtocol.Tips,customEventData);
+    }
+
+    onClickAddRes2Btn(event:EventTouch,customEventData: string){
+        sceneMgr.sendCreateView(ViewProtocol.Tips,customEventData);
     }
 }

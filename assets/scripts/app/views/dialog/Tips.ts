@@ -33,7 +33,7 @@ export class Tips extends Component {
         let contentNode = find("content", this.node)
         tween(contentNode)
             .by(0.3, { position: v3(0, 200, 0) })
-            .delay(1)
+            .delay(0.2)
             .call(()=>{
                 this.node.destroy();
             })

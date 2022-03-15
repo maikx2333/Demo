@@ -1,6 +1,6 @@
 
 import { _decorator, Component, Node } from 'cc';
-import { sceneMgr } from '../../../framework/core/SceneMgr';
+import { sceneMgr } from '../../../../framework/core/SceneMgr';
 const { ccclass, property } = _decorator;
 
 /**
