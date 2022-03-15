@@ -1,7 +1,8 @@
 
-import { _decorator, Component, Node, find, log } from 'cc';
+import { _decorator, Component, Node, find, log, EventTouch, v3 } from 'cc';
 import { audioMgr } from '../../../framework/core/audio/AudioManager';
 import { LayerBase } from '../../../framework/ui/LayerBase';
+import { MulitMoveingBgs } from '../common/MulitMoveingBgs';
 const { ccclass, property } = _decorator;
 
 /**
@@ -25,15 +26,31 @@ export class MainCityLayer extends LayerBase {
     // @property
     // serializableDummy = 0;
 
+    @property(Node)
+    private bgNode:Node
+    _mulitBgComp:MulitMoveingBgs
+
     start () {
         // [3]
-
         audioMgr.playMusic("maincity/avs/bgm_liyuan")
+
+        this._initBgTouch()
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
+    private _initBgTouch() {
+        this._mulitBgComp = this.bgNode.getComponent(MulitMoveingBgs)
+        this.node.parent.on(Node.EventType.TOUCH_MOVE, this.onBgTouchMove.bind(this))
+    }
+
+    private onBgTouchMove(event:EventTouch) {
+        let deltaX = event.getDeltaX()
+        this._mulitBgComp.move(deltaX * 1.1)
+    }
+
+    update (deltaTime: number) {
+        // [4]
+        
+    }
 }
 
 /**
