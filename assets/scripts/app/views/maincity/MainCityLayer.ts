@@ -61,10 +61,11 @@ export class MainCityLayer extends LayerBase {
         this._deltaPos = event.getDelta()
         this._deltaPos.multiplyScalar(1.5)
         this._deltaPos = v2(this._deltaPos.x, 0)
+        this._mulitBgComp.move(this._deltaPos, false)
     }
     
     private onBgTouchEnd() {
-        this._mulitBgComp.move(this._deltaPos, true)
+        this._mulitBgComp.move(this._deltaPos.multiplyScalar(3), true)
     }
 
     update (deltaTime: number) {

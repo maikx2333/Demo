@@ -63,10 +63,23 @@ export class MulitMoveingBgs extends Component {
         }
         else {
             // 非惯性移动
-            posAdd(this.mainBg, byPos, this.minX, this.maxX)
-            this.subBg.forEach(element => {
-                posAdd(element.bgNode, byPos.multiplyScalar(element.moveScale))
-            });
+             //判断结束
+             let newPos = this.mainBg.position.clone().add(v3(byPos.x, byPos.y))
+             if (this.minX && newPos.x < this.minX) {
+                newPos.x = this.minX
+            }
+            if (this.maxX && newPos.x > this.maxX) {
+                newPos.x = this.maxX
+            }
+
+            let dis =  newPos.subtract(this.mainBg.position).length()
+            if (dis !=0 ) {
+                posAdd(this.mainBg, byPos, this.minX, this.maxX)
+                this.subBg.forEach(element => {
+                    posAdd(element.bgNode, byPos.multiplyScalar(element.moveScale))
+                });
+            }
+
         }
     }
 
