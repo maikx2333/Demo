@@ -19,7 +19,7 @@ const { ccclass, property } = _decorator;
 export class DInertiaMove extends Component {
 
     private _autoOffPos: Vec2; //每一帧的偏移值
-    private drag: number = 0.95; //摩擦系数
+    private drag: number = 0.97; //摩擦系数
     private isAutoScrolling: boolean = false;
     private _minX: number;
     private _maxX: number;

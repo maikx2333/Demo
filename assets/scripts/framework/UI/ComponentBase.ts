@@ -6,6 +6,7 @@
  * @Description: file content
  */
 import { Component } from "cc";
+import { msgEventMgr } from "../listener/EventMgr";
 
 type callbackFunc = (data: any) => void | string | boolean;
 
@@ -18,6 +19,7 @@ export class ComponentBase extends Component {
     }
 
     start() {}
+
 
     /**
      * 在组件加载的时候调用addMsgListener来监听消息
@@ -40,13 +42,13 @@ export class ComponentBase extends Component {
      * 添加网络消息监听
      */
     addMsgListener(msgId: number, listener: callbackFunc) {
-        // let handle = MsgEventMgr.getInstance().addEventListener(
-        //     msgId,
-        //     listener
-        // );
-        // if (this._eventMsgListeners.get(handle) != null) return;
+        let handle = msgEventMgr.addEventListener(
+            msgId,
+            listener
+        );
+        if (this._eventMsgListeners.get(handle) != null) return;
 
-        // this._eventMsgListeners.set(handle, msgId);
+        this._eventMsgListeners.set(handle, msgId);
     }
 
     /**
@@ -54,22 +56,22 @@ export class ComponentBase extends Component {
      * 某些情况node里面需要动态加减某个消息监听
      */
     removeMsgListener(msgId: number) {
-        // this._eventMsgListeners.forEach((value, key) => {
-        //     if (value == msgId) {
-        //         MsgEventMgr.getInstance().removeEventListener(value, key);
-        //         this._eventMsgListeners.delete(key);
-        //     }
-        // });
+        this._eventMsgListeners.forEach((value, key) => {
+            if (value == msgId) {
+                msgEventMgr.removeEventListener(value, key);
+                this._eventMsgListeners.delete(key);
+            }
+        });
     }
 
     /**
      * 去掉所有网络消息监听
      */
     removeAllMsgListener() {
-    //     this._eventMsgListeners.forEach((value, key) => {
-    //         MsgEventMgr.getInstance().removeEventListener(value, key);
-    //         this._eventMsgListeners.delete(key);
-    //     });
-    //     this._eventMsgListeners.clear;
+        this._eventMsgListeners.forEach((value, key) => {
+            msgEventMgr.removeEventListener(value, key);
+            this._eventMsgListeners.delete(key);
+        });
+        this._eventMsgListeners.clear;
     }
 }
