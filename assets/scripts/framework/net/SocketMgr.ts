@@ -1,7 +1,9 @@
 import { log } from "cc";
+import { type } from "os";
 import { Singleton } from "../components/Singleton";
 import { gameMgr } from "../core/GameMgr";
 import { Message } from "../listener/Message";
+import { netLoadingMgr } from "./NetLoadingMgr";
 import { netStateMgr } from "./NetStateMgr";
 
 /*
@@ -82,6 +84,8 @@ class SocketMgr extends Singleton {
         data = JSON.stringify(data);
         log("[WS] Send:", msgId, data);
         this._ws.send(<string>data);
+
+        netLoadingMgr.addMsgLoading(msgId)
     }
 
     sendInnerMsg(msgId: number, data: Object = {}) {
@@ -120,6 +124,8 @@ class SocketMgr extends Singleton {
         log("[WS] Rev:", jsonData.proto, data);
         let msg = new Message(-jsonData.proto, jsonData);
         gameMgr.addNetMessage(msg);
+
+        netLoadingMgr.removeMsgLoading(msg.msgId)
     }
 
     private _onerror(event) {

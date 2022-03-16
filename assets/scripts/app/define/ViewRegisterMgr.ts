@@ -20,115 +20,119 @@ import { yy } from "./YYNamespace";
 import { ViewInfoType } from "./ConfigType";
 
 type ViewConfig = {
-    path:string;//预制体路径
-    isShowBg?:boolean;//是否显示背景(默认false不现实背景)
-    isCache?:boolean;//是否永久缓存(默认false不永久缓存) 手动管理是否释放
+    path: string;//预制体路径
+    isShowBg?: boolean;//是否显示背景(默认false不现实背景)
+    isCache?: boolean;//是否永久缓存(默认false不永久缓存) 手动管理是否释放
 }
 
 interface ViewRegMgrInterface {
-    ViewType:{
-        [x:string]:{
-            prefab:{
-                [y:string]:ViewConfig
+    ViewType: {
+        [x: string]: {
+            prefab: {
+                [y: string]: ViewConfig
             }
         }
     };
 }
 
 
-export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
+export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface {
     // 注册预页面预制体路径
     ViewType = {
         // 通用ui
-        commonUI:{
-            prefab:{
-                "RewardItemIcon":{
-                                    path:"common_ui/prefabs/RewardItemIcon",
-                                    isCache:true
-                                }
-            }
+        commonUI: {
+            prefab: {
+                "RewardItemIcon": {
+                    path: "common_ui/prefabs/RewardItemIcon",
+                    isCache: true
+                },
+                "netloading": {
+                    path: "common_ui/prefabs/netinstable",
+                    isCache: true
+                }
+            },
         },
 
         // 登陆
         login: {
             prefab: {
                 "LoginView": {
-                                path:'core/prefab/LoginView',
-                                isShowBg:true,
-                            },
-                "AccountView":{
-                                path:'core/prefab/AccountView',
-                                isShowBg:true,
-                            }
+                    path: 'core/prefab/LoginView',
+                    isShowBg: true,
+                },
+                "AccountView": {
+                    path: 'core/prefab/AccountView',
+                    isShowBg: true,
+                }
             },
         },
 
         // dialog/tips
-        dialog:{
-            prefab:{
-                "DoubleBtnDialog":{
-                                path:'common_ui/prefabs/double_btn_dialog',
-                                isShowBg:true,
-                                isCache:true
-                            },
-                "Tips":{
-                    path:"common_ui/prefabs/tips",
-                    isShowBg:true,
-                    isCache:true
+        dialog: {
+            prefab: {
+                "DoubleBtnDialog": {
+                    path: 'common_ui/prefabs/double_btn_dialog',
+                    isShowBg: true,
+                    isCache: true
+                },
+                "Tips": {
+                    path: "common_ui/prefabs/tips",
+                    isShowBg: true,
+                    isCache: true
                 }
             }
         },
 
-        preReward:{
-            prefab:{
-                "preRewardMain":{
-                    path:"preview_reward/prefabs/preview_reward_prefab", 
-                    isShowBg:true,
+        preReward: {
+            prefab: {
+                "preRewardMain": {
+                    path: "preview_reward/prefabs/preview_reward_prefab",
+                    isShowBg: true,
                 }
             }
         },
 
         // 主城
-        maincity:{
-            prefab:{
-                "MainCityLayer":{
-                    path:"maincity/prefabs/maincitylayer",
-                    isCache:true
+        maincity: {
+            prefab: {
+                "MainCityLayer": {
+                    path: "maincity/prefabs/maincitylayer",
+                    isCache: true
                 },
-                "MainCityUI":{
-                    path:"maincity/prefabs/maincityui",
-                    isCache:true
+                "MainCityUI": {
+                    path: "maincity/prefabs/maincityui",
+                    isCache: true
                 }
             }
         },
 
         // 战斗
-        fight:{
-            prefab:{
-                "FightMainLayer":{
-                    path:"fight/prefabs/changjing/mainfightlayer"
+        fight: {
+            prefab: {
+                "FightMainLayer": {
+                    path: "fight/prefabs/changjing/mainfightlayer"
                 },
-                "FightMainUI":{
-                    path:"fight/prefabs/changjing/mainfightui"
+                "FightMainUI": {
+                    path: "fight/prefabs/changjing/mainfightui"
                 },
-                "FightFormation":{
-                    path:"fight/prefabs/changjing/FightFormation"
+                "FightFormation": {
+                    path: "fight/prefabs/changjing/FightFormation"
                 },
             }
         },
         // 武将
-        hero:{
-            prefab:{
-                "HeroSpinePrefab":{
-                    path:"hero/prefabs/hero/"
+        hero: {
+            prefab: {
+                "HeroSpinePrefab": {
+                    path: "hero/prefabs/hero/"
                 }
             }
         },
         //布阵
-        formation:{
-            prefab:{
-                "FormationView":{
-                    path:"formation/prefabs/formation"
+        formation: {
+            prefab: {
+                "FormationView": {
+                    path: "formation/prefabs/formation"
                 }
             }
         }
@@ -143,15 +147,15 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
         FightCreator,
         FormationCreator,
     ]
-    
+
     private constructor() {
         super();
-        Object.keys(this.ViewType).forEach((system:string)=>{
+        Object.keys(this.ViewType).forEach((system: string) => {
             // log("ViewRegisterMgr:ctor() system [ %s ]",system);
             let module = this.ViewType[system];
-            Object.keys(module.prefab).forEach((view:string)=>{
+            Object.keys(module.prefab).forEach((view: string) => {
                 let arr = <ViewConfig>module.prefab[<string><unknown>view];
-                let isHidden = arr.isShowBg??false;
+                let isHidden = arr.isShowBg ?? false;
                 // log("ViewRegisterMgr:ctor() view [ %s ] [ %s ]",view,isHidden.toString());
                 if (isHidden) {
                     ShowBackgroundMgr.regShowBackgroundView(view);
@@ -163,28 +167,28 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
 
     // 各个系统中获取页面预制的都路径 返回 ViewInfoType
     getViewInfo<TMoudleName extends yy.types.ViewModuleName,
-                            TPrefabName  = keyof  ViewRegisterMgr['ViewType'][TMoudleName]['prefab']>
-                                (name: TMoudleName, prefabName: yy.types.NoInfer<TPrefabName>):ViewInfoType{
+        TPrefabName = keyof ViewRegisterMgr['ViewType'][TMoudleName]['prefab']>
+        (name: TMoudleName, prefabName: yy.types.NoInfer<TPrefabName>): ViewInfoType {
         let module = this.ViewType[name];
         let cfg = <ViewConfig>module.prefab[<string><unknown>prefabName];
         return {
-            System:name,
+            System: name,
             View: <string><unknown>prefabName,
-            Path:cfg.path,
-            Hidden:cfg.isShowBg??false,
-            Cache:cfg.isCache??false
+            Path: cfg.path,
+            Hidden: cfg.isShowBg ?? false,
+            Cache: cfg.isCache ?? false
         };
     }
 
     // enter app call this method,register all view creator
-    public registerAllCreator(){
-        this.Cretors.forEach((ctor)=>{
+    public registerAllCreator() {
+        this.Cretors.forEach((ctor) => {
             viewCreatorMgr.registeredCreator(new ctor());
         })
     }
 }
 
 // ()();
-export let viewRegisterMgr = (()=>{
+export let viewRegisterMgr = (() => {
     return ViewRegisterMgr.getInstance<ViewRegisterMgr>();
 })();

@@ -1,5 +1,7 @@
 import { Asset, assetManager, AssetManager, error, game, log, resources } from "cc";
 import { ViewInfoType } from "../../app/define/ConfigType";
+import { sceneMgr } from "../core/SceneMgr";
+import { netLoadingMgr } from "../net/NetLoadingMgr";
 
 /*
  * @Author: liuguoqing
@@ -57,8 +59,12 @@ export class ResourcesLoader {
     /**
      * @description 创建界面一定使用此方法 resources需要动态加载的资源(使用此方法，引擎底层资源释放)
      */
-    static loadWithViewInfo(viewInfo:ViewInfoType, doneFunc:FileCallback<UnionAsset>, type?:typeof Asset){
+    static loadWithViewInfo(viewInfo:ViewInfoType, doneFunc:FileCallback<UnionAsset>, isShowLoading:boolean = true, type?:typeof Asset){
         let path = viewInfo.Path;
+        if (isShowLoading) {
+            netLoadingMgr.addMsgLoading("load view:" + path, 0)
+        }
+
         if ( type == undefined ) {
             resources.load(path, (err, dataAsset) => {
                 if (err) {
@@ -68,6 +74,9 @@ export class ResourcesLoader {
                 // 添加自动释放
                 ResourcesLoader._autoReleaseRes(viewInfo,dataAsset);
                 doneFunc(dataAsset);
+
+                //加载转圈
+                netLoadingMgr.removeMsgLoading("load view:" + path)
             });
             return;
         }
@@ -80,6 +89,9 @@ export class ResourcesLoader {
             // 添加自动释放
             ResourcesLoader._autoReleaseRes(viewInfo,dataAsset);
             doneFunc(dataAsset);
+
+            //加载转圈
+            netLoadingMgr.removeMsgLoading("load view:" + path)
         });            
     }
     
