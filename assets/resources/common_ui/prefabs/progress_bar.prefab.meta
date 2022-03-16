@@ -2,12 +2,12 @@
   "ver": "1.1.35",
   "importer": "prefab",
   "imported": true,
-  "uuid": "b103ecc1-e5c0-4146-980e-a66f87ebfd6b",
+  "uuid": "42dd0a8a-9117-4434-b4c9-230e82a30092",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "loginaccount"
+    "syncNodeName": "progress_bar"
   }
 }

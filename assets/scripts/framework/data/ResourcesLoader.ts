@@ -23,7 +23,7 @@ export class ResourcesLoader {
     private static _CacheMaxMemory = 1024;
 
     // 下载资源
-    static preload(path: string, doneFunc:FileCallback<UnionAsset>) {
+    static preload(path: string | string[], doneFunc:FileCallback<UnionAsset>) {
         resources.preload(path, (err, dataAsset) => {
             if (err) {
                 error("ResourcesLoader preload error:", err.message);
@@ -83,7 +83,7 @@ export class ResourcesLoader {
         });            
     }
     
-    static loadList(pathList:string[], onProcess:(finishNum:number, max:number, data)=>{}){
+    static loadList(pathList:string[], onProcess:(finishNum:number, max:number, data)=>void,onComplete?:()=>void){
         let finishNum:number = 0
         let totalNum:number = pathList.length
 
@@ -91,6 +91,9 @@ export class ResourcesLoader {
             this.load(element, (data)=>{
                 finishNum++
                 onProcess(finishNum, totalNum, data)
+                if (finishNum == totalNum) {
+                    onComplete? onComplete():undefined;
+                }
             })
         });
     }

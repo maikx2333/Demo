@@ -4,7 +4,7 @@
     "_name": "account_show",
     "_objFlags": 0,
     "_native": "",
-    "sample": 30,
+    "sample": 60,
     "speed": 0.5,
     "wrapMode": 1,
     "enableTrsBlending": false,
@@ -58,7 +58,7 @@
     "__type__": "cc.RealCurve",
     "_times": [
       0,
-      0.06666667014360428,
+      0.0833333358168602,
       0.13333334028720856
     ],
     "_values": [
@@ -66,7 +66,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 0.949999988079071,
+        "value": 0,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -77,7 +77,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 1.0299999713897705,
+        "value": 1.100000023841858,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -109,7 +109,7 @@
     "__type__": "cc.RealCurve",
     "_times": [
       0,
-      0.06666667014360428,
+      0.0833333358168602,
       0.13333334028720856
     ],
     "_values": [
@@ -117,7 +117,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 0.949999988079071,
+        "value": 0,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -128,7 +128,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 1.0299999713897705,
+        "value": 1.100000023841858,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -160,7 +160,7 @@
     "__type__": "cc.RealCurve",
     "_times": [
       0,
-      0.06666667014360428,
+      0.0833333358168602,
       0.13333334028720856
     ],
     "_values": [
@@ -168,7 +168,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 0.949999988079071,
+        "value": 0,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -179,7 +179,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 1.0299999713897705,
+        "value": 1.100000023841858,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,

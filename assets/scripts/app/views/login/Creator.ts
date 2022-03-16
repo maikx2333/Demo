@@ -11,7 +11,7 @@ export class LoginCreator extends ViewCreatorBase {
 
     onInit() {
         this.regMsg(ViewProtocol.LoginLayer, this.onCreateLoginView.bind(this));
-        this.regMsg(ViewProtocol.AccountLayer,this.onCreateAccountLayer.bind(this));
+        this.regMsg(ViewProtocol.LoginAccountLayer,this.onCreateAccountLayer.bind(this));
         this.regMsg(ViewProtocol.UserAgreementLayer, this.onCreateUserAgreementLayer.bind(this))
         this.regMsg(ViewProtocol.PrivacyPolicyLayer, this.onCreatePrivacyPolicyLayer.bind(this))
         this.regMsg(ViewProtocol.NoticeView, this.onCreateNoticeView.bind(this))
@@ -22,14 +22,13 @@ export class LoginCreator extends ViewCreatorBase {
         let viewInfo = viewRegisterMgr.getViewInfo("login","LoginLayer");
         ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             let node = instantiate(data);
-            sceneMgr.pushNewTableLayer();
-            sceneMgr.replaceTableContent(node,viewInfo.View);
+            sceneMgr.replaceMainLayer(node,viewInfo.View);
         })
     }
 
     onCreateAccountLayer(event:Message) {
         //账号界面
-        let viewInfo = viewRegisterMgr.getViewInfo("login","AccountLayer");
+        let viewInfo = viewRegisterMgr.getViewInfo("login","LoginAccountLayer");
         ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             let node = instantiate(data);
             sceneMgr.pushNewTableLayer();

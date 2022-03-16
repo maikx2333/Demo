@@ -5,7 +5,7 @@ export enum ViewProtocol {
 
     // login
     LoginLayer,
-    AccountLayer,
+    LoginAccountLayer,
     DoubleBtnDialog,
     Tips,
 

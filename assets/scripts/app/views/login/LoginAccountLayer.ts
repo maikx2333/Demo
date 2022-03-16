@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, EditBox, log, sys, game } from 'cc';
+import { _decorator, Component, Node, EditBox, log, sys, game, UITransform } from 'cc';
 import { gameMgr } from '../../../framework/core/GameMgr';
 import { sceneMgr } from '../../../framework/core/SceneMgr';
 import { storage } from '../../../framework/core/storage/Storage';
@@ -15,6 +15,12 @@ const { ccclass, property } = _decorator;
  
 @ccclass('LoginAccountLayer')
 export class LoginAccountLayer extends LayerBase {
+
+    onLoad(){
+        super.onLoad();
+        let com = this.getComponent(UITransform);
+        log(com.contentSize);
+    }
 
     @property(EditBox)
     editAccount:EditBox=null;
@@ -51,12 +57,12 @@ export class LoginAccountLayer extends LayerBase {
         let passWord = this.editPassword.string;
 
         if (userName == "") {
-            userName = "test";
-            // return;
+            G.showMsgTips("账号不能为空!");
+            return;
         }
         if (passWord == "") {
-            userName = "123456";
-            // return;
+            G.showMsgTips("密码不能为空!");
+            return;
         }
 
         this._login(userName, passWord);

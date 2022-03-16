@@ -48,7 +48,7 @@ export namespace G {
 
     // 公告
     export function showNotice(callback?: Function) {
-    let url = `www.baidu.com`;
+    let url = `http://192.168.0.122:8080/notice.jpg`;
     // {
     //   "html_id": 1, // 实际html id
     //   "start": 1590935388, // 开始时间

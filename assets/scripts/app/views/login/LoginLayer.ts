@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, Label, Prefab, instantiate, log, EventTouch } from 'cc';
+import { _decorator, Component, Node, Label, Prefab, instantiate, log, EventTouch, AnimationClip, Animation } from 'cc';
 import { gameMgr } from '../../../framework/core/GameMgr';
 import { sceneMgr } from '../../../framework/core/SceneMgr';
 import { storage } from '../../../framework/core/storage/Storage';
@@ -24,9 +24,11 @@ export class LoginLayer extends LayerBase {
     @property(Label)
     versionLbl: Label = null;
 
-    onLoad(){
-        super.onLoad();
+    private _rootNode = null;
 
+    start(){
+        // super.onLoad();
+        this._rootNode = this.node.parent;
         // set version
         if (this.versionLbl) {
             // FileHelper.load("Txt/showVer", (data) => {
@@ -40,7 +42,7 @@ export class LoginLayer extends LayerBase {
         this.addMsgListener(Protocol.Login.identify,this._onIdentifyHandler.bind(this));
         this.addMsgListener(Protocol.Login.login,this._onLoginHandler.bind(this));
         this.addMsgListener(InnerProtocol.SelectServer,this._onSelectServerHandler.bind(this));
-
+        this.addMsgListener(InnerProtocol.CloseNoticeView,this.playShowEnterBtnAnimate.bind(this));
         // 新手引导层
         this._addNewGuideLayer(() => {
             this._serverInfoRequest();
@@ -104,7 +106,7 @@ export class LoginLayer extends LayerBase {
     }
 
     private _openLoginAccount() {
-        sceneMgr.sendCreateView(ViewProtocol.AccountLayer);
+        sceneMgr.sendCreateView(ViewProtocol.LoginAccountLayer);
     }
 
     private _connectServer() {
@@ -192,5 +194,10 @@ export class LoginLayer extends LayerBase {
     // 点击打开服务器列表
     onClickServerListBtn(event:EventTouch,customEventData:string){
         G.showMsgTips("系统未开发");
+    }
+
+    playShowEnterBtnAnimate(){
+        let com = this._rootNode.getComponent(Animation);
+        com.play();
     }
 }

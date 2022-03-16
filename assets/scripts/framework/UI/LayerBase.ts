@@ -5,8 +5,9 @@
  * @LastEditTime: 2022-03-05 15:08:57
  * @Description: file content
  */
-import { _decorator, Node, BlockInputEventsComponent } from "cc";
+import { _decorator, Node, BlockInputEventsComponent, UITransform, size, view } from "cc";
 import { ComponentBase } from "./ComponentBase";
+import { UIWidget } from "./UIWidget";
 const { ccclass, property } = _decorator;
 
 
@@ -25,7 +26,8 @@ export class LayerBase extends ComponentBase {
      */
     onLoad() {
         super.onLoad()
-        this.addComponent(BlockInputEventsComponent)
+        this.addComponent(BlockInputEventsComponent);
+        this.addComponent(UIWidget);
     }
 
     

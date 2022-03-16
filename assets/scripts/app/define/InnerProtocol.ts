@@ -5,5 +5,6 @@
     ReloginSuccess,
     FightPause,
     FightResume,
-    SelectServer
+    SelectServer,
+    CloseNoticeView,
 }

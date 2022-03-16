@@ -2,12 +2,12 @@
   "ver": "2.0.3",
   "importer": "animation-clip",
   "imported": true,
-  "uuid": "e19cf4bc-be0a-46b3-8964-675ead227552",
+  "uuid": "f6580f93-9d8c-490a-b74f-363b2d4bf800",
   "files": [
     ".cconb"
   ],
   "subMetas": {},
   "userData": {
-    "name": "account_show"
+    "name": "enter_btn_show"
   }
 }

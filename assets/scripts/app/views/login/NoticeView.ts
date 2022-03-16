@@ -1,10 +1,13 @@
 
-import { _decorator, Component, Node, WebView } from 'cc';
+import { _decorator, WebView } from 'cc';
 import { sceneMgr } from '../../../framework/core/SceneMgr';
+import { socketMgr } from '../../../framework/net/SocketMgr';
+import { LayerBase } from '../../../framework/ui/LayerBase';
+import { InnerProtocol } from '../../define/InnerProtocol';
 const { ccclass, property } = _decorator;
  
 @ccclass('NoticeView')
-export class NoticeView extends Component {
+export class NoticeView extends LayerBase {
     
     @property(WebView)
     webview: WebView = null;
@@ -23,6 +26,7 @@ export class NoticeView extends Component {
         if (this._callback) {
             this._callback();
         }
+        socketMgr.sendInnerMsg(InnerProtocol.CloseNoticeView);
     }
 
 }

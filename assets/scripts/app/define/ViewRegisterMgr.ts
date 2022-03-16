@@ -6,7 +6,7 @@
  * @Description: file content
  */
 
-import { log } from "cc";
+import { log, Prefab } from "cc";
 import { Singleton } from "../../framework/components/Singleton";
 import { DialogCreator } from "../views/dialog/Creator";
 import { LoginCreator } from "../views/login/Creator";
@@ -38,6 +38,13 @@ interface ViewRegMgrInterface {
 
 
 export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
+    // 预加载的预制体
+    static PreloadResList = {
+        commonUI:1,
+        dialog:1,
+        maincity:1
+    }
+
     // 注册预页面预制体路径
     ViewType = {
         // 通用ui
@@ -56,7 +63,7 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
                 "LoginLayer": {
                                 path:'login/prefabs/loginlayer',
                             },
-                "AccountLayer":{
+                "LoginAccountLayer":{
                                 path:'login/prefabs/loginaccount',
                                 isShowBg:true,
                             },
@@ -182,6 +189,20 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
                 }
             })
         })
+    }
+
+    getPreloadPrefabs():Array<string>{
+        let list:Array<string> = new Array<string>();
+        Object.keys(this.ViewType).forEach((system:string)=>{
+            if (ViewRegisterMgr.PreloadResList[system]) {
+                let module = this.ViewType[system];
+                Object.keys(module.prefab).forEach((view:string)=>{
+                    let viewConfig = <ViewConfig>module.prefab[<string><unknown>view];
+                    list.push(viewConfig.path);
+                })
+            }
+        })
+        return list;
     }
 
 

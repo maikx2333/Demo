@@ -1,44 +1,73 @@
 
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, ProgressBar, Label } from 'cc';
+import { sceneMgr } from '../../../framework/core/SceneMgr';
+import { ResourcesLoader } from '../../../framework/data/ResourcesLoader';
+import { ViewProtocol } from '../../define/ViewProtocol';
+import { viewRegisterMgr } from '../../define/ViewRegisterMgr';
 const { ccclass, property } = _decorator;
 
-/**
- * Predefined variables
- * Name = ResLoadingLayer
- * DateTime = Tue Mar 15 2022 16:47:32 GMT+0800 (中国标准时间)
- * Author = Steven_Greeard
- * FileBasename = ResLoadingLayer.ts
- * FileBasenameNoExtension = ResLoadingLayer
- * URL = db://assets/scripts/app/views/loading/ResLoadingLayer.ts
- * ManualUrl = https://docs.cocos.com/creator/3.4/manual/en/
- *
- */
- 
 @ccclass('ResLoadingLayer')
 export class ResLoadingLayer extends Component {
-    // [1]
-    // dummy = '';
+;
+    @property(Label)
+    percent: Label = null;
 
-    // [2]
-    // @property
-    // serializableDummy = 0;
+    @property(ProgressBar)
+    bar: ProgressBar = null;
+
+    private _loadingResList:Array<string> = null;
 
     start () {
-        // [3]
+        this.bar.progress = 0;
+        this.percent.string = "0%";
+        this._getLoadingList();
+        this._startPreload();
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
-}
+    private _getLoadingList() {
+        this._loadingResList = viewRegisterMgr.getPreloadPrefabs();
+    }
+    
+    private _startPreload() {
+        ResourcesLoader.loadList(this._loadingResList,(finishNum:number,maxNum:number,data:any)=>{
+            let oldVal = this.bar.progress;
+            let newVal = finishNum / maxNum;
+            if (newVal < oldVal) {
+                newVal = oldVal;
+            }
+            this.bar.progress = newVal;
+            this.percent.string = Math.floor(newVal * 100) + "%";
+        },()=>{
+            this._goGameView();
+        })
+    }
 
-/**
- * [1] Class member could be defined like this.
- * [2] Use `property` decorator if your want the member to be serializable.
- * [3] Your initialization goes here.
- * [4] Your update function goes here.
- *
- * Learn more about scripting: https://docs.cocos.com/creator/3.4/manual/en/scripting/
- * Learn more about CCClass: https://docs.cocos.com/creator/3.4/manual/en/scripting/decorator.html
- * Learn more about life-cycle callbacks: https://docs.cocos.com/creator/3.4/manual/en/scripting/life-cycle-callbacks.html
- */
+    private _goGameView() {
+        sceneMgr.sendCreateView(ViewProtocol.MainCityLayer);
+
+        // let modelNewGuide: ModelNewGuide = GameMgr.getInstance().getModel(
+        //     "ModelNewGuide"
+        // );
+        // let task = modelNewGuide.getNewGuideTask(1);
+        // task._guideID = 1;        
+        // if (
+        //     !modelNewGuide.isGuideFinish(task._guideID) &&
+        //     SceneMgr.getInstance().getNewGuideLayer()
+        // ) {
+        //     this.node.active = false;
+        //     let godGuide = SceneMgr.getInstance()
+        //         .getNewGuideLayer()
+        //         .getComponent("GodGuide");
+        //     godGuide.setTask(task);
+        //     godGuide.run(() => {
+        //         //打点
+        //         logDot(DotIDS.enterGame);
+        //         SceneMgr.getInstance().openUI(ViewFlags.FightMain);
+        //     });
+        // } else {
+        //     //打点
+        //     logDot(DotIDS.enterGame);
+        //     SceneMgr.getInstance().openUI(ViewFlags.FightMain);
+        // }
+    }
+}
