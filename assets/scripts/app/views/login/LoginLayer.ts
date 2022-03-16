@@ -8,7 +8,6 @@ import { httpMgr } from '../../../framework/net/HttpMgr';
 import { socketMgr } from '../../../framework/net/SocketMgr';
 import { LayerBase } from '../../../framework/ui/LayerBase';
 import { G } from '../../common/GlobalFunction';
-import { InnerProtocol } from '../../define/InnerProtocol';
 import { Protocol } from '../../define/Protocol';
 import { ViewProtocol } from '../../define/ViewProtocol';
 import { ModelLogin } from '../../model/model';
@@ -41,8 +40,8 @@ export class LoginLayer extends LayerBase {
 
         this.addMsgListener(Protocol.Login.identify,this._onIdentifyHandler.bind(this));
         this.addMsgListener(Protocol.Login.login,this._onLoginHandler.bind(this));
-        this.addMsgListener(InnerProtocol.SelectServer,this._onSelectServerHandler.bind(this));
-        this.addMsgListener(InnerProtocol.CloseNoticeView,this.playShowEnterBtnAnimate.bind(this));
+        this.addMsgListener(Protocol.Inner.SelectServer,this._onSelectServerHandler.bind(this));
+        this.addMsgListener(Protocol.Inner.CloseNoticeView,this.playShowEnterBtnAnimate.bind(this)); 
         // 新手引导层
         this._addNewGuideLayer(() => {
             this._serverInfoRequest();

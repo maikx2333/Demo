@@ -3,6 +3,7 @@ import { singletonMgr } from "../framework/components/SingletonMgr";
 import { audioMgr } from "../framework/core/audio/AudioManager";
 import { gameMgr } from "../framework/core/GameMgr";
 import { sceneMgr } from "../framework/core/SceneMgr";
+import { netLoadingMgr } from "../framework/net/NetLoadingMgr";
 import { translateMgr } from "../framework/translate/TranslateMgr";
 import { GameConfig } from "../GameConfig";
 import { dataRegisterMgr } from "./define/DataRegisterMgr";
@@ -43,6 +44,7 @@ export class EnterApp {
         sceneMgr.init();
         gameMgr.setApp(this);
         audioMgr.init();
+        netLoadingMgr.init()
         //玩家ID，保存音效设置
         // audioMgr.setUuid("3998857")
     }

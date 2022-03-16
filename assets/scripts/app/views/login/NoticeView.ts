@@ -3,7 +3,7 @@ import { _decorator, WebView } from 'cc';
 import { sceneMgr } from '../../../framework/core/SceneMgr';
 import { socketMgr } from '../../../framework/net/SocketMgr';
 import { LayerBase } from '../../../framework/ui/LayerBase';
-import { InnerProtocol } from '../../define/InnerProtocol';
+import { Protocol } from '../../define/Protocol';
 const { ccclass, property } = _decorator;
  
 @ccclass('NoticeView')
@@ -26,7 +26,7 @@ export class NoticeView extends LayerBase {
         if (this._callback) {
             this._callback();
         }
-        socketMgr.sendInnerMsg(InnerProtocol.CloseNoticeView);
+        socketMgr.sendInnerMsg(Protocol.Inner.CloseNoticeView);
     }
 
 }

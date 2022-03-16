@@ -63,6 +63,7 @@ class SceneMgr extends Singleton {
         this._layerMap.set("SystemOpenGroup", this.createNode("__SystemOpenGroup")); // 功能开启层
         this._layerMap.set("PreLoadingGroup", this.createNode("__PreLoadingGroup")); // 加载层
         this._layerMap.set("TipsGroup", this.createNode("__TipsGroup")); // 弹出提示
+        this._layerMap.set("NetLoading", this.createNode("__NetLoading")); // 网络转圈层
         this._layerMap.set("TouchGroup", this.createNode("__TouchGroup")); // 触摸反馈
     }
 
@@ -73,9 +74,10 @@ class SceneMgr extends Singleton {
             "TransitionGroup",
             "NewGuideGroup",
             "DialogGroup",
-            "TipsGroup",
             "SystemOpenGroup",
             "PreLoadingGroup",
+            "TipsGroup",
+            "NetLoading",
             "TouchGroup",
         ];
         for (let index = 0; index < layers.length; index++) {
@@ -744,6 +746,24 @@ class SceneMgr extends Singleton {
         log("send create view:" + UiFlag)
         let msg = new Message(UiFlag, data);
         viewEventMgr.dispatchEvent(msg);
+    }
+
+    /**
+     * showNetLoading
+     */
+    public showNetLoading(isShow:boolean) {
+        let netloading = this._layerMap.get("NetLoading").children[0]
+        if (netloading) {
+            netloading.active = isShow
+            return
+        }
+
+        let viewInfo = viewRegisterMgr.getViewInfo("commonUI", "netloading");
+        ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
+            let node = instantiate(data)
+            node.active = isShow
+            this._layerMap.get("NetLoading").addChild(node)
+        }, false)
     }
 }
 

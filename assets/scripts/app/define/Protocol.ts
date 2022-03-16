@@ -10,7 +10,7 @@ export namespace Protocol {
      * 网关协议
      */
     export enum Login {
-        identify,
+        identify = 1,
         login
     }
 
@@ -18,10 +18,17 @@ export namespace Protocol {
      * 服务器协议
      */
     export enum Server {
-        game_info,
+        game_info = 10000,
     }
 
-    
+    //内部协议
+    export enum Inner {
+        ReloginSuccess,
+        FightPause,
+        FightResume,
 
-    
+        // 登录
+        CloseNoticeView,
+        SelectServer,
+    }
 }
