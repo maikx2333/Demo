@@ -45,7 +45,7 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
             prefab:{
                 "RewardItemIcon":{
                                     path:"common_ui/prefabs/RewardItemIcon",
-                                    isCahe:true
+                                    isCache:true
                                 }
             }
         },
@@ -81,12 +81,12 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
                 "DoubleBtnDialog":{
                                 path:'common_ui/prefabs/double_btn_dialog',
                                 isShowBg:true,
-                                isCahe:true
+                                isCache:true
                             },
                 "Tips":{
                     path:"common_ui/prefabs/tips",
                     isShowBg:true,
-                    isCahe:true
+                    isCache:true
                 }
             }
         },
@@ -105,11 +105,11 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
             prefab:{
                 "MainCityLayer":{
                     path:"maincity/prefabs/maincitylayer",
-                    isCahe:true
+                    isCache:true
                 },
                 "MainCityUI":{
                     path:"maincity/prefabs/maincityui",
-                    isCahe:true
+                    isCache:true
                 }
             }
         },
@@ -179,11 +179,6 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
                 // log("ViewRegisterMgr:ctor() view [ %s ] [ %s ]",view,isHidden.toString());
                 if (isHidden) {
                     ShowBackgroundMgr.regShowBackgroundView(view);
-                }
-
-                let isCahche = arr.isCache??false;
-                if (isCahche){
-
                 }
             })
         })

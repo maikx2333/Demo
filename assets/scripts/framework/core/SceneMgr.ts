@@ -6,7 +6,8 @@ import { ResourcesLoader } from "../data/ResourcesLoader";
 import { viewEventMgr } from "../listener/EventMgr";
 import { Message } from "../listener/Message";
 import { TableLayer } from "../ui/TableLayer";
-import { functions } from "../utils/functions";
+import { setNodeVisible } from "../utils/functions";
+import { sceneTriggerMgr } from "../utils/SceneTriggerMgr";
 // import { functions, ShowBackgroundMgr, Message, TableLayer, viewEventMgr } from "../yy";
 
 class SceneMgr extends Singleton {
@@ -14,9 +15,6 @@ class SceneMgr extends Singleton {
     _tableLayerStack: Array<TableLayer>;
     _viewIndex: number = 0;
 
-    //记录页卡层的资源计数，用作内存管理，其它界面自己管理
-    //尽量少用动态加载，以免引起计数不准确
-    _resCounter: Map<string, Asset> = new Map()
 
     // 构造函数
     private constructor() {
@@ -132,11 +130,6 @@ class SceneMgr extends Singleton {
         tableLayer.name = "TableLayer" + this._viewIndex;
         this._layerMap.get("TableGroup").addChild(tableLayer);
         this._tableLayerStack.push(tableLayer);
-
-
-
-
-
         return tableLayer;
     }
 
@@ -144,6 +137,7 @@ class SceneMgr extends Singleton {
      * @description:叠加子页卡内容层
      * @param {type}
      * @return {type}
+     *  @deprecated
      */
     appendTabSubContent(layer: Node) {
         let tableLayer = this._tableLayerStack[this._tableLayerStack.length - 1];
@@ -162,6 +156,7 @@ class SceneMgr extends Singleton {
      * @description: 弹出子页卡内容层中的最上层
      * @param {type}
      * @return {type}
+     *  @deprecated
      */
     popTabSubContent() {
         let tableLayer = this._tableLayerStack[this._tableLayerStack.length - 1];
@@ -180,6 +175,7 @@ class SceneMgr extends Singleton {
      * @description: 弹出子页卡内容层中的最上层,如果没有则不处理，不会弹出住页卡
      * @param {type}
      * @return {type}
+     *  @deprecated
      */
     popTabSubContentWithoutEmpty() {
         let tableLayer = this._tableLayerStack[this._tableLayerStack.length - 1];
@@ -226,6 +222,9 @@ class SceneMgr extends Singleton {
             tableLayer.destroy();
 
             this._hideTableLayer();
+
+            //场景触发
+            sceneTriggerMgr.check()
 
             //检查内存释放
             if (ResourcesLoader.checkNeedToRelease()) {
@@ -307,6 +306,7 @@ class SceneMgr extends Singleton {
      * @description: 替换页卡背景层
      * @param {type}
      * @return {type}
+     *  @deprecated
      */
 
     replaceTableBg(layer: Node, layerName: string) {
@@ -428,10 +428,11 @@ class SceneMgr extends Singleton {
         mainLayer.addChild(layer);
 
         this.clearAllResCount()
-
+        
         //主界面引用+1
         this._addResRef(layerName)
-        // SFSceneTriggerMgr.getInstance().check();
+
+        sceneTriggerMgr.check()
         // let newGuideModel = GameMgr.getInstance().getModel("ModelNewGuide");
         // if (newGuideModel) {
         //     newGuideModel.checkClearGuide();
@@ -440,31 +441,18 @@ class SceneMgr extends Singleton {
 
     //一个资源添加引用计数
     private _addResRef(name: string) {
-        // if (!this._resCounter.get(name)) {
-        //     ass.addRef()
-        //     this._resCounter.set(name, ass)
-        // }
         ResourcesLoader.addResRef(name);
     }
 
     //删除一个资源引用计数
     private _decResRef(name: string) {
-        // let ass:Asset = this._resCounter.get(name)
-        // if (ass) {
-        //     ass.decRef()
-        //     this._resCounter.delete(name)
-        // }
         ResourcesLoader.decResRef(name);
     }
 
 
     //清除动态加载的引用
     clearAllResCount() {
-        this._resCounter.forEach(element => {
-            element.decRef()
-        });
-
-        this._resCounter.clear();
+        ResourcesLoader.clearAllRef()
     }
 
     getNowMainLayer() {
@@ -617,7 +605,7 @@ class SceneMgr extends Singleton {
             // 有背景挡住，后面的都可以不显示
             if (isBreakOut) {
                 // cellTable.opacity = 0;
-                functions.setNodeVisible(cellTable, false)
+                setNodeVisible(cellTable, false)
                 cellTable.setContentLayerVisible(false);
                 LayerData.push({
                     name: cellLayerName,
@@ -627,7 +615,7 @@ class SceneMgr extends Singleton {
             }
 
             // cellTable.opacity = 255;
-            functions.setNodeVisible(cellTable, true)
+            setNodeVisible(cellTable, true)
             cellTable.setContentLayerVisible(true);
             nextCanVisible = 0;
 
@@ -667,7 +655,7 @@ class SceneMgr extends Singleton {
 
             if (nextCanVisible > 0 || list.length == 0) {
                 // mainLayer.opacity = 255;
-                functions.setNodeVisible(mainLayer, true)
+                setNodeVisible(mainLayer, true)
                 showLayerName = mainLayerName;
                 LayerData.push({
                     name: mainLayerName,
@@ -675,7 +663,7 @@ class SceneMgr extends Singleton {
                 });
             } else {
                 // mainLayer.opacity = 0;
-                functions.setNodeVisible(mainLayer, false)
+                setNodeVisible(mainLayer, false)
                 LayerData.push({
                     name: mainLayerName,
                     visiable: false,

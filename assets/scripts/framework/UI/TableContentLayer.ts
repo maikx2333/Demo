@@ -1,5 +1,5 @@
 import { find, log, Node, Widget, widgetManager } from "cc";
-import { functions } from "../utils/functions";
+import { setNodeVisible } from "../utils/functions";
 /*
  * @Author: Gino
  * @Date: 2020-09-21 20:08:11
@@ -51,7 +51,7 @@ export class TableContentLayer extends Node {
 
     hide() {
         this._contentLayerMap.forEach((layer) => {
-            functions.setNodeVisible(layer, false);
+            setNodeVisible(layer, false);
         });
     }
 
@@ -60,14 +60,14 @@ export class TableContentLayer extends Node {
             return;
         }
         this._contentLayerMap.forEach((layer) => {
-            functions.setNodeVisible(layer, false);
+            setNodeVisible(layer, false);
             layer.setSiblingIndex(0);
         });
 
         // this._displayLayer.opacity = 255;
         // this._displayLayer.zIndex = 10;
 
-        functions.setNodeVisible(this._displayLayer, true);
+        setNodeVisible(this._displayLayer, true);
         this._displayLayer.setSiblingIndex(10)
     }
 

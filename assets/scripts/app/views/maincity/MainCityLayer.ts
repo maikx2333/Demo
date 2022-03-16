@@ -1,7 +1,12 @@
 
-import { _decorator, Component, Node, find, log } from 'cc';
+import { _decorator, Component, Node, find, log, EventTouch, v3, Vec3, Vec2, tween, Tween, easing, v2 } from 'cc';
 import { audioMgr } from '../../../framework/core/audio/AudioManager';
+import { sceneMgr } from '../../../framework/core/SceneMgr';
+import { DInertiaMove } from '../../../framework/ui/DInertiaMove';
 import { LayerBase } from '../../../framework/ui/LayerBase';
+import { MulitMoveingBgs } from '../../../framework/ui/MulitMoveingBgs';
+import { sceneTriggerMgr } from '../../../framework/utils/SceneTriggerMgr';
+import { viewRegisterMgr, ViewRegisterMgr } from '../../define/ViewRegisterMgr';
 const { ccclass, property } = _decorator;
 
 /**
@@ -25,15 +30,60 @@ export class MainCityLayer extends LayerBase {
     // @property
     // serializableDummy = 0;
 
-    start () {
-        // [3]
+    @property(Node)
+    private bgNode:Node
+    _mulitBgComp:MulitMoveingBgs
 
-        audioMgr.playMusic("maincity/avs/bgm_liyuan");
+
+    _bgmain:Node;
+    _deltaPos:Vec2;
+    _bgDInertiaMove:DInertiaMove
+
+
+    onLoad(){
+        //触发器写在onLoad，否则切换刚加入主场景的时候，start还没开始执行
+        sceneTriggerMgr.addTriggrt(viewRegisterMgr.getViewInfo("maincity", "MainCityLayer").System, this.onTrigger.bind(this),1)
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
+    start () {
+        // [3]
+        audioMgr.playMusic("maincity/avs/bgm_liyuan")
+        this._initBgTouch()
+    }
+
+    private onTrigger() {
+        log("main city trigger")
+    }
+
+    private _initBgTouch() {
+        this._mulitBgComp = this.bgNode.getComponent(MulitMoveingBgs)
+        
+        this._bgmain = find("bg/mainBg",this.node.parent)
+        this._bgmain.on(Node.EventType.TOUCH_START, this.onBgTouchStart.bind(this))
+        this._bgmain.on(Node.EventType.TOUCH_MOVE, this.onBgTouchMove.bind(this))
+        this._bgmain.on(Node.EventType.TOUCH_END, this.onBgTouchEnd.bind(this))
+        // this._bgDInertiaMove = this._bgmain.addComponent(DInertiaMove)
+    }
+
+    private onBgTouchStart() {
+        this._mulitBgComp.stop()
+    }
+
+    private onBgTouchMove(event:EventTouch) {
+        this._deltaPos = event.getDelta()
+        this._deltaPos.multiplyScalar(1.5)
+        this._deltaPos = v2(this._deltaPos.x, 0)
+        this._mulitBgComp.move(this._deltaPos, false)
+    }
+    
+    private onBgTouchEnd() {
+        this._mulitBgComp.move(this._deltaPos.multiplyScalar(3), true)
+    }
+
+    update (deltaTime: number) {
+        // [4]
+        
+    }
 }
 
 /**
