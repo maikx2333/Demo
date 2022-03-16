@@ -1,9 +1,12 @@
 
 import { _decorator, Component, Node, find, log, EventTouch, v3, Vec3, Vec2, tween, Tween, easing, v2 } from 'cc';
 import { audioMgr } from '../../../framework/core/audio/AudioManager';
+import { sceneMgr } from '../../../framework/core/SceneMgr';
 import { DInertiaMove } from '../../../framework/ui/DInertiaMove';
 import { LayerBase } from '../../../framework/ui/LayerBase';
 import { MulitMoveingBgs } from '../../../framework/ui/MulitMoveingBgs';
+import { sceneTriggerMgr } from '../../../framework/utils/SceneTriggerMgr';
+import { viewRegisterMgr, ViewRegisterMgr } from '../../define/ViewRegisterMgr';
 const { ccclass, property } = _decorator;
 
 /**
@@ -36,11 +39,20 @@ export class MainCityLayer extends LayerBase {
     _deltaPos:Vec2;
     _bgDInertiaMove:DInertiaMove
 
+
+    onLoad(){
+        //触发器写在onLoad，否则切换刚加入主场景的时候，start还没开始执行
+        sceneTriggerMgr.addTriggrt(viewRegisterMgr.getViewInfo("maincity", "MainCityLayer").System, this.onTrigger.bind(this),1)
+    }
+
     start () {
         // [3]
         audioMgr.playMusic("maincity/avs/bgm_liyuan")
-
         this._initBgTouch()
+    }
+
+    private onTrigger() {
+        log("main city trigger")
     }
 
     private _initBgTouch() {

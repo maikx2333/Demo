@@ -44,7 +44,6 @@ export class MulitMoveingBgs extends Component {
     }
 
     private onMainBgStop() {
-        log("onMainBgStop")
         this.subBg.forEach(element => {
             element.bgNode.getComponent(DInertiaMove).stop()
         });

@@ -128,11 +128,20 @@ export class ResourcesLoader {
     }
 
     // 引用计数-1
+    //单纯减少引用，纹理统一释放
     static decResRef(layerName:string){
         let asset = ResourcesLoader._ResCounter.get(layerName);
         if (asset) {
-            asset.decRef();
+            asset.decRef(false);
         }
+    }
+
+    //所有引用清除
+    static clearAllRef(){
+        ResourcesLoader._ResCounter.forEach(element => {
+            element.decRef(false)
+        });
+        ResourcesLoader._ResCounter.clear()
     }
 
     static releaseUnusedAssets(){
