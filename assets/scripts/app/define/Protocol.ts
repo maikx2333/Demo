@@ -25,6 +25,10 @@ export namespace Protocol {
     export enum Inner {
         ReloginSuccess,
         FightPause,
-        FightResume
+        FightResume,
+
+        // 登录
+        CloseNoticeView,
+        SelectServer,
     }
 }

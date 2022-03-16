@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, CCInteger, Prefab, v3, tween, Vec3, Vec2, log } from 'cc';
+import { _decorator, Component, Node, CCInteger, Prefab, v3, tween, Vec3, Vec2, log, CCFloat } from 'cc';
 import { posAdd } from '../utils/functions';
 import { DInertiaMove } from './DInertiaMove';
 const { ccclass, property } = _decorator;
@@ -17,10 +17,10 @@ const { ccclass, property } = _decorator;
  */
 
 @ccclass('BgTarget')
-class BgTarget {
+class BgTarget{
     @property(Node)
     bgNode: Node;
-    @property(Number)
+    @property(CCFloat)
     moveScale: number;
 }
 
@@ -31,9 +31,9 @@ export class MulitMoveingBgs extends Component {
 
     @property(Node)
     private mainBg: Node;
-    @property(Number)
+    @property(CCFloat)
     private minX: number = 0;
-    @property(Number)
+    @property(CCFloat)
     private maxX: number = 0;
 
     start() {

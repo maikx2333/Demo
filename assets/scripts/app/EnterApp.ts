@@ -86,8 +86,8 @@ export class EnterApp {
         game.frameRate = 60;
         input.setAccelerometerEnabled(true);
         log("进入游戏");
-
-        sceneMgr.sendCreateView(ViewProtocol.MainCityLayer);
+        
+        sceneMgr.sendCreateView(ViewProtocol.LoginLayer);
     }
 
     initSDKHelper() {

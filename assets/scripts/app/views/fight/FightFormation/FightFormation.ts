@@ -1,6 +1,8 @@
 
 import { _decorator, Component, Node, Prefab, instantiate, find, EventTouch, Tween, tween, UITransform, Vec3, v3, director, AnimationManager } from 'cc';
+import { sceneMgr } from '../../../../framework/core/SceneMgr';
 import { LayerBase } from '../../../../framework/ui/LayerBase';
+import { ViewProtocol } from '../../../define/ViewProtocol';
 import { GeneralIconShowComp } from './GeneralIconShowComp';
 const { ccclass, property } = _decorator;
 
@@ -126,7 +128,8 @@ export class FightFormation extends LayerBase {
     
 
     onClickStart() {
-        
+        sceneMgr.popTableLayer();
+        sceneMgr.sendCreateView(ViewProtocol.FightMainLayer);
     }
 
 
