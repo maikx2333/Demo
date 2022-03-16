@@ -132,6 +132,7 @@ export class ResourcesLoader {
         let asset = ResourcesLoader._ResCounter.get(layerName);
         if (asset) {
             asset.decRef();
+            ResourcesLoader._ResCounter.delete(layerName);
         }
     }
 

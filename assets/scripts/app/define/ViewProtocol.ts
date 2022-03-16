@@ -1,6 +1,11 @@
 export enum ViewProtocol {
-    LoginView,
-    AccountView,
+
+    // 公共
+    NoticeView,
+
+    // login
+    LoginLayer,
+    AccountLayer,
     DoubleBtnDialog,
     Tips,
 
@@ -13,6 +18,12 @@ export enum ViewProtocol {
     FightFormation,
     
     //formation
-    FormationView
+    FormationView,
+
+    // loading
+    ResLoadingLayer,
+    TransLoadingLayer,
+    UserAgreementLayer,
+    PrivacyPolicyLayer,
     
 }

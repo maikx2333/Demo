@@ -4,5 +4,6 @@
  export enum InnerProtocol {
     ReloginSuccess,
     FightPause,
-    FightResume
+    FightResume,
+    SelectServer
 }

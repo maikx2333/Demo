@@ -18,6 +18,7 @@ import { FightCreator } from "../views/fight/Creator";
 import { FormationCreator } from "../views/formation/Creator";
 import { yy } from "./YYNamespace";
 import { ViewInfoType } from "./ConfigType";
+import { LoadingCreator } from "../views/loading/Creator";
 
 type ViewConfig = {
     path:string;//预制体路径
@@ -52,14 +53,25 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
         // 登陆
         login: {
             prefab: {
-                "LoginView": {
-                                path:'core/prefab/LoginView',
+                "LoginLayer": {
+                                path:'login/prefabs/loginlayer',
+                            },
+                "AccountLayer":{
+                                path:'login/prefabs/loginaccount',
                                 isShowBg:true,
                             },
-                "AccountView":{
-                                path:'core/prefab/AccountView',
+                "UserAgreementLayer":{
+                                path:"",
                                 isShowBg:true,
-                            }
+                },
+                "PrivacyPolicyLayer":{
+                                path:"",
+                                isShowBg:true,
+                },
+                "NoticeView":{
+                    path:"login/prefabs/noticeview",
+                    isShowBg:true,
+                }
             },
         },
 
@@ -131,6 +143,17 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
                     path:"formation/prefabs/formation"
                 }
             }
+        },
+        // loading
+        loading:{
+            prefab:{
+                "ResLoadingLayer":{
+                    path:"loading/prefabs/resloadinglayer"
+                },
+                "TransLoadingLayer":{
+                    path:"loading/prefabs/transloadinglayer"
+                },
+            }
         }
     }
 
@@ -142,6 +165,7 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface{
         MainCityCreator,
         FightCreator,
         FormationCreator,
+        LoadingCreator,
     ]
     
     private constructor() {

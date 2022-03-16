@@ -1,1 +1,1 @@
-[{"id":1647310204615,"label":"自定义创建Assets","file":"","order":"0","root":false,"submenu":[{"id":1647310898718,"label":"文件夹(系统)","file":"/dist/src/CustomCreate/Assets/CreateSystemFolder.js","order":-1,"root":true,"submenu":[]}]}]
+[{"id":1647310204615,"label":"自定义创建Assets","file":"","order":"1","root":false,"submenu":[{"id":1647310898718,"label":"文件夹(系统)","file":"/dist/src/CustomCreate/Assets/CreateSystemFolder.js","order":-1,"root":true,"submenu":[]}]}]
