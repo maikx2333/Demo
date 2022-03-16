@@ -18,8 +18,6 @@ export class LoginAccountLayer extends LayerBase {
 
     onLoad(){
         super.onLoad();
-        let com = this.getComponent(UITransform);
-        log(com.contentSize);
     }
 
     @property(EditBox)

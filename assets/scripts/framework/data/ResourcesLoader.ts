@@ -107,7 +107,7 @@ export class ResourcesLoader {
     static loadPromise(path: string, type?:typeof Asset){
         return new Promise((resolve, rejected)=>{
             this.load(path, (data)=>{
-                resolve(data)
+                resolve(data);
             }, type)
         })
     }

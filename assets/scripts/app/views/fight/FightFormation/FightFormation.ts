@@ -128,8 +128,10 @@ export class FightFormation extends LayerBase {
     
 
     onClickStart() {
-        sceneMgr.popTableLayer();
-        sceneMgr.sendCreateView(ViewProtocol.FightMainLayer);
+        sceneMgr.sendCreateView(ViewProtocol.TransLoadingLayer,[()=>{
+            sceneMgr.popTableLayer();
+            sceneMgr.sendCreateView(ViewProtocol.FightMainLayer);
+        }]);
     }
 
 

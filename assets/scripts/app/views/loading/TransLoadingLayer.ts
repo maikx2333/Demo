@@ -1,44 +1,38 @@
 
-import { _decorator, Component, Node } from 'cc';
+import { _decorator } from 'cc';
+import { runInThisContext } from 'vm';
+import { sceneMgr } from '../../../framework/core/SceneMgr';
+import { LayerBase } from '../../../framework/ui/LayerBase';
 const { ccclass, property } = _decorator;
-
-/**
- * Predefined variables
- * Name = TransLoadingLayer
- * DateTime = Tue Mar 15 2022 16:47:52 GMT+0800 (中国标准时间)
- * Author = Steven_Greeard
- * FileBasename = TransLoadingLayer.ts
- * FileBasenameNoExtension = TransLoadingLayer
- * URL = db://assets/scripts/app/views/loading/TransLoadingLayer.ts
- * ManualUrl = https://docs.cocos.com/creator/3.4/manual/en/
- *
- */
  
 @ccclass('TransLoadingLayer')
-export class TransLoadingLayer extends Component {
-    // [1]
-    // dummy = '';
-
-    // [2]
-    // @property
-    // serializableDummy = 0;
+export class TransLoadingLayer extends LayerBase {
+    
+    private _enterCallback:Function = null
+    private _completeCallback:Function = null
 
     start () {
-        // [3]
+      
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
-}
+    setEnterCalback(cb:Function){
+        this._enterCallback = cb;
+    }
 
-/**
- * [1] Class member could be defined like this.
- * [2] Use `property` decorator if your want the member to be serializable.
- * [3] Your initialization goes here.
- * [4] Your update function goes here.
- *
- * Learn more about scripting: https://docs.cocos.com/creator/3.4/manual/en/scripting/
- * Learn more about CCClass: https://docs.cocos.com/creator/3.4/manual/en/scripting/decorator.html
- * Learn more about life-cycle callbacks: https://docs.cocos.com/creator/3.4/manual/en/scripting/life-cycle-callbacks.html
- */
+    setCompleteCallback(cb:Function){
+        this._completeCallback = cb;
+    }
+
+    onEnterCallback(){
+        if (this._enterCallback){
+            this._enterCallback()
+        }
+    }
+
+    onTransComplete(data:string){
+        if (this._completeCallback){
+            this._completeCallback()
+        }
+        sceneMgr.removeTransitionLayer();
+    }
+}

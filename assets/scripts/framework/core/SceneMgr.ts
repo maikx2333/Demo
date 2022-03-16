@@ -1,6 +1,7 @@
 
-import { Asset, find, log, Node, resources, UIOpacity, UITransform, Widget, widgetManager } from "cc";
+import { Asset, find, instantiate, log, Node, Prefab, resources, UIOpacity, UITransform, Widget, widgetManager } from "cc";
 import { ShowBackgroundMgr } from "../../app/define/ShowBackgroundMgr";
+import { viewRegisterMgr } from "../../app/define/ViewRegisterMgr";
 import { Singleton } from "../components/Singleton";
 import { ResourcesLoader } from "../data/ResourcesLoader";
 import { viewEventMgr } from "../listener/EventMgr";
@@ -56,6 +57,7 @@ class SceneMgr extends Singleton {
     private initAllScence() {
         this._layerMap.set("MainGroup", this.createNode("__MainGroup")); // 主界面层
         this._layerMap.set("TableGroup", this.createNode("__TableGroup")); // 页卡层
+        this._layerMap.set("TransitionGroup", this.createNode("__TransitionGroup")); // 过渡层
         this._layerMap.set("NewGuideGroup", this.createNode("__NewGuideGroup")); // 新手引导层
         this._layerMap.set("DialogGroup", this.createNode("__DialogGroup")); // 对话框层
         this._layerMap.set("SystemOpenGroup", this.createNode("__SystemOpenGroup")); // 功能开启层
@@ -68,6 +70,7 @@ class SceneMgr extends Singleton {
         let layers = [
             "MainGroup",
             "TableGroup",
+            "TransitionGroup",
             "NewGuideGroup",
             "DialogGroup",
             "TipsGroup",
@@ -427,7 +430,7 @@ class SceneMgr extends Singleton {
         layer.name = layerName || "";
         mainLayer.addChild(layer);
 
-        this.clearAllResCount()
+        this._clearAllResCount()
         
         //主界面引用+1
         this._addResRef(layerName)
@@ -451,7 +454,7 @@ class SceneMgr extends Singleton {
 
 
     //清除动态加载的引用
-    clearAllResCount() {
+    private _clearAllResCount() {
         ResourcesLoader.clearAllRef()
     }
 
@@ -461,6 +464,26 @@ class SceneMgr extends Singleton {
         return layer;
     }
 
+    /**
+     * @description 添加过渡界面
+     * @param transloadinglayer 
+     */
+    addTransitionLayer(transloadinglayer:Node) {
+        this._layerMap.get("TransitionGroup").addChild(transloadinglayer);
+    }
+
+    /**
+     * @description 移除过渡界面
+     */
+    removeTransitionLayer(){
+        let children = this._layerMap.get("TransitionGroup").children;
+        if (children.length > 0){
+            children.forEach((node:Node)=>{
+                node.removeFromParent();
+                node.destroy();
+            })
+        }
+    }
     /**
      * @description: tips层
      * @param {*} tips_layer

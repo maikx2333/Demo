@@ -64,7 +64,6 @@ export class LoginCreator extends ViewCreatorBase {
             sceneMgr.pushNewTableLayer();
             sceneMgr.replaceTableContent(node,viewInfo.View);
             let msg = event.getRawData();
-            log("msg",msg);
             let child = node.getChildByName("ScriptNode");
             let comp = child.getComponent("NoticeView") as NoticeView;
             comp.updateView(msg);
