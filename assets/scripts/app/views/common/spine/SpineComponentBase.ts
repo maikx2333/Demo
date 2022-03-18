@@ -1,13 +1,18 @@
 
-import { _decorator, Component, Node, sp } from 'cc';
+import { _decorator, Component, Node, sp, log } from 'cc';
+import { Message } from '../../../../framework/listener/Message';
+import { ComponentBase } from '../../../../framework/ui/ComponentBase';
+import { Protocol } from '../../../define/Protocol';
 import { yy } from '../../../define/YYNamespace';
 const { ccclass, property } = _decorator;
 
 @ccclass('SpineComponentBase')
-export class SpineComponentBase extends Component {
+export class SpineComponentBase extends ComponentBase {
   
-    @property(sp.Skeleton)
-    _spineNode:sp.Skeleton = null;
+    @property(Node)
+    spineNode:Node = null;
+
+    private _spine:sp.Skeleton = null;
 
     // private _attachedNodes:Map<string,Node> = new Map<string,Node>();
 
@@ -23,83 +28,31 @@ export class SpineComponentBase extends Component {
 
     onLoad () {
         this._init();
+        this.addMsgListener(Protocol.Inner.SetAnimationSpeed,this._setSpineAnimationSpeed.bind(this))
+    }
+
+    private _setSpineAnimationSpeed(event:Message) {
+        let speed = event.getRawData();
+        this._spine.timeScale = speed;
     }
     
-    /**
-     * @description 立即播放当前动画
-     * @param actionName spine 动作名称
-     * @param isLoop 是否循环播放 默认值false
-     */
-    public play(actionName:string,isLoop?:boolean){
-        if (this._spineNode){
-            let trackIndex = 0;
-             this._spineNode.setAnimation(trackIndex, actionName, isLoop??false);
-        }
-    }
-
-    /**
-     * @description 暂停当前动画
-     */
-    public stop(){
-        this._spineNode.paused = true;
-    }
-
-    /**
-     * @description 继续播放当前动画
-     */
-    public resume(){
-        this._spineNode.paused = false;
-    }
-
-    /**
-     * @description 清理当前动画
-     * @param trackIndex 播放动作队列索引，默认0，即当前动画
-     */
-    public clear(trackIndex:number=0){
-        this._spineNode.clearTrack(trackIndex);
-    }
-
-    /**
-     * @description 清理作队列索引
-     */
-    public clearAll(){
-        this._spineNode.clearTracks();
-    }
-
-
-    /** 动画开始回调 */
-    public setAnimateStartCallback(callback: SF.Interfaces.TrackEntryCallFunc) {
-        this._animateStartCallback = callback;
-    }
-
-    /** 动画结束回调 */
-    public setAnimateEndCallback(callback: SF.Interfaces.TrackEntryCallFunc) {
-        this._animateEndCallback = callback;
-    }
-
-    /** 动画被打断回调 */
-    public setAnimateInterruptCallback(callback: SF.Interfaces.TrackEntryCallFunc) {
-        this._animiateInterruptCallback = callback;
-    }
-
-    /** 动画事件回调 */
-    public setAnimateEventCallback(callback) {
-        this._animiateEventCallback = callback;
-    }
-
     private _init() {
+        let spine = this.spineNode.getComponent(sp.Skeleton);
+        log("===>spine",spine);
+        this._spine = spine;
         this._initSpineListener();
         this._initMix();
     }
+
     private _initSpineListener() {
-        if (!this._spineNode) {
+        if (!this._spine) {
             return;
         }
 
-        this._spineNode.setStartListener(this._onAnimateStartCallback.bind(this));
-        this._spineNode.setEndListener(this._onAnimateEndCallback.bind(this));
-        this._spineNode.setInterruptListener(this._onAnimateInterruptCallback.bind(this));
-        this._spineNode.setEventListener(this._onAnimateEventCallback.bind(this));
+        this._spine.setStartListener(this._onAnimateStartCallback.bind(this));
+        this._spine.setEndListener(this._onAnimateEndCallback.bind(this));
+        this._spine.setInterruptListener(this._onAnimateInterruptCallback.bind(this));
+        this._spine.setEventListener(this._onAnimateEventCallback.bind(this));
     }
 
     private _initMix() {
@@ -140,9 +93,74 @@ export class SpineComponentBase extends Component {
 
     // 动作融合
     private _setMix(anim1, anim2, mixTime?) {
-        if (this._spineNode.findAnimation(anim1) && this._spineNode.findAnimation(anim2)) {
-            this._spineNode.setMix(anim1, anim2, mixTime || this._mixTime);
-            this._spineNode.setMix(anim2, anim1, mixTime || this._mixTime);
+        if (this._spine.findAnimation(anim1) && this._spine.findAnimation(anim2)) {
+            this._spine.setMix(anim1, anim2, mixTime || this._mixTime);
+            this._spine.setMix(anim2, anim1, mixTime || this._mixTime);
         }
+    }
+
+
+    /**
+     * @description 立即播放当前动画
+     * @param actionName spine 动作名称
+     * @param isLoop 是否循环播放 默认值false
+     */
+    public play(actionName:string,isLoop?:boolean){
+        log(this._spine,"this._spine");
+        if (this._spine){
+            let trackIndex = 0;
+            log("12121212")
+             this._spine.setAnimation(trackIndex, actionName, isLoop??false);
+        }
+    }
+
+    /**
+     * @description 暂停当前动画
+     */
+    public stop(){
+        this._spine.paused = true;
+    }
+
+    /**
+     * @description 继续播放当前动画
+     */
+    public resume(){
+        this._spine.paused = false;
+    }
+
+    /**
+     * @description 清理当前动画
+     * @param trackIndex 播放动作队列索引，默认0，即当前动画
+     */
+    public clear(trackIndex:number=0){
+        this._spine.clearTrack(trackIndex);
+    }
+
+    /**
+     * @description 清理作队列索引
+     */
+    public clearAll(){
+        this._spine.clearTracks();
+    }
+
+
+    /** 动画开始回调 */
+    public setAnimateStartCallback(callback:yy.interfaces.SpineTrackEntryCallFunc) {
+        this._animateStartCallback = callback;
+    }
+
+    /** 动画结束回调 */
+    public setAnimateEndCallback(callback: yy.interfaces.SpineTrackEntryCallFunc) {
+        this._animateEndCallback = callback;
+    }
+
+    /** 动画被打断回调 */
+    public setAnimateInterruptCallback(callback: yy.interfaces.SpineTrackEntryCallFunc) {
+        this._animiateInterruptCallback = callback;
+    }
+
+    /** 动画事件回调 */
+    public setAnimateEventCallback(callback) {
+        this._animiateEventCallback = callback;
     }
 }

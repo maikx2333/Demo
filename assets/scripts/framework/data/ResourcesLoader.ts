@@ -116,9 +116,9 @@ export class ResourcesLoader {
         bundle?.release(path);
     }
 
-    static loadPromise(path: string, type?:typeof Asset){
-        return new Promise((resolve, rejected)=>{
-            this.load(path, (data)=>{
+    static loadPromise<T extends Asset>(path: string, type?:typeof Asset): Promise<T>{
+        return new Promise<T>((resolve, rejected)=>{
+            this.load(path, (data:T)=>{
                 resolve(data);
             }, type)
         })

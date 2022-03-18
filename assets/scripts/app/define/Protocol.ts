@@ -30,5 +30,8 @@ export namespace Protocol {
         // 登录
         CloseNoticeView,
         SelectServer,
+
+        // 设置懂哈速度
+        SetAnimationSpeed,
     }
 }

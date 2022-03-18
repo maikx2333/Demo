@@ -42,7 +42,8 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface {
     static PreloadResList = {
         commonUI:1,
         dialog:1,
-        maincity:1
+        maincity:1,
+        loading:1
     }
 
     // 注册预页面预制体路径
@@ -167,10 +168,12 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface {
         loading:{
             prefab:{
                 "ResLoadingLayer":{
-                    path:"loading/prefabs/resloadinglayer"
+                    path:"loading/prefabs/resloadinglayer",
+                    isCache: true
                 },
                 "TransLoadingLayer":{
-                    path:"loading/prefabs/transloadinglayer"
+                    path:"loading/prefabs/transloadinglayer",
+                    isCache: true
                 },
             }
         }

@@ -39,7 +39,8 @@ export class RoleSpineFactory {
 
     private static _load(fileUrl,callback:HeroCreateCallback):void{
         ResourcesLoader.load(fileUrl,(prefab:Prefab)=>{
-            let node:HeroSpineNode = instantiate(prefab);
+            let spineNode = instantiate(prefab);
+            let node = new HeroSpineNode(spineNode);
             if (callback){
                 callback(node);
             }

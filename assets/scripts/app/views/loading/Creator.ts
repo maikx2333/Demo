@@ -27,7 +27,6 @@ export class LoadingCreator extends ViewCreatorBase {
         let viewInfo = viewRegisterMgr.getViewInfo("loading","TransLoadingLayer");
         ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             let cbs = event.getRawData();
-            log(cbs,"cbs");
             let node = instantiate(data);
             sceneMgr.addTransitionLayer(node);
             let com = node.getComponent("TransLoadingLayer") as TransLoadingLayer;

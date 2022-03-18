@@ -1,7 +1,12 @@
 
-import { _decorator, Component, Node, EventTouch, log, AnimationComponent, Button } from 'cc';
+import { _decorator, Component, Node, EventTouch, log, AnimationComponent, Button, director, AnimationManager, game } from 'cc';
 import { sceneMgr } from '../../../framework/core/SceneMgr';
+import { socketMgr } from '../../../framework/net/SocketMgr';
 import { ComponentBase } from '../../../framework/ui/ComponentBase';
+import { Protocol } from '../../define/Protocol';
+import { FightEvent } from './event/FightEvent';
+import { fightEventMgr } from './event/FightEventMgr';
+import { FightConstant } from './FightConstant';
 const { ccclass, property } = _decorator;
 
 /**
@@ -34,13 +39,19 @@ export class FightMainUI extends ComponentBase {
         this.startBtn.node.active = false;
         let animteComp = this._root.getComponent(AnimationComponent);
         animteComp.play();
+        fightEventMgr.dispatchEvent(new FightEvent(FightConstant.FightEvent.Game_Star,null));
     }
 
     onClickCloseBtn(event:EventTouch,customEventData:string){
         sceneMgr.popTableLayer();
     }
 
+    update(dt:number){
+        // log("dt",dt);
+    }
+
     onClickSpeedBtn(event:EventTouch,customEventData:string){
-        log("===>speed");
+        let speed = 2;
+        socketMgr.sendInnerMsg(Protocol.Inner.SetAnimationSpeed,speed);
     }
 }

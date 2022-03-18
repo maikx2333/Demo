@@ -77,6 +77,9 @@ export class MainCityLayer extends LayerBase {
     }
     
     private onBgTouchEnd() {
+        if (!this._deltaPos) {
+            return
+        }
         this._mulitBgComp.move(this._deltaPos.multiplyScalar(3), true)
     }
 
