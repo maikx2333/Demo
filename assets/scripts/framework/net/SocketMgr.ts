@@ -1,5 +1,4 @@
 import { log } from "cc";
-import { type } from "os";
 import { Singleton } from "../components/Singleton";
 import { gameMgr } from "../core/GameMgr";
 import { Message } from "../listener/Message";
@@ -10,7 +9,7 @@ import { netStateMgr } from "./NetStateMgr";
  * @Author: liuguoqing
  * @Date: 2022-03-02 17:01:02
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-03 08:53:39
+ * @LastEditTime: 2022-03-19 13:16:31
  * @Description: file content
  */
 

@@ -2,7 +2,7 @@
  * @Author: liuguoqing
  * @Date: 2022-03-02 16:35:22
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-02 16:42:51
+ * @LastEditTime: 2022-03-20 20:52:15
  * @Description: file content
  */
 class SingletonMgr {

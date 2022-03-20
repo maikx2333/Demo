@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, sp, log } from 'cc';
+import { _decorator, Component, Node, sp, log, Vec3 } from 'cc';
 import { Message } from '../../../../framework/listener/Message';
 import { ComponentBase } from '../../../../framework/ui/ComponentBase';
 import { Protocol } from '../../../define/Protocol';
@@ -11,6 +11,13 @@ export class SpineComponentBase extends ComponentBase {
   
     @property(Node)
     spineNode:Node = null;
+
+
+    @property(Node)
+    effectFontNode = null;
+
+    @property(Node)
+    effectBackNode = null;
 
     private _spine:sp.Skeleton = null;
 
@@ -38,7 +45,6 @@ export class SpineComponentBase extends ComponentBase {
     
     private _init() {
         let spine = this.spineNode.getComponent(sp.Skeleton);
-        log("===>spine",spine);
         this._spine = spine;
         this._initSpineListener();
         this._initMix();
@@ -106,10 +112,8 @@ export class SpineComponentBase extends ComponentBase {
      * @param isLoop 是否循环播放 默认值false
      */
     public play(actionName:string,isLoop?:boolean){
-        log(this._spine,"this._spine");
         if (this._spine){
             let trackIndex = 0;
-            log("12121212")
              this._spine.setAnimation(trackIndex, actionName, isLoop??false);
         }
     }
@@ -162,5 +166,19 @@ export class SpineComponentBase extends ComponentBase {
     /** 动画事件回调 */
     public setAnimateEventCallback(callback) {
         this._animiateEventCallback = callback;
+    }
+
+    public addEffectFont(node:Node,offset?:Vec3){
+        this.effectFontNode.addChild(node);
+        if (offset) {
+            node.position = offset;
+        }
+    }
+
+    public addEffectBack(node:Node,offset?:Vec3){
+        this.effectBackNode.addChild(node);
+        if (offset) {
+            node.position = offset;
+        }
     }
 }

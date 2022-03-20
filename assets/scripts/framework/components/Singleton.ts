@@ -2,7 +2,7 @@
  * @Author: liuguoqing
  * @Date: 2022-03-02 15:57:12
  * @LastEditors: liuguoqing
- * @LastEditTime: 2022-03-02 16:39:32
+ * @LastEditTime: 2022-03-20 23:03:35
  * @Description: file content
  */
 
@@ -10,8 +10,6 @@ import { singletonMgr } from "./SingletonMgr";
 
 
 export class Singleton {
-    private static _instance: any;
-    sIndex: number = -1;
     static getInstance<T>():T {
         if (!(<any>this).instance) {
             (<any>this).instance = new this();
@@ -27,6 +25,4 @@ export class Singleton {
             singletonMgr.unSign(<any>this);
         }
     }
-
-    clear() {}
 }

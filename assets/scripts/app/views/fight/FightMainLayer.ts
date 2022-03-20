@@ -1,11 +1,19 @@
+/*
+ * @Author: liuguoqing
+ * @Date: 2022-03-19 11:17:19
+ * @LastEditors: liuguoqing
+ * @LastEditTime: 2022-03-20 23:02:10
+ * @Description: file content
+ */
 
-import { _decorator, Component, Node, tween, director, AnimationManager, view, log, Prefab, instantiate, TweenSystem } from 'cc';
+import { _decorator, Prefab, instantiate, Node, js, sys } from 'cc';
 import { ResourcesLoader } from '../../../framework/data/ResourcesLoader';
 import { LayerBase } from '../../../framework/ui/LayerBase';
-import { Protocol } from '../../define/Protocol';
 import { viewRegisterMgr } from '../../define/ViewRegisterMgr';
-import { fightEventMgr } from './event/FightEventMgr';
+import { FightEvent } from './event/FightEvent';
+import { fightEventMgr,FightEventMgr } from './event/FightEventMgr';
 import { FightConstant } from './FightConstant';
+import { fightController,FightController } from './FightController';
 import { FightMainUI } from './FightMainUI';
 import { FightMainWorld } from './FightMainWorld';
 const { ccclass, property } = _decorator;
@@ -25,7 +33,7 @@ export class FightMainLayer extends LayerBase {
         this._initManagers();
         this._initBg();
         this._loadMainWorld();
-        this._ladMainUI();
+        this._loadMainUI();
         this._addListeners();
     }
 
@@ -37,7 +45,11 @@ export class FightMainLayer extends LayerBase {
     }
 
     private _initManagers() {
-        fightEventMgr.init();
+        // 事件派发器
+        FightEventMgr.init();
+        // 回合控制器
+        FightController.init();
+        // 战斗播放器
     }
 
     private _initBg() {
@@ -50,7 +62,7 @@ export class FightMainLayer extends LayerBase {
         this._content.addChild(this._fightMainWorld);
     }
 
-    private _ladMainUI() {
+    private _loadMainUI() {
         let viewInfo = viewRegisterMgr.getViewInfo("fight","FightMainUI");
         ResourcesLoader.loadWithViewInfo(viewInfo,(data:Prefab)=>{
             let uiNode = instantiate(data);
@@ -63,17 +75,17 @@ export class FightMainLayer extends LayerBase {
         fightEventMgr.addEventListener(FightConstant.FightEvent.Game_Star,this._startGame.bind(this));
     }
 
-    private _startGame() {
+    private _startGame(event:FightEvent) {
         this._fightMainWorld.startGame();
+        this._fightMainUI.startGame();
     }
 
     update (dt: number) {
         this._fightMainWorld.tick(dt);
     }
 
-
-
     onDestroy(){
-
+        fightEventMgr.destory();
+        fightController.destory();
     }
 }

@@ -1,8 +1,16 @@
+/*
+ * @Author: liuguoqing
+ * @Date: 2022-03-19 11:17:19
+ * @LastEditors: liuguoqing
+ * @LastEditTime: 2022-03-20 23:06:12
+ * @Description: file content
+ */
 
 import { _decorator, Component, Node, Label, log, EventTouch, resources, View } from 'cc';
 import { sceneMgr } from '../../../framework/core/SceneMgr';
 import { ComponentBase } from '../../../framework/ui/ComponentBase';
 import { ViewProtocol } from '../../define/ViewProtocol';
+import { fightController } from '../fight/FightController';
 const { ccclass, property } = _decorator;
  
 @ccclass('MainCityUI')

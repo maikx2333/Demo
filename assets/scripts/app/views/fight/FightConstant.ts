@@ -1,3 +1,10 @@
+/*
+ * @Author: liuguoqing
+ * @Date: 2022-03-19 11:17:19
+ * @LastEditors: liuguoqing
+ * @LastEditTime: 2022-03-19 13:51:45
+ * @Description: file content
+ */
 
 export namespace FightConstant {
     // 战斗场景层级
@@ -42,11 +49,11 @@ export namespace FightConstant {
 
     // 战斗事件
     export enum FightEvent {
-        Game_Star,
-        Game_End,
-        Round_Start,
-        Round_End,
-        Event_Star,
-        Event_End
+        Game_Star,//战斗开始
+        Game_End,//战斗结束
+        Round_Start,//当前大回合开启
+        Round_End,//当前大回合结束
+        Event_Star,//当前小回合开始
+        Event_End,//当前小回合结束
     }
 }

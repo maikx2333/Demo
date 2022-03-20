@@ -1,3 +1,10 @@
+/*
+ * @Author: liuguoqing
+ * @Date: 2022-03-19 11:17:19
+ * @LastEditors: liuguoqing
+ * @LastEditTime: 2022-03-20 23:03:19
+ * @Description: file content
+ */
 import { Singleton } from "../../../../framework/components/Singleton";
 import { FightEvent } from "./FightEvent";
 
@@ -5,14 +12,22 @@ interface FightEventHandler{
     (event:FightEvent):void
 }
 
-class FightEventMgr extends Singleton{
+export let fightEventMgr:FightEventMgr = null;
+
+export class FightEventMgr extends Singleton{
 
     private _eventHandlers:Map<number,Array<FightEventHandler>>=null;
+    
     /**
      * init
      */
-    public init() {
-       this._eventHandlers = new Map<number,Array<FightEventHandler>>();
+    public static init() {
+        fightEventMgr = FightEventMgr.getInstance<FightEventMgr>();
+        fightEventMgr._init();
+    }
+
+    private _init(){
+        this._eventHandlers = new Map<number,Array<FightEventHandler>>();
     }
      
     public addEventListener(eventId:number,handler:FightEventHandler){
@@ -34,7 +49,11 @@ class FightEventMgr extends Singleton{
         }
     }
 
-    public dispatchEvent(event:FightEvent){
+    public send(event:FightEvent){
+        this._dispatchEvent(event);
+    }
+
+    private _dispatchEvent(event:FightEvent){
         let eventId = event.getEventId();
         let handlerQueue = this._eventHandlers.get(eventId);
         if (handlerQueue) {
@@ -45,6 +64,12 @@ class FightEventMgr extends Singleton{
             })
         }
     }
-}
 
-export let fightEventMgr:FightEventMgr = FightEventMgr.getInstance<FightEventMgr>();
+    public destory(){
+        FightEventMgr.destoryInstance();
+    }
+
+    public clear(){
+        fightEventMgr = null;
+    }
+}
