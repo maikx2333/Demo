@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, NodePool, Prefab, UITransform, instantiate, Widget, find, Label, widgetManager, log, RichText, v2, v3 } from 'cc';
+import { _decorator, Component, Node, NodePool, Prefab, UITransform, instantiate, Widget, find, Label, widgetManager, log, RichText, v2, v3, TweenSystem } from 'cc';
 import { ChatMsgItemComp } from './ChatMsgItemComp';
 const { ccclass, property } = _decorator;
 
@@ -32,6 +32,7 @@ export class ChatMsgItemNode extends Node {
 
         this._uiTransComp = this.addComponent(UITransform)
         this._uiTransComp.anchorX = 0
+        this._uiTransComp.height = 50
     
         let widget = this.addComponent(Widget)
         widget!.alignMode = Widget.AlignMode.ON_WINDOW_RESIZE;
