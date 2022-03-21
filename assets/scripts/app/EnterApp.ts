@@ -33,6 +33,7 @@ export class EnterApp {
     reRun() {
         singletonMgr.destoryAll();
         let scene = director.getScene();
+        audioMgr.stopAll()
         // let main = scene.getComponentInChildren("Main");
         // gameMgr.setCamera("default", main.defaultCamera);
         // gameMgr.setCamera("fight", main.fightCamera);
