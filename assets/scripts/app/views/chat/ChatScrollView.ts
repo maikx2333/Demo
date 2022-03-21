@@ -33,6 +33,10 @@ export class ChatScrollView extends Component {
         this.scrollView = this.getComponent(ScrollView);
         this.visibleHeight = this.scrollView.getComponent(UITransform).height
 
+      
+    }
+
+    start() {
         for (let index = 0; index < 100; index++) {
             if (index % 2 == 0) {
                 this.addChatMsg("玩家1：", "<color=#00ff00>Rich</color>", index)
