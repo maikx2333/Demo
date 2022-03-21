@@ -78,6 +78,10 @@ class NetLoadingMgr extends Singleton {
             sceneMgr.showNetLoading(false)
         }
     }
+
+    clear() {
+        netLoadingMgr = null;
+    }
 }
 
 export let netLoadingMgr = (() => {

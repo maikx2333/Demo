@@ -125,6 +125,10 @@ export class HttpMessage {
         );
         return serializeParams;
     }
+
+    clear() {
+        httpMgr = null;
+    }
 }
 
 // ()();

@@ -49,6 +49,10 @@ export class DataRegisterMgr extends Singleton{
             }
         }
     }
+
+    clear(){
+        dataRegisterMgr = null;
+    }
 }
 
 // ()();

@@ -30,6 +30,7 @@ class SceneMgr extends Singleton {
 
     clear() {
         this.clearAllScence();
+        sceneMgr = null;
     }
 
     private createNode(flag: string, parent?: Node): Node {

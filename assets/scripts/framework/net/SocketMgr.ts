@@ -142,6 +142,9 @@ class SocketMgr extends Singleton {
         }
     }
 
+    clear() {
+        socketMgr = null;
+    }
 }
 
 // ()();

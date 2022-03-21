@@ -88,6 +88,10 @@ class DataMgr extends Singleton {
             data.loadDataWithNameKey("",done);
         }
     }
+
+    clear() {
+        dataMgr = null;
+    }
 }
 
 // ()();

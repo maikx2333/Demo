@@ -23,6 +23,10 @@ export class ModelRegisterMgr extends Singleton{
             }
         }
     }
+
+    clear(){
+        modelRegisterMgr = null
+    }
 }
 
 // ()();

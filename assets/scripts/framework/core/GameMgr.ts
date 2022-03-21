@@ -231,6 +231,10 @@ export class GameMgr extends Singleton implements ISchedulable {
         // redGuide msg
         // SFRedGuideMgr.dispatchEvent(msg);
     }
+
+    clear(){
+        gameMgr = null;
+    }
 }
 
 // ()();

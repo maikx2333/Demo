@@ -242,6 +242,10 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface {
             viewCreatorMgr.registeredCreator(new ctor());
         })
     }
+
+    clear(){
+        viewRegisterMgr = null
+    }
 }
 
 // ()();

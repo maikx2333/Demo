@@ -9,7 +9,7 @@
 
 import { G } from "../../app/common/GlobalFunction";
 import { DoubleBtnDialogArgsType } from "../../app/define/ConfigType";
-import { InnerProtocol, Protocol } from "../../app/define/define";
+import { Protocol } from "../../app/define/define";
 import { ModelLogin } from "../../app/model/model";
 import { GameConfig } from "../../GameConfig";
 import { Singleton } from "../components/Singleton";
@@ -52,7 +52,7 @@ class NetStateMgr extends Singleton{
         if (resultCode == 0) {
             let model = G.getModel(ModelLogin);
             if (model && model.getEnterGame()) {
-                socketMgr.sendInnerMsg(InnerProtocol.ReloginSuccess);
+                socketMgr.sendInnerMsg(Protocol.Inner.ReloginSuccess);
             }
         }
     }
@@ -67,11 +67,11 @@ class NetStateMgr extends Singleton{
                 msg = "与战车失去联系，请指挥官检查网络再尝试。";
             }
             this.netWorkError(msg);
-            socketMgr.sendInnerMsg(InnerProtocol.FightPause);
+            socketMgr.sendInnerMsg(Protocol.Inner.FightPause);
         } else if (event.type == "open") {
             if (this._reconnect) {
                 this.relogin();
-                socketMgr.sendInnerMsg(InnerProtocol.FightResume);
+                socketMgr.sendInnerMsg(Protocol.Inner.FightResume);
             }
         }
         this._status = event.type;
@@ -150,6 +150,10 @@ class NetStateMgr extends Singleton{
 
     slowTickHandler(dt: number) {
         this.requestServerInfo();
+    }
+
+    clear() {
+        netStateMgr = null;
     }
 }
 

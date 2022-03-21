@@ -145,6 +145,7 @@ export class SceneTriggerMgr extends Singleton {
     clear() {
         this._listeners.clear();
         this._listenerHandleIndex = 0;
+        sceneTriggerMgr = null;
     }
 }
 

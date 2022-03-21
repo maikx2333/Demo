@@ -41,6 +41,10 @@ class TranslateMgr extends Singleton {
     private _getTranslateStr(key: string) {
         return this._translateCfg[key] || key;
     }
+
+    clear(){
+        translateMgr = null;
+    }
 }
 
 // 代码翻译

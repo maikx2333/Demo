@@ -118,11 +118,27 @@ export class EventMgr extends Singleton {
         this._waitAddListeners.splice(0, this._waitAddListeners.length);
         this._waitDelListeners.clear();
     }
+
+    clear() {
+       
+    }
 }
 
-class ModelEventMgr extends EventMgr {}
-class MsgEventMgr extends EventMgr {}
-class ViewEventMgr extends EventMgr {}
+class ModelEventMgr extends EventMgr {
+    clear() {
+        modelEventMgr = null;
+    }
+}
+class MsgEventMgr extends EventMgr {
+    clear() {
+        msgEventMgr = null;
+    }
+}
+class ViewEventMgr extends EventMgr {
+    clear() {
+        viewEventMgr = null;
+    }
+}
 
 export let modelEventMgr = (()=>{
     return ModelEventMgr.getInstance<ModelEventMgr>();

@@ -42,9 +42,14 @@ class SingletonMgr {
     destoryAll() {
         while (this._singletonList.length > 0) {
             let singleton = this._singletonList.pop();
+            singleton.clear();
             singleton.destoryInstance();
             singleton.instance = null;
         }
+    }
+
+    clear(){
+        singletonMgr = null;
     }
 }
 

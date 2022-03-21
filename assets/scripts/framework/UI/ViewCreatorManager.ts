@@ -21,6 +21,10 @@ class ViewCreatorManager extends Singleton {
             creator.unRegMsgAll();
         });
     }
+
+    clear(){
+        viewCreatorMgr = null;
+    }
 }
 
 export let viewCreatorMgr = (()=>{
