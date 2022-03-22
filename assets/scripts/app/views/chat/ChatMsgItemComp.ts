@@ -37,16 +37,26 @@ export class ChatMsgItemComp extends Component {
         richTxtComp.string = value
     }
 
+    private _richMaxWidth:number;
     private _richLabel:Node;
 
+
     onLoad() {
-        this._richLabel = find("RichText", this.node)
     }
-
-
+    
+    start() {
+    }
+    
+    
     setRichLabelMaxWidth(width:number) {
-        this._richLabel.getComponent(RichText).maxWidth = width - this._richLabel.position.x - 10
+        if (!this._richLabel) {
+            this._richLabel = find("RichText", this.node)
+        }
+        this._richMaxWidth = width - this._richLabel.position.x - 10
+        this._richLabel.getComponent(RichText).maxWidth = this._richMaxWidth
     }
+    
+
 
     getRichHeight() {
         return this._richLabel.getComponent(UITransform).height

@@ -41,4 +41,8 @@ export class MainCityUI extends ComponentBase {
     onClickAddRes2Btn(event:EventTouch,customEventData: string){
         sceneMgr.sendCreateView(ViewProtocol.Tips,customEventData);
     }
+
+    onClickChat(){
+        sceneMgr.sendCreateView(ViewProtocol.ChatLayer)
+    }
 }
