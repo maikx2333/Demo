@@ -2,6 +2,7 @@
 import { Asset, find, instantiate, log, Node, Prefab, resources, UIOpacity, UITransform, Widget, widgetManager } from "cc";
 import { ShowBackgroundMgr } from "../../app/define/ShowBackgroundMgr";
 import { viewRegisterMgr } from "../../app/define/ViewRegisterMgr";
+import { MainEventTrigger } from "../../app/views/common/MainEventTrigger";
 import { Singleton } from "../components/Singleton";
 import { ResourcesLoader } from "../data/ResourcesLoader";
 import { viewEventMgr } from "../listener/EventMgr";
@@ -58,6 +59,7 @@ class SceneMgr extends Singleton {
     private initAllScence() {
         this._layerMap.set("MainGroup", this.createNode("__MainGroup")); // 主界面层
         this._layerMap.set("TableGroup", this.createNode("__TableGroup")); // 页卡层
+        this._layerMap.set("MainEventTrigger", this.createNode("__MainEventTrigger")); // 全局事件触发层
         this._layerMap.set("TransitionGroup", this.createNode("__TransitionGroup")); // 过渡层
         this._layerMap.set("NewGuideGroup", this.createNode("__NewGuideGroup")); // 新手引导层
         this._layerMap.set("DialogGroup", this.createNode("__DialogGroup")); // 对话框层
@@ -72,6 +74,7 @@ class SceneMgr extends Singleton {
         let layers = [
             "MainGroup",
             "TableGroup",
+            "MainEventTrigger",
             "TransitionGroup",
             "NewGuideGroup",
             "DialogGroup",
@@ -339,6 +342,9 @@ class SceneMgr extends Singleton {
         // }
     }
 
+    addMainEventTrigger() {
+        this._layerMap.get("MainEventTrigger").addComponent(MainEventTrigger)
+    }
     /**
      * @description: 替换页卡内容层
      * @param {type}
