@@ -19,6 +19,7 @@ import { FormationCreator } from "../views/formation/Creator";
 import { yy } from "./YYNamespace";
 import { ViewInfoType } from "./ConfigType";
 import { LoadingCreator } from "../views/loading/Creator";
+import ChatCreator from "../views/chat/Creator";
 
 type ViewConfig = {
     path: string;//预制体路径
@@ -176,6 +177,15 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface {
                     isCache: true
                 },
             }
+        },
+
+        chat:{
+            prefab:{
+                "ChatLayer":{
+                    path:"chat/prefabs/ChatLayer",
+                    isShowBg: true,
+                }
+            }
         }
     }
 
@@ -188,6 +198,7 @@ export class ViewRegisterMgr extends Singleton implements ViewRegMgrInterface {
         FightCreator,
         FormationCreator,
         LoadingCreator,
+        ChatCreator,
     ]
 
     private constructor() {
