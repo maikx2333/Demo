@@ -20,8 +20,8 @@ export class FightController extends Singleton{
 
     // 当前大回合
     private _round:number=0;
-    // 当前事件(每回合有多个)
-    private _event:number=0;
+    // 当前行动(每回合有多个)
+    private _action:number=0;
 
     public static init(){
         fightController = FightController.getInstance<FightController>();
@@ -38,16 +38,16 @@ export class FightController extends Singleton{
 
     private _roundStart() {
         this._round += 1;//回合数+1
-        this._event = 0;//每回合归零
+        this._action = 0;//每回合归零
         let data:FightEventDataType.Round_Start = {
             Round: this._round
         }
         fightEventMgr.send(new FightEvent(FightConstant.FightEvent.Round_Start,data))
-        this._eventStart()
+        this._actionStart()
     }
 
-    private _eventStart() {
-        this._event += 1;
+    private _actionStart() {
+        this._action += 1;
 
 
     }

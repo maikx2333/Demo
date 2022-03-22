@@ -1,9 +1,11 @@
 
-import { _decorator, Component, Node, sp, log, Vec3 } from 'cc';
+import { _decorator, Component, Node, sp, log, Vec3, Texture2D, Prefab } from 'cc';
+import { ResourcesLoader } from '../../../../framework/data/ResourcesLoader';
 import { Message } from '../../../../framework/listener/Message';
 import { ComponentBase } from '../../../../framework/ui/ComponentBase';
 import { Protocol } from '../../../define/Protocol';
 import { yy } from '../../../define/YYNamespace';
+import { FightBloodUI } from '../../fight/ui/FightBloodUI';
 const { ccclass, property } = _decorator;
 
 @ccclass('SpineComponentBase')
@@ -20,6 +22,8 @@ export class SpineComponentBase extends ComponentBase {
     effectBackNode = null;
 
     private _spine:sp.Skeleton = null;
+
+    private _root:Node = null;
 
     // private _attachedNodes:Map<string,Node> = new Map<string,Node>();
 
@@ -44,6 +48,7 @@ export class SpineComponentBase extends ComponentBase {
     }
     
     private _init() {
+        this._root = this.node.parent;
         let spine = this.spineNode.getComponent(sp.Skeleton);
         this._spine = spine;
         this._initSpineListener();
@@ -62,12 +67,21 @@ export class SpineComponentBase extends ComponentBase {
     }
 
     private _initMix() {
-        this._setMix(yy.macro.HeroAnimate.Stand, yy.macro.HeroAnimate.Run);
-        this._setMix(yy.macro.HeroAnimate.Stand, yy.macro.HeroAnimate.Die);
+        this._setMix(yy.macro.HeroAnimate.Idle, yy.macro.HeroAnimate.Run);
+        this._setMix(yy.macro.HeroAnimate.Idle, yy.macro.HeroAnimate.Die);
+        this._setMix(yy.macro.HeroAnimate.Idle, yy.macro.HeroAnimate.Hurt);
+        this._setMix(yy.macro.HeroAnimate.Idle, yy.macro.HeroAnimate.Jump);
+        this._setMix(yy.macro.HeroAnimate.Idle, yy.macro.HeroAnimate.Skill01);
+        this._setMix(yy.macro.HeroAnimate.Idle, yy.macro.HeroAnimate.Skill02);
+        this._setMix(yy.macro.HeroAnimate.Run, yy.macro.HeroAnimate.Hurt);
         this._setMix(yy.macro.HeroAnimate.Run, yy.macro.HeroAnimate.Die);
         this._setMix(yy.macro.HeroAnimate.Run, yy.macro.HeroAnimate.Attack);
-        this._setMix(yy.macro.HeroAnimate.Attack, yy.macro.HeroAnimate.Stand);
+        this._setMix(yy.macro.HeroAnimate.Run, yy.macro.HeroAnimate.Jump);
+        this._setMix(yy.macro.HeroAnimate.Run, yy.macro.HeroAnimate.Skill01);
+        this._setMix(yy.macro.HeroAnimate.Run, yy.macro.HeroAnimate.Skill02);
+        this._setMix(yy.macro.HeroAnimate.Attack, yy.macro.HeroAnimate.Idle);
         this._setMix(yy.macro.HeroAnimate.Attack, yy.macro.HeroAnimate.Die);
+        this._setMix(yy.macro.HeroAnimate.Attack, yy.macro.HeroAnimate.Hurt);
     }
     // 动作开始回调
     private _onAnimateStartCallback(trackEntry: sp.spine.TrackEntry) {
@@ -180,5 +194,54 @@ export class SpineComponentBase extends ComponentBase {
         if (offset) {
             node.position = offset;
         }
+    }
+
+    /**
+     * addBloodUI
+     */
+    public addBloodUI(node) {
+        let node_blood_ui = this._root.getChildByName("node_blood_ui");
+        node_blood_ui.addChild(node);
+    }
+
+    /**
+     * updateBlood
+     */
+    public updateBlood(cur:number,top:number) {
+        let com = this._root.getComponentInChildren(FightBloodUI);
+        com!.updateBlood(cur,top);
+    } 
+    
+    /**
+     * @description 换皮肤
+     * @param skinName:string 皮肤id
+     */
+    public changeSkin(skinName:string) {
+        this._spine.setSkin(skinName);
+    }
+
+    /**
+     * @description 查找插槽
+     */
+    public findSlot(name:string):sp.spine.Slot {
+        return this._spine.findSlot(name);
+    }
+    
+    /**
+     * 
+     * @description 更换皮肤的单间装备
+     * @param skinName 新皮肤名字（装备所在的皮肤）
+     * @param oldSlotName 旧插槽的名字
+     * @param newSlotName 新插槽的名字
+     */
+    public changeEquip(skinName:string,oldSlotName:string,newSlotName:string){
+        let skin_origin = this._spine._skeleton.skin.name
+        let slot_origin = this.findSlot(oldSlotName);
+
+        this.changeSkin(skinName);
+        let slot_new = this.findSlot(newSlotName);
+        let attachment_new = slot_new.getAttachment();
+        this.changeSkin(skin_origin);
+        slot_origin.setAttachment(attachment_new);
     }
 }

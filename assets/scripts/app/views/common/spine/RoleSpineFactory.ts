@@ -5,7 +5,7 @@
 import { instantiate, Prefab } from "cc";
 import { ResourcesLoader } from "../../../../framework/data/ResourcesLoader";
 import { viewRegisterMgr } from "../../../define/ViewRegisterMgr";
-import { HeroSpineNode, MonsterSpineNode } from "./SpineNodeBase";
+import { HeroSpineNode, MonsterSpineNode, SpineNodeBase } from "./SpineNodeBase";
 
 export interface HeroCreateCallback {
     (node:HeroSpineNode):void
@@ -14,6 +14,9 @@ export interface HeroCreateCallback {
 export interface MonsterCreateCallback {
     (node:MonsterSpineNode):void
 }
+
+
+type ClassParameters<T> = T extends new(...args: infer P) => any ? P : never;
 
 export class RoleSpineFactory {
     /**
@@ -45,5 +48,9 @@ export class RoleSpineFactory {
                 callback(node);
             }
         })
+    }
+
+    public static create<T extends typeof SpineNodeBase>(cls:T,){
+
     }
 }

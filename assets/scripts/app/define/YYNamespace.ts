@@ -56,10 +56,14 @@ export namespace yy {
     export namespace macro {
         // 动画名称
         export enum HeroAnimate {
-            Attack = "attack_new",
+            Attack = "attack01",
             Run = "run",
-            Stand = "stand_new",
+            Idle = "idle",
             Die = "die",
+            Hurt = "hurt",
+            Jump = "jump",
+            Skill01 = "skill01",
+            Skill02 = "skill02",
         }
     }
 }

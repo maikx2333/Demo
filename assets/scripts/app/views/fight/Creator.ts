@@ -5,7 +5,7 @@
  * @LastEditTime: 2022-03-20 23:18:12
  * @Description: file content
  */
-import { instantiate, log, Prefab } from "cc";
+import { instantiate, JsonAsset, log, Prefab } from "cc";
 import { sceneMgr } from "../../../framework/core/SceneMgr";
 import { ResourcesLoader } from "../../../framework/data/ResourcesLoader";
 import { Message } from "../../../framework/listener/Message";
@@ -29,8 +29,9 @@ export class FightCreator extends ViewCreatorBase {
             sceneMgr.pushNewTableLayer();
             sceneMgr.replaceTableContent(bgNode,viewInfo.View);
             let com = bgNode.getComponentInChildren(FightMainLayer);
-            
-            // com.init();
+            ResourcesLoader.load("fight/datas/report",(json:JsonAsset)=>{
+                com.init(json);
+            });
         })
     }
 

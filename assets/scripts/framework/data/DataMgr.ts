@@ -34,7 +34,7 @@ class DataMgr extends Singleton {
     }
 
     getData(dataHandlerName:string, namekey?: string | number): any {
-        let key = namekey?.toString() || "";
+        let key = namekey?.toString() || "" ;
         let data = this._getDataCache(dataHandlerName);
         if (data){
             return data.getData(key);
@@ -44,7 +44,7 @@ class DataMgr extends Singleton {
     }
 
     delData(dataHandlerName: string, namekey?: string | number): void {
-        let key = namekey.toString() || "";
+        let key = namekey?.toString() || "";
         let data = this._getDataCache(dataHandlerName);
         if (data){
             return data.delData(key);
