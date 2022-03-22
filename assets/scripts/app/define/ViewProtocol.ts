@@ -25,5 +25,8 @@ export enum ViewProtocol {
     TransLoadingLayer,
     UserAgreementLayer,
     PrivacyPolicyLayer,
+
+    //chat
+    ChatLayer,
     
 }
