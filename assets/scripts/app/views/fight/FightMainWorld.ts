@@ -50,7 +50,6 @@ export class FightMainWorld extends Node{
         this._roleLayer.init();
     }
 
-
     /**
      * game start
      */

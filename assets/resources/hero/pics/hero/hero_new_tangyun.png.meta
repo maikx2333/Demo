@@ -2,7 +2,7 @@
   "ver": "1.0.22",
   "importer": "image",
   "imported": true,
-  "uuid": "69f2ecd3-ca8b-4c37-83b3-05ff8f03c0b2",
+  "uuid": "2789d213-a004-469a-9afb-7ef596f1b7c0",
   "files": [
     ".png",
     ".json"
@@ -10,7 +10,7 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "69f2ecd3-ca8b-4c37-83b3-05ff8f03c0b2@6c48a",
+      "uuid": "2789d213-a004-469a-9afb-7ef596f1b7c0@6c48a",
       "displayName": "hero_new_tangyun",
       "id": "6c48a",
       "name": "texture",
@@ -22,7 +22,7 @@
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "69f2ecd3-ca8b-4c37-83b3-05ff8f03c0b2"
+        "imageUuidOrDatabaseUri": "2789d213-a004-469a-9afb-7ef596f1b7c0"
       },
       "ver": "1.0.21",
       "imported": true,
@@ -35,6 +35,6 @@
   "userData": {
     "hasAlpha": true,
     "type": "texture",
-    "redirect": "69f2ecd3-ca8b-4c37-83b3-05ff8f03c0b2@6c48a"
+    "redirect": "2789d213-a004-469a-9afb-7ef596f1b7c0@6c48a"
   }
 }

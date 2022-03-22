@@ -6,10 +6,11 @@
  * @Description: file content
  */
 
-import { _decorator, Prefab, instantiate, Node, js, sys } from 'cc';
+import { _decorator, Prefab, instantiate, Node, js, sys, JsonAsset, log } from 'cc';
 import { ResourcesLoader } from '../../../framework/data/ResourcesLoader';
 import { LayerBase } from '../../../framework/ui/LayerBase';
 import { viewRegisterMgr } from '../../define/ViewRegisterMgr';
+import { FightDataMgr } from './data/FightDataMgr';
 import { FightEvent } from './event/FightEvent';
 import { fightEventMgr,FightEventMgr } from './event/FightEventMgr';
 import { FightConstant } from './FightConstant';
@@ -30,21 +31,22 @@ export class FightMainLayer extends LayerBase {
         super.onLoad();
         this._rootNode = this.node.parent;
         this._content = this._rootNode.getChildByName("content");
-        this._initManagers();
+    }
+
+    /**
+     * @description 初始化
+     */
+    public init(report:JsonAsset) {
+        this._initManagers(report);
         this._initBg();
         this._loadMainWorld();
         this._loadMainUI();
         this._addListeners();
     }
 
-    /**
-     * @description 初始化
-     */
-    public init(report:any) {
-        
-    }
-
-    private _initManagers() {
+    private _initManagers(report:JsonAsset) {
+        // 战报数据管理器
+        FightDataMgr.init(report);
         // 事件派发器
         FightEventMgr.init();
         // 回合控制器
@@ -81,7 +83,8 @@ export class FightMainLayer extends LayerBase {
     }
 
     update (dt: number) {
-        this._fightMainWorld.tick(dt);
+        // log(this._fightMainWorld);
+        this._fightMainWorld?.tick(dt);
     }
 
     onDestroy(){

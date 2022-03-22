@@ -53,7 +53,7 @@ export namespace FightConstant {
         Game_End,//战斗结束
         Round_Start,//当前大回合开启
         Round_End,//当前大回合结束
-        Event_Star,//当前小回合开始
-        Event_End,//当前小回合结束
+        Action_Star,//当前小回合开始
+        Action_End,//当前小回合结束
     }
 }
