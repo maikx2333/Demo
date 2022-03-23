@@ -3,6 +3,8 @@ import { Asset, find, instantiate, log, Node, Prefab, resources, UIOpacity, UITr
 import { ShowBackgroundMgr } from "../../app/define/ShowBackgroundMgr";
 import { viewRegisterMgr } from "../../app/define/ViewRegisterMgr";
 import { MainEventTrigger } from "../../app/views/common/MainEventTrigger";
+import { TouchEffect } from "../../app/views/common/TouchEffect";
+import { TouchMain } from "../../app/views/common/TouchMain";
 import { Singleton } from "../components/Singleton";
 import { ResourcesLoader } from "../data/ResourcesLoader";
 import { viewEventMgr } from "../listener/EventMgr";
@@ -27,6 +29,7 @@ class SceneMgr extends Singleton {
         this._layerMap = new Map();
         this._tableLayerStack = [];
         this.initAllScence();
+        this._initTouchGroup()
     }
 
     clear() {
@@ -68,6 +71,10 @@ class SceneMgr extends Singleton {
         this._layerMap.set("TipsGroup", this.createNode("__TipsGroup")); // 弹出提示
         this._layerMap.set("NetLoading", this.createNode("__NetLoading")); // 网络转圈层
         this._layerMap.set("TouchGroup", this.createNode("__TouchGroup")); // 触摸反馈
+    }
+
+    private _initTouchGroup() {
+        this._layerMap.get("TouchGroup").addComponent(TouchMain)
     }
 
     private clearAllScence() {
